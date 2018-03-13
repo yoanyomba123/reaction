@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Basic Rendering: className test 1`] = `
+<div class="admin page route-testing-route-classnames" id="reactionAppContainer" style="flex: 1 1 auto; height: 100vh;"><h1>Testing...</h1></div>
+`;

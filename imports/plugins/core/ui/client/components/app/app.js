@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { Switch } from "react-router-dom";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
@@ -68,13 +69,24 @@ class App extends Component {
     }
   }
 
-  renderAdminApp() {
-    const pageClassName = classnames({
-      "admin": true,
-      "page": true,
-      "show-settings": this.props.isActionViewOpen
-    });
+  getPageClassName(page = false) {
+    const { currentRoute } = this.props;
+    const { route } = currentRoute || {};
 
+    const pageClassNames = {
+      "admin": true,
+      "page": page,
+      "show-settings": this.props.isActionViewOpen
+    };
+
+    if (route.name) {
+      pageClassNames[`route-${_.kebabCase(route.name)}`] = true;
+    }
+
+    return classnames(pageClassNames);
+  }
+
+  renderAdminApp() {
     const { currentRoute } = this.props;
     const routeOptions = (currentRoute.route && currentRoute.route.options) || {};
     const routeData = (routeOptions && routeOptions.structure) || {};
@@ -85,7 +97,7 @@ class App extends Component {
         onKeyDown={this.handleKeyDown}
         role="presentation"
       >
-        <div className={pageClassName} id="reactionAppContainer" style={styles.adminContentContainer}>
+        <div className={this.getPageClassName(true)} id="reactionAppContainer" style={styles.adminContentContainer}>
           <div className="reaction-toolbar">
             <ConnectedToolbarComponent handleViewContextChange={this.handleViewContextChange} data={routeData} />
           </div>
@@ -102,11 +114,6 @@ class App extends Component {
   }
 
   render() {
-    const pageClassName = classnames({
-      "admin": true,
-      "show-settings": this.props.isActionViewOpen
-    });
-
     const { currentRoute } = this.props;
     const layout = currentRoute && currentRoute.route && currentRoute.route.options && currentRoute.route.options.layout;
 
@@ -116,7 +123,7 @@ class App extends Component {
 
     return (
       <div
-        className={pageClassName}
+        className={this.getPageClassName()}
         style={styles.customerApp}
       >
         <Switch>
