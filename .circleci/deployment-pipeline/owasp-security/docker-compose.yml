@@ -1,0 +1,17 @@
+# Merged with the Reaction docker-compose file under test.
+# Assumes the Reaction service is on user defined network.
+version: '3.4'
+
+networks:
+  reaction-api:
+    external:
+      name: reaction-api
+
+services:
+
+  owasp:
+    image: owasp/zap2docker-weekly
+    command: zap-baseline.py -t http://reaction:3000
+    networks:
+      default:
+      reaction-api:
