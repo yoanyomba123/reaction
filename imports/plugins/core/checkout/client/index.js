@@ -3,9 +3,6 @@ import "./helpers/cart";
 import "./templates/cartDrawer/cartDrawer.html";
 import "./templates/cartDrawer/cartDrawer.js";
 
-import "./templates/cartIcon/cartIcon.html";
-import "./templates/cartIcon/cartIcon.js";
-
 import "./templates/checkout/addressBook/addressBook.html";
 import "./templates/checkout/addressBook/addressBook.js";
 import "./templates/checkout/completed/completed.html";
