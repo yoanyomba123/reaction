@@ -6,7 +6,7 @@ import { Session } from "meteor/session";
 import { registerComponent, composeWithTracker, withCurrentAccount } from "@reactioncommerce/reaction-components";
 import { i18nextDep, i18next, Reaction, Logger } from "/client/api";
 import { Tags } from "/lib/collections";
-import { getUserAvatar } from "/imports/plugins/core/accounts/client/helpers/helpers";
+import { getUserAvatar } from "../helpers";
 import MainDropdown from "../components/mainDropdown";
 
 function displayName(displayUser) {

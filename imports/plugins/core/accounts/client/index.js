@@ -36,10 +36,10 @@ export { default as LoginInlineContainer } from "./containers/loginInline";
 export { default as VerifyAccount } from "./containers/verifyAccount";
 
 import "./templates/accounts.html";
+import "./helpers/templates";
 
 import "./templates/dashboard/dashboard.html";
 import "./templates/dashboard/dashboard.js";
-import "./templates/dropdown/helpers";
 import "./templates/inline/inline.html";
 import "./templates/inline/inline.js";
 import "./templates/login/loginForm.html";

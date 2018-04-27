@@ -2,7 +2,7 @@ import { Meteor } from "meteor/meteor";
 import { Template } from "meteor/templating";
 import { Roles } from "meteor/alanning:roles";
 import { Reaction, i18next, i18nextDep } from "/client/api";
-import * as Collections from "/lib/collections";
+import { Accounts } from "/lib/collections";
 
 /**
  * @method displayName
@@ -13,10 +13,10 @@ import * as Collections from "/lib/collections";
 Template.registerHelper("displayName", (displayUser) => {
   i18nextDep.depend();
 
-  const user = displayUser || Collections.Accounts.findOne(Meteor.userId());
+  const user = displayUser || Accounts.findOne({ userId: Meteor.userId() });
   if (user) {
-    if (user.name) {
-      return user.name;
+    if (user.profile && user.profile.name) {
+      return user.profile.name;
     } else if (user.username) {
       return user.username;
     }

@@ -5,7 +5,6 @@ import { $ } from "meteor/jquery";
 import { Blaze } from "meteor/blaze";
 import { ReactiveVar } from "meteor/reactive-var";
 import { i18next } from "/client/api";
-import { LoginFormSharedHelpers } from "../../helpers";
 import { getComponent } from "/imports/plugins/core/components/lib";
 import { LoginFormValidation } from "/lib/api";
 
@@ -63,7 +62,22 @@ Template.loginFormChangePassword.onCreated(() => {
 /**
  * Helpers: Login Form Change Password
  */
-Template.loginFormChangePassword.helpers(LoginFormSharedHelpers);
+Template.loginFormChangePassword.helpers({
+  messages() {
+    return Template.instance().formMessages.get();
+  },
+  hasError(error) {
+    // True here means the field is valid
+    // We're checking if theres some other message to display
+    if (error !== true && typeof error !== "undefined") {
+      return "has-error has-feedback";
+    }
+  },
+  capitalize(str) {
+    const finalString = str === null ? "" : String(str);
+    return finalString.charAt(0).toUpperCase() + finalString.slice(1);
+  }
+});
 
 /**
  * Events: Login Form Change Password

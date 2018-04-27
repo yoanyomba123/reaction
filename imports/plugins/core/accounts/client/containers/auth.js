@@ -5,7 +5,7 @@ import { Components, registerComponent, composeWithTracker } from "@reactioncomm
 import { Meteor } from "meteor/meteor";
 import { Accounts } from "meteor/accounts-base";
 import { Router } from "/client/api";
-import { ServiceConfigHelper, LoginFormSharedHelpers } from "../helpers";
+import { capitalize, ServiceConfigHelper } from "../helpers";
 import { LoginFormValidation } from "/lib/api";
 
 class AuthContainer extends Component {
@@ -129,7 +129,7 @@ class AuthContainer extends Component {
     return !!Package["accounts-password"] && enabledServices.length > 0;
   }
 
-  capitalizeName = (str) => LoginFormSharedHelpers.capitalize(str)
+  capitalizeName = (str) => capitalize(str)
 
   handleSocialLogin = (value) => {
     let serviceName = value;
