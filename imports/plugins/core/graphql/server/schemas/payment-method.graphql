@@ -1,0 +1,42 @@
+
+enum PaymentMethodEnum {
+  credit
+  debit
+  shipping-credit
+}
+
+enum PaymentMethodModeEnum {
+  authorize
+  capture
+  refund
+  cancel
+  void
+}
+
+PaymentMethodRiskLevelEnum {
+  normal
+  elevated
+  high
+}
+
+type PaymentMethod implements Node {
+  processor: String!
+  paymentPackageId: String!
+  paymentSettingsKey: String!
+  storedCard: String
+  method: PaymentMethodEnum
+  transactionId: String!
+  metadata: [Metadata]
+  workflow: Workflow
+  status: String!
+  mode: PaymentMethodModeEnum!
+  riskLevel: PaymentLevelRiskLevelEnum
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  authorization: String
+  amount: Float
+  currency: Currency
+  transactions: [JSONObject]
+  item: [PaymentItem]  # TODO: Is this defined?
+  shop: Shop
+}

@@ -1,0 +1,8 @@
+type Invoice implements Node {
+  discounts: Float
+  shipping: Float
+  subtotal: Float!
+  taxes: Float
+  total: Float!
+  transaction: String
+}

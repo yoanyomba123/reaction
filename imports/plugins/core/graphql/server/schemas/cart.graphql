@@ -1,0 +1,217 @@
+# Cart Schema
+# TODO: Regarding shop relationship - how does shared cart work?
+
+type ShippingParcel extends Node{
+
+}
+
+"Products are added to carts as a CartItem."
+type CartItem extends Node {
+  "A unique identifier for the type."
+  _id: ID!
+
+  # cartItemId: String # Remove. This is only used in order, not cart.
+
+  "User defined fields that can be used for any purpose."
+  metafields: [Metafields]
+
+  parcel: ShippingParcel
+
+  "The product that was added in this cart item."
+  product: Product! # TODO: Right type here? Should be product?
+
+  "The quantity of items that has been added to the cart."
+  quantity: Int!
+
+  shippingMethod: JSONObject # Any way around the blackbox?
+
+  # QUESTION: This implies that cart items can be from different shops.
+  # Is it possible that certain shops share a cart but other shops are not
+  # included in that sharing? How is that defined? Probably not applicable on
+  # the cart item but at the cart itself.
+  #
+  # TODO: shopId is not currently required but it should be made required to
+  # avoid issues on cart sharing reconfiguration.
+  "The shop associated with this cart item."
+  shop: Shop
+
+  # TODO: What is this? Any way around the blackbox?
+  taxData: JSONObject
+
+  # QUESTION: Is this calculated at run-time, this read-only?
+  taxRate: Float
+
+  "The display title of the item in the cart."
+  title: String
+
+  # What is this? Any way around the blackbox? Does it store info from the
+  # payment transaction?  Perhaps it should not be visible to the customer?
+  # Require special permissions.
+  # TODO: Security/Auth - Customers should not see this!
+  #transaction: JSONObject
+
+  # TODO: What is this? Simply denormalization? Can this attribute be fetched
+  # directly from the product now in GraphQL?
+  type: String
+}
+
+"The cart holds selected items until order is placed."
+type Cart extends Node {
+  _id: ID!
+
+  # We're currently using User on the Cart.
+  # Enforce database uniqueness such that an account only has one cart.
+  "The account that owns the cart."
+  account: Account
+
+  billing: [Payment]! # TODO: What is this?
+
+  "TimeStamp at which the entity was created."
+  createdAt: DateTime!
+
+  # TODO: The total discount for the cart?
+  discount: Float
+
+  "The email associated with the cart."
+  email: Email
+
+  "The items that have been added to to the cart."
+  items: [CartItem]
+
+  # session: Session! # Remove - Moving to sessionless API.
+
+  shipping: [Shipment]! # TODO: What is this?
+
+  "The shop associated with the cart."
+  shop: Shop!
+
+  # TODO: Is this the total tax? Calculated at runtime, or flattened?
+  "The total tax associated with the cart."
+  tax: Float
+
+  taxRatesByShop: JSONObject # How is this used?
+
+  taxes: [JSONObject] # TODO: What is this?
+
+  "TimeStamp at which the entity was last updated."
+  updatedAt: TimeStamp!
+
+  workflow: Workflow
+
+  # Read-only: Carts that don't have an account should be considered anonymous
+  # and should be cleaned up after some time. This should not be set explicitly
+  # on the cart but can be derived and add to the Cart as a read-only
+  # attribute. The cart expiration ttl can then be modified without having to
+  # modify cart records.
+  expiresAt: TimeStamp!
+}
+
+# Queries
+
+"Finds a cart by the cart ID."
+findCartById(cartId: String!): Cart
+
+# Access control should ensure that only authenticated users can find their own
+# cart. Additionally, administrative roles can find carts.
+"Find a cart for a given user ID."
+findCartByAccountId(userId: String!, shopId: String!): Cart
+
+# Mutations
+
+# TODO: How do we handle sessions in the API? I don't think it's safe to send
+# the session ID to the API. It might be best for the API to read session data
+# from a cookie. In fact, it is more secure to store session/token info in
+# cookies that in LocalStorage. Discuss with the team.
+input CreateCartInput {
+  #accountId: String       # TODO: Better to make this implicit.
+  #sessionHash: String!    # TODO: Better to make this implicit.
+  items: [CartItemInput]!  # NOTE: Don't allow creation of an empty cart?
+  shopId: String!          # NOTE: We'll require shopId though it's not in current code.
+}
+
+# Input for adding item(s) to a cart.
+input CartItemInput {
+  productId: String! # NOTE: This must be the variant, or "sellable" product!
+  quantity: Int!
+  shopId: String
+}
+
+input UpdateCartItemInput {
+  cartItemId: String!
+  quantity: Int!       # Absolute value.
+}
+
+# Create a new cart.
+# Enforce that at least one item is provided so we don't create empty carts.
+# For known users, check for an existing cart (and return it) before creating a
+# new one.
+#
+# IMPORTANT: CartID must be treated as (or more) securely as a session ID. We
+# need to prevent brute-force cart id collisions.
+#
+#   See: https://www.owasp.org/index.php/Session_Management_Cheat_Sheet
+#
+#   * ID value must provide at least 64 bits of entropy (if a good PRNG is
+#     used, this value is estimated to be half the length of the session ID).
+#   * If a session ID with an entropy of 64 bits is used, it will take an
+#     attacker at least 292 years to successfully guess a valid session ID,
+#     assuming the attacker can try 10,000 guesses per second with 100,000
+#     valid simultaneous sessions available in the web application [2].
+#
+createCart(input: CreateCartInput!): Cart!
+
+# TODO: Consider returning the connection for the following mutations to
+# resolve questions of which type should be returned.
+
+# Add an item to cart.
+# If the item already already exists in the cart, then increment quantity.
+# TODO: Consider returning connection?
+addCartItems(cartId: String!, items: [CartItemInput]!): Cart! # CartItemConnection
+
+# Once added to cart, items should be referenced by their cart item ID.
+# Enforce that at least one item is in the list. Perhaps we could force that
+# to be singular?
+removeCartItems(cartId: String!, cartItemIds: [String]!): Cart! # CartItemConnection???
+
+# If cart item input is set to 0, then remove the item.
+# QUESTION: Is it possible to modify anything other than item quantity?
+updateCartItems(cartId: String!, modifier: [UpdateCartItemInput]!): Cart! # CartItemConnection
+
+# Merge Cart
+# NOTE: Removing the server-side mergeCart as the stateless cart doesn't allow
+# for this.
+#
+# If a cart merge is desired:
+#   Find the user's cart upon login. Maintain a reference to the existing
+#   anonymous cart. If a user cart is found then the items from the anonymous
+#   cart can be merged into the user cart. Then the anonymous cart can be
+#   deleted.  existing cart. If no cart is found in the DB, bind session cart
+#   to user and return that cart. Always prefer (and merge into) existing user
+#   cart. Remove session cart when upon successful merge.
+#
+# mergeCart()
+
+
+## DEFER ALL BELOW TO CHECKOUT SLICE
+
+# TODO: Do we need to add this information to the cart? Can we defer it all to
+# the order? Should we? Doesn't seem to belong in cart. Also, there's usually
+# no reason that the derived calculations (tax, shipping, etc) must be
+# displayed in the cart.
+setCartEmail(cartId: String!, email: String!): Cart!
+setCartPaymentAddress(cartId: String!, paymentAddress: CartPaymentAddressInput!): Cart!
+setCartShipmentAddress(cartId: String!, CartShipmentAddressInput!): Cart! # TODO: Should this be on the item?
+setCartShipmentMethod(cartId: String!, shipmentMethod: CartShipmentMethodInput!): Cart!
+
+# TODO: Any particular reason this is "UserCurrency" and not "Currency"?
+# Can we change to "setCartCurrency"?
+#setCartUserCurrency(cartId: String!, currency: CartCurrencyInput!): Cart!
+setCartCurrency(cartId: String!, currency: CartCurrencyInput!): Cart!
+
+# TODO: Is there a reason to call this "submitCartPayment"? Can we make it
+# consistent with the "setCartXXX" names above, as "setCartPayment"?
+submitCartPayment(cartId: String!, payment: CartPaymentInput!): Cart!
+
+# TODO: Ignore for now. How do we handle converting to order?
+# Should this be createOrder?
+createOrderFromCart(): Order
