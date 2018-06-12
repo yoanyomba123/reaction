@@ -1,4 +1,5 @@
 import store from "store";
+import { Session } from "meteor/session";
 import Random from "@reactioncommerce/random";
 import { Meteor } from "meteor/meteor";
 import { Tracker } from "meteor/tracker";
@@ -14,6 +15,34 @@ import { userPrefs } from "./main";
  */
 Meteor.startup(() => {
   Reaction.init();
+
+  window.keycloak = new window.Keycloak({
+    realm: Meteor.settings.public.keycloakRealm,
+    clientId: Meteor.settings.public.keycloakClientID,
+    url: Meteor.settings.public.keycloakServerUrl
+  });
+
+  const { keycloak } = window;
+
+  keycloak
+    .init({ flow: "implicit" })
+    .success((authenticated) => {
+      if (authenticated) {
+        localStorage.setItem("reaction_keycloak_token", keycloak.token);
+
+        keycloak.loadUserProfile().success((profile) => {
+          const accountId = profile.attributes["reaction-account-id"][0];
+          Session.set("reaction_keycloak_userId", accountId); // store id in a global reactive source
+
+          Meteor.call("authKeycloak", { accountId, token: keycloak.token }); // Sets userId for method context
+        }).error(() => {
+          Logger.error("Failed to load profile");
+        });
+      }
+    })
+    .error((error) => {
+      Logger.error(`Failed to initialize keycloak adapter: ${error}`);
+    });
 });
 
 // Log in anonymous guest users
