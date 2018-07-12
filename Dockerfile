@@ -43,7 +43,7 @@ RUN npm ci --production
 ##############################################################################
 # final build stage - create the final production image
 ##############################################################################
-FROM node:8.11.3-slim
+FROM node:10-slim
 
 # Default environment variables
 ENV ROOT_URL "http://localhost"
