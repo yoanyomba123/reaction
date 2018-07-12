@@ -15,7 +15,7 @@ See <http://clenemt.github.io/docdash/> for a sample demo. :rocket:
 ### Install
 
 ```bash
-$ npm install docdash
+$ npm ci docdash
 ```
 
 ### Usage

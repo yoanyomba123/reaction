@@ -15,7 +15,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-devserver
-    command: bash -c "npm install && npm run devserver"
+    command: bash -c "npm ci && npm run devserver"
     depends_on:
       - mongo
     environment:
@@ -35,7 +35,7 @@ services:
     build:
       context: .
       target: meteor-dev
-    command: bash -c "npm install && reaction" #TODO; Revert to Meteor NPM. See comment in Dockerfile about Meteor1.7 NPM version issue.
+    command: bash -c "npm ci && reaction" #TODO; Revert to Meteor NPM. See comment in Dockerfile about Meteor1.7 NPM version issue.
     depends_on:
       - mongo
     environment:

@@ -19,7 +19,7 @@ RUN mkdir "$APP_SOURCE_DIR/node_modules" && chown node "$APP_SOURCE_DIR/node_mod
 # in Meteor 1.7, we are switching to using the NPM version installed in the base image (v5.6.0).
 # This prevents the "write after end" errors seen with this command. This will be reverted when
 # Meteor updates to an NPM version without this issue.
-RUN npm install
+RUN npm ci
 
 COPY --chown=node . $APP_SOURCE_DIR
 
@@ -37,7 +37,7 @@ RUN printf "\\n[-] Building Meteor application...\\n" \
 WORKDIR $APP_BUNDLE_DIR/bundle/programs/server/
 
 # TODO: Revert to Meteor NPM. See comment above about Meteor1.7 NPM version issue
-RUN npm install --production
+RUN npm ci --production
 
 
 ##############################################################################

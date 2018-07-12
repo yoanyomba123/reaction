@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Allow reaction tests to potentially fail the first time because
-# tests sometimes fail due to a SIGKILL during Meteor package npm install.
+# tests sometimes fail due to a SIGKILL during Meteor package npm ci.
 # Since the install doesn't need to happen on second run, the error is
 # often avoided and the false positive doesn't fail the CircleCI build.
 #

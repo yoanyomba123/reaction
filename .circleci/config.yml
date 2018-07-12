@@ -38,8 +38,8 @@ jobs:
           paths:
             - ~/.meteor
       - run:
-          name: Meteor NPM Install
-          command: meteor npm install
+          name: Meteor npm ci
+          command: meteor npm ci
       # Store node_modules dependency cache.
       # Saved with package.json checksum and timestamped branch name keys.
       - save_cache:
@@ -120,8 +120,8 @@ jobs:
           name: Install AWS CLI
           command: sudo apt-get -y -qq install awscli
       - run:
-          name: NPM Install JSDoc
-          command: sudo npm install -g jsdoc
+          name: npm ci JSDoc
+          command: sudo npm ci -g jsdoc
       - run:
           name: Build JSDoc files
           command: |
@@ -172,7 +172,7 @@ jobs:
             - v1-node-modules-master
       - run:
           name: Install Reaction CLI
-          command: sudo npm install -g reaction-cli
+          command: sudo npm ci -g reaction-cli
       - run:
           name: Load App Plugins
           command: reaction plugins load

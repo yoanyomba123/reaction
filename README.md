@@ -35,7 +35,7 @@ Reaction requires Meteor, Git, MongoDB, OS-specific build tools and optionally, 
 Install the [Reaction CLI](https://github.com/reactioncommerce/reaction-cli) to get started with Reaction:
 
 ```bash
-npm install -g reaction-cli
+npm ci -g reaction-cli
 ```
 
 Create your store:
