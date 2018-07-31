@@ -1,3 +1,4 @@
+import Logger from "@reactioncommerce/logger";
 import { Meteor } from "meteor/meteor";
 import { check } from "meteor/check";
 import Reaction from "/imports/plugins/core/core/server/Reaction";
@@ -15,8 +16,9 @@ Meteor.publish("MerchantShops", function (shopsOfUser = Reaction.getShopsForUser
   check(shopsOfUser, Array);
 
   // Check if user has permissions for those shops
-  if (Reaction.hasPermissionForAll(["admin"], this.userId, shopsOfUser)) {
-    throw new Meteor.Error("access-denied", "Shops requested don't belong to user");
+  if (!Reaction.hasPermissionForAll(["admin"], this.userId, shopsOfUser)) {
+    Logger.debug("access-denied", "Shops requested don't belong to user");
+    return this.ready();
   }
 
   const domain = Reaction.getDomain();
