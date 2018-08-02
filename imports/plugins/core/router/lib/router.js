@@ -348,7 +348,9 @@ function hasRoutePermission(route) {
 
   return routeName === "index" ||
     routeName === "not-found" ||
-    Router.Reaction.hasPermission(route.permissions, Router.Reaction.getUserId());
+    Router.Reaction.isAuthorized({
+      meteorAuthParams: [route.permissions, Router.Reaction.getUserId()]
+    });
 }
 
 
@@ -515,7 +517,11 @@ function ReactionLayout(options = {}) {
       // If the current route is unauthorized, and is not the "not-found" route,
       // then override the template to use the default unauthorized template
       if (hasRoutePermission({ ...route, permissions }) === false && route.name !== "not-found" && !Meteor.user()) {
-        if (!Router.Reaction.hasPermission(route.permissions, Meteor.userId())) {
+        // Note: route.permissions always undefined. TODO: Review
+        const hasPermission = Router.Reaction.isAuthorized({
+          meteorAuthParams: [route.permissions, Meteor.userId()]
+        });
+        if (!hasPermission) {
           structure.template = "unauthorized";
         }
         return false;
