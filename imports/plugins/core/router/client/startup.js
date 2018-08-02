@@ -17,7 +17,7 @@ Meteor.startup(() => {
   // TODO: Revisit subscriptions manager usage and waiting for shops to exist client side before rendering.
   const primaryShopSub = Meteor.subscribe("PrimaryShop");
   const merchantShopSub = Meteor.subscribe("MerchantShops");
-  const packageSub = Meteor.subscribe("Packages");
+  const packageSub = Meteor.subscribe("Packages", Reaction.getShopId(), Reaction.getUserId());
 
   // initialize client routing
   Tracker.autorun((computation) => {
