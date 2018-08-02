@@ -20,19 +20,13 @@ export const methods = {
 
     let result;
     const primaryShopId = Reaction.getPrimaryShopId();
-    const stripePkg = Reaction.getPackageSettingsWithOptions({
-      shopId: primaryShopId,
-      name: "reaction-stripe"
-    });
+    const stripePkg = Reaction.getPackageSettings("reaction-stripe", primaryShopId);
 
     if (!stripePkg || !stripePkg.settings || !stripePkg.settings.api_key) {
       throw new Meteor.Error("invalid-parameters", "Cannot authorize stripe connect merchant. Primary shop stripe must be configured.");
     }
 
-    const merchantStripePkg = Reaction.getPackageSettingsWithOptions({
-      shopId,
-      name: "reaction-stripe"
-    });
+    const merchantStripePkg = Reaction.getPackageSettings("reaction-stripe", shopId);
 
     if (merchantStripePkg &&
         merchantStripePkg.settings &&

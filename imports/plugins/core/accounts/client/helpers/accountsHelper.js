@@ -82,7 +82,7 @@ export function getDefaultUserInviteGroup(groups) {
  * @summary Return all permissions for packages
  * @todo Review hardcoded `reaction` in package names
  * @param  {Array} packages [description]
- * @return {Object}          [description]
+ * @return {Object[]}          [description]
  */
 export function groupPermissions(packages) {
   return packages.reduce((registeredPackages, pkg) => {
@@ -104,15 +104,12 @@ export function groupPermissions(packages) {
           }
         }
 
-        // Also create an object map of those same permissions as above
-        const permissionMap = getPermissionMap(permissions);
-        if (!permissionMap[registryItem.route]) {
+        if (!permissions.find((perm) => perm.permission === registryItem.route)) {
           permissions.push({
             shopId: pkg.shopId,
             permission: registryItem.name || `${pkg.name}/${registryItem.template}`,
             icon: registryItem.icon,
-            // TODO: Rethink naming convention for permissions list
-            label: registryItem.label || registryItem.route
+            label: registryItem.label || registryItem.provides || registryItem.route
           });
         }
       }
@@ -132,12 +129,4 @@ export function groupPermissions(packages) {
 
     return registeredPackages;
   }, []);
-}
-
-function getPermissionMap(permissions) {
-  const permissionMap = {};
-  permissions.forEach(({ label, permission }) => {
-    permissionMap[permission] = label;
-  });
-  return permissionMap;
 }

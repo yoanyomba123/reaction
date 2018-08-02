@@ -1,18 +1,13 @@
 import { Meteor } from "meteor/meteor";
 import { Template } from "meteor/templating";
-import { Reaction } from "/lib/api";
-import { i18next } from "/client/api";
+import { i18next, Reaction } from "/client/api";
 import { Shops } from "/lib/collections";
 
 Template.stripeConnectSignupButton.events({
   "click [data-event-action='button-click-stripe-signup']"() {
     const shopId = Reaction.getShopId();
     const primaryShopId = Reaction.getPrimaryShopId();
-    const primaryStripePackage = Reaction.getPackageSettingsWithOptions({
-      shopId: primaryShopId,
-      name: "reaction-stripe",
-      enabled: true
-    });
+    const primaryStripePackage = Reaction.getPackageSettings("reaction-stripe", primaryShopId, true);
 
     // eslint-disable-next-line
     // debugger;
@@ -22,24 +17,28 @@ Template.stripeConnectSignupButton.events({
         primaryStripePackage.settings &&
         primaryStripePackage.settings.public &&
         typeof primaryStripePackage.settings.public.client_id === "string") {
-      // If the primaryshop has stripe enabled and set the client_id
+      // If the primary shop has stripe enabled and set the client_id
       clientId = primaryStripePackage.settings.public.client_id;
     } else {
-      return Alerts.toast(`${i18next.t("admin.connect.stripeConnectNotEnabled")}`, "error");
+      Alerts.toast(`${i18next.t("admin.connect.stripeConnectNotEnabled")}`, "error");
+      return;
     }
 
     const shop = Shops.findOne({ _id: shopId });
 
     if (!shop || !shop.workflow || shop.workflow.status !== "active") {
-      return Alerts.toast(`${i18next.t("admin.connect.shopNotActive")}`, "error");
+      Alerts.toast(`${i18next.t("admin.connect.shopNotActive")}`, "error");
+      return;
     }
 
     if (!shop.emails || !Array.isArray(shop.emails) || shop.emails.length === 0) {
-      return Alerts.toast(`${i18next.t("admin.connect.shopEmailNotConfigured")}`, "error");
+      Alerts.toast(`${i18next.t("admin.connect.shopEmailNotConfigured")}`, "error");
+      return;
     }
 
     if (!shop.addressBook || !Array.isArray(shop.addressBook) || shop.addressBook.length === 0) {
-      return Alerts.toast(`${i18next.t("admin.connect.shopAddressNotConfigured")}`, "error");
+      Alerts.toast(`${i18next.t("admin.connect.shopAddressNotConfigured")}`, "error");
+      return;
     }
 
     const { country } = shop.addressBook[0];

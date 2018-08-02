@@ -20,7 +20,7 @@ function unformatFromStripe(amount) {
 export const utils = {};
 
 utils.getStripeApi = function (paymentPackageId) {
-  const stripePackage = Packages.findOne(paymentPackageId);
+  const stripePackage = Packages.findOne({ _id: paymentPackageId });
   const stripeKey = stripePackage.settings.api_key || stripePackage.settings.connectAuth.access_token;
   return stripeKey;
 };
@@ -165,10 +165,7 @@ function buildPaymentMethods(options) {
       }));
 
       // we need to grab this per shop to get the API key
-      const packageData = Packages.findOne({
-        name: "reaction-stripe",
-        shopId
-      });
+      const packageData = Reaction.getPackageSettings("reaction-stripe", shopId);
 
       const paymentMethod = {
         processor: "Stripe",
@@ -205,10 +202,7 @@ export const methods = {
 
     const primaryShopId = Reaction.getPrimaryShopId();
 
-    const stripePkg = Reaction.getPackageSettingsWithOptions({
-      shopId: primaryShopId,
-      name: "reaction-stripe"
-    });
+    const stripePkg = Reaction.getPackageSettings("reaction-stripe", primaryShopId);
 
     if (!stripePkg || !stripePkg.settings || !stripePkg.settings.api_key) {
       // Fail if we can't find a Stripe API key
@@ -292,10 +286,7 @@ export const methods = {
         } else {
           // If this is a merchant shop, we need to tokenize the customer
           // and charge the token with the merchant id
-          merchantStripePkg = Reaction.getPackageSettingsWithOptions({
-            shopId,
-            name: "reaction-stripe"
-          });
+          merchantStripePkg = Reaction.getPackageSettings("reaction-stripe", shopId);
 
           // If this merchant doesn't have stripe setup, fail.
           // We should _never_ get to this point, because

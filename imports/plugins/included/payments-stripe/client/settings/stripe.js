@@ -9,10 +9,7 @@ Template.stripeSettings.helpers({
     return StripePackageConfig;
   },
   packageData() {
-    return Packages.findOne({
-      name: "reaction-stripe",
-      shopId: Reaction.getShopId()
-    });
+    return Reaction.getPackageSettings("reaction-stripe");
   },
   marketplaceEnabled() {
     const marketplace = Reaction.getMarketplaceSettings();
@@ -22,10 +19,7 @@ Template.stripeSettings.helpers({
 
 Template.stripe.helpers({
   packageData() {
-    return Packages.findOne({
-      name: "reaction-stripe",
-      shopId: Reaction.getShopId()
-    });
+    return Reaction.getPackageSettings("reaction-stripe");
   }
 });
 

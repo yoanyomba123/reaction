@@ -555,13 +555,9 @@ Router.initPackageRoutes = (options) => {
     shopPrefix: "/shop" // default value
   };
 
-  const marketplace = Packages.findOne({
-    name: "reaction-marketplace",
-    shopId: Router.Reaction.getPrimaryShopId()
-  });
-
-  if (marketplace && marketplace.settings && marketplace.settings.public) {
-    marketplaceSettings = marketplace.settings.public;
+  const marketplaceSettingsFromPackage = Router.Reaction.getMarketplaceSettings();
+  if (marketplaceSettingsFromPackage && marketplaceSettingsFromPackage.public) {
+    marketplaceSettings = marketplaceSettingsFromPackage.public;
   }
 
   const pkgs = Packages.find().fetch();

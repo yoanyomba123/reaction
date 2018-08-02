@@ -66,11 +66,7 @@ class SocialSettingsContainer extends Component {
 function composer(props, onData) {
   const subscription = Reaction.Subscriptions.Packages;
   const preferences = Reaction.getUserPreferences("reaction-social", "settingsCards", {});
-
-  const socialPackage = Packages.findOne({
-    name: "reaction-social",
-    shopId: Reaction.getShopId()
-  });
+  const socialPackage = Reaction.getPackageSettings("reaction-social");
 
   if (subscription.ready()) {
     onData(null, {

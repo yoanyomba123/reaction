@@ -96,11 +96,7 @@ function composer(props, onData) {
   const subscription = Reaction.Subscriptions.Packages;
   const primaryShopId = Reaction.getPrimaryShopId();
 
-  const stripePkg = Reaction.getPackageSettingsWithOptions({
-    shopId: primaryShopId,
-    name: "reaction-stripe",
-    enabled: true
-  });
+  const stripePkg = Reaction.getPackageSettings("reaction-stripe", primaryShopId, true);
 
   if (subscription.ready()) {
     if (stripePkg) {

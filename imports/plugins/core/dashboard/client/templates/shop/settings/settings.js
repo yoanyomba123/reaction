@@ -3,7 +3,7 @@ import { Meteor } from "meteor/meteor";
 import { Template } from "meteor/templating";
 import { AutoForm } from "meteor/aldeed:autoform";
 import { Reaction, i18next } from "/client/api";
-import { Packages, Shops } from "/lib/collections";
+import { Shops } from "/lib/collections";
 import { Media } from "/imports/plugins/core/files/client";
 import ShopBrandMediaManager from "./ShopBrandMediaManager";
 
@@ -59,10 +59,7 @@ Template.shopSettings.helpers({
     });
   },
   packageData() {
-    return Packages.findOne({
-      name: "core",
-      shopId: Reaction.getShopId()
-    });
+    return Reaction.getPackageSettings("core");
   },
   addressBook() {
     const address = Shops.findOne({
@@ -153,9 +150,6 @@ Template.shopSettings.events({
 
 Template.optionsShopSettings.helpers({
   packageData() {
-    return Packages.findOne({
-      name: "core",
-      shopId: Reaction.getShopId()
-    });
+    return Reaction.getPackageSettings("core");
   }
 });

@@ -1,6 +1,6 @@
 import { check } from "meteor/check";
 import { Meteor } from "meteor/meteor";
-import { Reaction } from "/lib/api";
+import Reaction from "/imports/plugins/core/core/server/Reaction";
 import { Jobs, Packages } from "/lib/collections";
 import * as Schemas from "/lib/collections/schemas";
 import { Job } from "/imports/plugins/core/job-collection/lib";

@@ -2,8 +2,8 @@ import _ from "lodash";
 import Logger from "@reactioncommerce/logger";
 import { HTTP } from "meteor/http";
 import { Meteor } from "meteor/meteor";
-import { Reaction } from "/lib/api";
-import { Packages, Shops } from "/lib/collections";
+import Reaction from "/imports/plugins/core/core/server/Reaction";
+import { Shops } from "/lib/collections";
 
 /**
  * @name shop/fetchCurrencyRate
@@ -31,31 +31,24 @@ export default function fetchCurrencyRate() {
   const shopCurrencies = shop.currencies;
 
   // fetch shop settings for api auth credentials
-  const shopSettings = Packages.findOne({
-    shopId,
-    name: "core"
-  }, {
-    fields: {
-      settings: 1
-    }
-  });
+  const shopSettings = Reaction.getShopSettings();
 
   // update Shops.currencies[currencyKey].rate
   // with current rates from Open Exchange Rates
   // warn if we don't have app_id
-  if (!shopSettings.settings.openexchangerates) {
+  if (!shopSettings.openexchangerates) {
     throw new Meteor.Error(
       "not-configured",
       "Open Exchange Rates not configured. Configure for current rates."
     );
-  } else if (!shopSettings.settings.openexchangerates.appId) {
+  } else if (!shopSettings.openexchangerates.appId) {
     throw new Meteor.Error(
       "not-configured",
       "Open Exchange Rates AppId not configured. Configure for current rates."
     );
   } else {
     // shop open exchange rates appId
-    const openexchangeratesAppId = shopSettings.settings.openexchangerates.appId;
+    const openexchangeratesAppId = shopSettings.openexchangerates.appId;
 
     // we'll update all the available rates in Shops.currencies whenever we
     // get a rate request, using base currency

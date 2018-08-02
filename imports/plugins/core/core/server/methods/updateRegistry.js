@@ -25,7 +25,7 @@ export default function updateRegistry(packageId, name, fields) {
   const setting = name.split("/").splice(-1);
   let dataToSave = {};
   dataToSave[setting] = {};
-  const currentPackage = Packages.findOne(packageId);
+  const currentPackage = Packages.findOne({ _id: packageId });
 
   _.each(fields, (field) => {
     dataToSave[setting][field.property] = field.value;

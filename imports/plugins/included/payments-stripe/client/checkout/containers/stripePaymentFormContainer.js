@@ -29,10 +29,7 @@ class StripePaymentFormContainer extends Component {
 
 function composer(props, onData) {
   const subscription = Reaction.Subscriptions.Packages;
-  const stripePackage = Packages.findOne({
-    name: "reaction-stripe",
-    shopId: Reaction.getPrimaryShopId()
-  });
+  const stripePackage = Reaction.getPackageSettings("reaction-stripe", Reaction.getPrimaryShopId());
 
   const { cart, token } = getCart();
   if (!cart) return;
@@ -40,7 +37,7 @@ function composer(props, onData) {
   const { billing: [{ address: { postal } }] } = cart;
   if (subscription.ready()) {
     onData(null, {
-      apiKey: stripePackage.settings.public.publishable_key,
+      apiKey: stripePackage && stripePackage.settings.public.publishable_key,
       cartId: cart._id,
       cartToken: token,
       language: i18next.language,

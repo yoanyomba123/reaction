@@ -1,7 +1,7 @@
 import Logger from "@reactioncommerce/logger";
 import { check, Match } from "meteor/check";
 import { Meteor } from "meteor/meteor";
-import { Reaction } from "/lib/api";
+import Reaction from "/imports/plugins/core/core/server/Reaction";
 import { Tags } from "/lib/collections";
 import getSlug from "/imports/plugins/core/core/server/Reaction/getSlug";
 

@@ -20,7 +20,7 @@ export default function providerToggle(packageId, provider) {
   if (!Reaction.hasPermission(shippingRoles)) {
     throw new Meteor.Error("access-denied", "Access Denied");
   }
-  const pkg = Packages.findOne(packageId);
+  const pkg = Packages.findOne({ _id: packageId });
   if (pkg && pkg.settings[provider]) {
     const current = Shipping.findOne({ "provider.name": provider });
     const { enabled } = pkg.settings[provider];

@@ -2,7 +2,7 @@ import Logger from "@reactioncommerce/logger";
 import { Meteor } from "meteor/meteor";
 import { Match, check } from "meteor/check";
 import { Catalog } from "/lib/api";
-import { Cart, Packages, Products } from "/lib/collections";
+import { Cart, Products } from "/lib/collections";
 import { Taxes } from "../../lib/collections";
 import Reaction from "../api";
 
@@ -130,7 +130,7 @@ export const methods = {
    * @name "taxes/updateTaxCode"
    * @method
    * @memberof Methods/Taxes
-   * @summary updates the taxcode on all options of a product.
+   * @summary updates the tax code on all options of a product.
    * @param  {String} products array of products to be updated.
    * @return {Number} returns number of options updated
    */
@@ -181,10 +181,8 @@ export const methods = {
     let cartTaxRate = 0;
 
     // TODO: Calculate shipping taxes for regions that require it
-    const pkg = Packages.findOne({
-      shopId: cartShopId,
-      name: "reaction-taxes"
-    });
+    const pkg = Reaction.getPackageSettings("reaction-taxes", cartShopId, true);
+
     //
     // custom rates
     // TODO Determine calculation method (row, total, shipping)
@@ -193,7 +191,7 @@ export const methods = {
     // or tax adjustments
     //
     // check if plugin is enabled and this calculation method is enabled
-    if (pkg && pkg.enabled === true && pkg.settings.rates.enabled === true) {
+    if (pkg && pkg.settings.rates.enabled === true) {
       Logger.debug("Calculating custom tax rates");
 
       if (typeof cartToCalc.shipping !== "undefined" && typeof cartToCalc.items !== "undefined") {

@@ -19,22 +19,13 @@ function GeoCoder(options) {
   let extra;
   const self = this;
   // fetch shop settings for api auth credentials
-  const shopSettings = Packages.findOne({
-    shopId: Reaction.getShopId(),
-    name: "core"
-  }, {
-    fields: {
-      settings: 1
-    }
-  });
+  const shopSettings = Reaction.getShopSettings();
 
-  if (shopSettings) {
-    if (shopSettings.settings.google) {
-      extra = {
-        clientId: shopSettings.settings.google.clientId,
-        apiKey: shopSettings.settings.google.apiKey
-      };
-    }
+  if (shopSettings.google) {
+    extra = {
+      clientId: shopSettings.google.clientId,
+      apiKey: shopSettings.google.apiKey
+    };
   }
 
   self.options = _.extend({

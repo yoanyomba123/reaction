@@ -1,6 +1,6 @@
 import { BrowserPolicy } from "meteor/browser-policy-common";
 import { WebApp } from "meteor/webapp";
-import { Reaction } from "/lib/api";
+import Reaction from "/imports/plugins/core/core/server/Reaction";
 
 /**
  * Set headers for Reaction CDN

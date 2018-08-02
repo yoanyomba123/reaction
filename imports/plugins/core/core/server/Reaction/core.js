@@ -197,7 +197,7 @@ export default {
    * @return {array} Array of shopIds that the user has at least one of the given set of roles for
    */
   getShopsWithRoles(roles, userId = Meteor.userId()) {
-    // Owner permission for a shop superceeds grantable permissions, so we always check for owner permissions as well
+    // Owner permission for a shop supercedes grantable permissions, so we always check for owner permissions as well
     roles.push("owner");
 
     // Reducer that returns a unique list of shopIds that results from calling getGroupsForUser for each role
@@ -248,13 +248,14 @@ export default {
    * and can see all other shops
    * @method
    * @memberof Core
-   * @return {String} ID
+   * @return {String|null} ID
    */
   getPrimaryShopId() {
     const primaryShop = this.getPrimaryShop();
     if (primaryShop) {
       return primaryShop._id;
     }
+    return null;
   },
 
   /**
@@ -282,21 +283,6 @@ export default {
    */
   getPrimaryShopPrefix() {
     return `/${this.getSlug(this.getPrimaryShopName().toLowerCase())}`;
-  },
-
-  /**
-   * @name getPrimaryShopSettings
-   * @method
-   * @memberof Core
-   * @summary Get primary shop settings object
-   * @return {Object} Get settings object or empty object
-   */
-  getPrimaryShopSettings() {
-    const settings = Packages.findOne({
-      name: "core",
-      shopId: this.getPrimaryShopId()
-    }) || {};
-    return settings.settings || {};
   },
 
   /**
@@ -373,7 +359,7 @@ export default {
     try {
       // otherwise, find the shop by user settings
       shopId = this.getUserShopId(Meteor.userId());
-    } catch (e) {
+    } catch (err) {
       // `Meteor.userId` will raise an error when invoked outside of a method
       // call or publication, i.e., at startup. That's ok here.
     }
@@ -395,6 +381,7 @@ export default {
    * @memberof Core
    * @summary allows the client to trigger an uncached lookup of the shopId.
    *          this is useful when a user switches shops.
+   * @returns {undefined}
    */
   resetShopId() {
     ConnectionDataStore.clear("shopId");
@@ -405,7 +392,7 @@ export default {
    * @summary Whether the current shop is the Primary Shop (vs a Merchant Shop)
    * @method
    * @memberof Core
-   * @return {Boolean}
+   * @return {Boolean} Is the current shop the primary shop?
    */
   isShopPrimary() {
     return this.getShopId() === this.getPrimaryShopId();
@@ -415,7 +402,7 @@ export default {
    * @name getShopIdByDomain
    * @method
    * @memberof Core
-   * @summary returns the shop which should be used given the current domain
+   * @returns {String} the shop ID which should be used given the current domain
    */
   getShopIdByDomain() {
     const domain = this.getDomain();
@@ -437,7 +424,8 @@ export default {
    * @memberof Core
    * @summary Get a user's shop ID, as stored in preferences
    * @todo This should intelligently find the correct default shop Probably whatever the main shop is or marketplace
-   * @return {StringId}        active shop ID
+   * @param {String} userId User ID
+   * @return {String} Active shop ID
    */
   getUserShopId(userId) {
     check(userId, String);
@@ -512,13 +500,10 @@ export default {
     const shopName = this.getShopName();
     const lowerCaseShopName = shopName.toLowerCase();
     const slug = this.getSlug(lowerCaseShopName);
-    const marketplace = Packages.findOne({
-      name: "reaction-marketplace",
-      shopId: this.getPrimaryShopId()
-    });
+    const marketplaceSettings = this.getMarketplaceSettings();
 
-    if (marketplace && marketplace.settings && marketplace.settings.public) {
-      return `${marketplace.settings.public.shopPrefix}/${slug}`;
+    if (marketplaceSettings && marketplaceSettings.public) {
+      return `${marketplaceSettings.public.shopPrefix}/${slug}`;
     }
     return `/${slug}`;
   },
@@ -551,8 +536,8 @@ export default {
    * @return {Object}               Shop settings object or empty object
    */
   getShopSettings(name = "core") {
-    const settings = Packages.findOne({ name, shopId: this.getShopId() }) || {};
-    return settings.settings || {};
+    const settings = this.getPackageSettings(name);
+    return (settings && settings.settings) || {};
   },
 
   /**
@@ -607,26 +592,26 @@ export default {
   /**
    * @name getPackageSettings
    * @method
-   * @memberof Core
+   * @memberof Core/Client
    * @summary Get package settings
-   * @param  {String} name Package name
-   * @return {Object|null}      Package setting object or null
+   * @param {String} name Package name
+   * @param {String} [shopId] Shop ID. Defaults to finding a shop ID by user preferences or current domain
+   * @param {Boolean} [onlyIfEnabled] Should return null if not enabled?
+   * @return {Object|null} Package object or null
    */
-  getPackageSettings(name) {
-    return Packages.findOne({ name, shopId: this.getShopId() }) || null;
-  },
+  getPackageSettings(name, shopId, onlyIfEnabled) {
+    const shopIdForQuery = shopId || this.getShopId();
+    const query = { name };
 
-  /**
-   * @summary Takes options in the form of a query object. Returns a package that matches.
-   * @method
-   * @memberof Core
-   * @name getPackageSettingsWithOptions
-   * @param  {object} options Options object, forms the query for Packages.findOne
-   * @return {object} Returns the first package found with the provided options
-   */
-  getPackageSettingsWithOptions(options) {
-    const query = options;
-    return Packages.findOne(query);
+    if (shopIdForQuery) {
+      query.shopId = shopIdForQuery;
+    }
+
+    if (onlyIfEnabled) {
+      query.enabled = true;
+    }
+
+    return Packages.findOne(query) || null;
   },
 
   /**
@@ -635,19 +620,13 @@ export default {
    * @memberof Core
    * @summary finds the enabled `reaction-marketplace` package for
    * the primary shop and returns the settings
-   * @return {Object} The marketplace settings from the primary shop or undefined
+   * @return {Object|undefined} The marketplace settings from the primary shop or undefined
    */
   getMarketplaceSettings() {
-    const marketplace = Packages.findOne({
-      name: "reaction-marketplace",
-      shopId: this.getPrimaryShopId(),
-      enabled: true
-    });
-
-    if (marketplace && marketplace.settings) {
-      return marketplace.settings;
-    }
-    return {};
+    // The primary shop always owns the marketplace settings.
+    // Only use the marketplace settings if marketplace is enabled.
+    const marketplaceSettings = this.getPackageSettings("reaction-marketplace", this.getPrimaryShopId(), true);
+    return marketplaceSettings && marketplaceSettings.settings;
   },
 
   /**
@@ -655,13 +634,13 @@ export default {
    * @method
    * @memberof Core
    * @param  {Object} options {packageName, preference, defaultValue}
-   * @return {String|undefined} User's package preference or undefined
+   * @return {String|null} User's package preference or undefined
    */
   getUserPreferences(options) {
     const { userId, packageName, preference, defaultValue } = options;
 
     if (!userId) {
-      return undefined;
+      return null;
     }
 
     const user = AccountsCollection.findOne({ _id: userId });
@@ -672,7 +651,7 @@ export default {
         return profile.preferences[packageName][preference];
       }
     }
-    return defaultValue || undefined;
+    return defaultValue || null;
   },
 
   /**
@@ -680,10 +659,10 @@ export default {
    * @method
    * @memberof Core
    * @summary save user preferences in the Accounts collection
-   * @param {String} packageName
-   * @param {String} preference
-   * @param {String} value
-   * @param {String} userId
+   * @param {String} packageName Package name
+   * @param {String} preference Preference
+   * @param {String} value Value
+   * @param {String} userId User ID
    * @return {Number} setPreferenceResult
    */
   setUserPreferences(packageName, preference, value, userId) {
@@ -703,13 +682,11 @@ export default {
    * - Assigns owner roles for new packages
    * - Imports layouts from packages
    * @param {String} shopId - the shopId to create packages for
-   * @return {String} returns insert result
+   * @return {undefined}
    */
   insertPackagesForShop(shopId) {
     const layouts = [];
-    if (!shopId) {
-      return [];
-    }
+    if (!shopId) return;
 
     // Check to see what packages should be enabled
     const shop = Shops.findOne({ _id: shopId });
@@ -732,7 +709,7 @@ export default {
     // for each shop, we're loading packages in a unique registry
     // Object.keys(pkgConfigs).forEach((pkgName) => {
     for (const packageName in packages) {
-      // Guard to prvent unexpected `for in` behavior
+      // Guard to prevent unexpected `for in` behavior
       if ({}.hasOwnProperty.call(packages, packageName)) {
         const config = packages[packageName];
         this.assignOwnerRoles(shopId, packageName, config.registry);
@@ -783,7 +760,7 @@ export default {
    * @method
    * @memberof Core
    * @summary Method that creates default admin user
-   * Settings load precendence:
+   * Settings load precedence:
    *  1. environment variables
    *  2. settings in meteor.settings
    * @returns {String} return userId
@@ -891,7 +868,7 @@ export default {
       }
     });
 
-    // unless strict security is enabled, mark the admin's email as validated
+    // unless strict security is enabled, mark the admin email as validated
     if (!isSecureSetup) {
       Meteor.users.update({
         "_id": accountId,
@@ -1052,17 +1029,63 @@ export default {
       this.Importer.layout(uniqLayouts, shop._id);
     });
 
-    //
-    // package cleanup
-    //
-    Shops.find().forEach((shop) => Packages.find().forEach((pkg) => {
-      // delete registry entries for packages that have been removed
+    // delete registry entries for packages that have been removed
+    const removePackageNames = [];
+    Packages.find().forEach((pkg) => {
       if (!_.has(this.Packages, pkg.name)) {
         Logger.debug(`Removing ${pkg.name}`);
-        return Packages.remove({ shopId: shop._id, name: pkg.name });
+        removePackageNames.push(pkg.name);
       }
-      return false;
-    }));
+    });
+    if (removePackageNames.length) {
+      Packages.remove({ name: { $in: removePackageNames } });
+    }
+  },
+
+  /**
+   * @summary gets shopIds of shops where user has provided permissions
+   * @param {Array} roles - roles to check if user has
+   * @param {Object} userId - userId to check permissions for (defaults to current user)
+   * @return {Array} - shopIds user has provided permissions for
+   */
+  getShopsForUser(roles, userId = Meteor.userId()) {
+    // Get full user object, and get shopIds of all shops they are attached to
+    const user = Meteor.user(userId);
+    if (!user || !user.roles) {
+      return [];
+    }
+    const shopIds = Object.keys(user.roles);
+    // Remove "__global_roles__" from the list of shopIds, as this function will always return true for
+    // marketplace admins if that "id" is left in the check
+    const filteredShopIds = shopIds.filter((shopId) => shopId !== "__global_roles__");
+
+    // Reduce shopIds to shopsWithPermission, using the roles passed in to this function
+    const shopIdsWithRoles = filteredShopIds.reduce((shopsWithPermission, shopId) => {
+      // Get list of roles user has for this shop
+      const rolesUserHas = user.roles[shopId];
+
+      // Find first role that is included in the passed in roles array, otherwise hasRole is undefined
+      const hasRole = rolesUserHas.find((roleUserHas) => roles.includes(roleUserHas));
+
+      // if we found the role, then the user has permission for this shop. Add shopId to shopsWithPermission array
+      if (hasRole) {
+        shopsWithPermission.push(shopId);
+      }
+      return shopsWithPermission;
+    }, []);
+
+    return shopIdsWithRoles;
+  },
+
+  /**
+    * @summary return if the user has permissions for all the shops
+    * @param {Array} roles - roles to check if user has
+    * @param {String} userId - userId to check permissions for (defaults to current user)
+    * @param {Array} shopsOfUser - shopIds to be checked
+    * @return {Boolean} - true if the user has permissions for all the shops
+    */
+  hasPermissionForAll(roles, userId = Meteor.userId(), shopsOfUser) {
+    return !_.isEqual(this.getShopsForUser(["admin"], userId), shopsOfUser);
   },
 
   /**
@@ -1098,14 +1121,14 @@ export default {
     const col = Collections[collection];
     if (!col) {
       Logger.warn(errMsg);
-      // Return false so we don't pass a check that uses a non-existant schema
+      // Return false so we don't pass a check that uses a non-existent schema
       return false;
     }
 
     const schema = col.simpleSchema(selector);
     if (!schema) {
       Logger.warn(errMsg);
-      // Return false so we don't pass a check that uses a non-existant schema
+      // Return false so we don't pass a check that uses a non-existent schema
       return false;
     }
 

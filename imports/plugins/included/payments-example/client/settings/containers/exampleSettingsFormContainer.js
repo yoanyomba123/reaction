@@ -69,10 +69,7 @@ ExampleSettingsFormContainer.propTypes = {
 const composer = (props, onData) => {
   const subscription = Meteor.subscribe("Packages", Reaction.getShopId());
   if (subscription.ready()) {
-    const packageData = Packages.findOne({
-      name: "example-paymentmethod",
-      shopId: Reaction.getShopId()
-    });
+    const packageData = Reaction.getPackageSettings("example-paymentmethod");
     onData(null, { packageData });
   }
 };

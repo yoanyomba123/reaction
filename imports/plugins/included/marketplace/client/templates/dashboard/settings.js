@@ -13,12 +13,8 @@ Template.marketplaceShopSettings.helpers({
   MarketplacePackageConfig() {
     return MarketplacePackageConfig;
   },
-
   packageData() {
-    return Packages.findOne({
-      name: "reaction-marketplace",
-      shopId: Reaction.getPrimaryShopId()
-    });
+    return Reaction.getPackageSettings("reaction-marketplace", Reaction.getPrimaryShopId());
   },
   inviteOwner() {
     return Components.InviteOwner;

@@ -2,7 +2,7 @@ import _ from "lodash";
 import Logger from "@reactioncommerce/logger";
 import { Meteor } from "meteor/meteor";
 import { Accounts, Shops } from "/lib/collections";
-import { Reaction } from "/lib/api";
+import Reaction from "/imports/plugins/core/core/server/Reaction";
 import GeoCoder from "../../util/geocoder";
 
 /**

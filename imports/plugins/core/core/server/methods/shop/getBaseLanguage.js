@@ -1,5 +1,5 @@
 import { Meteor } from "meteor/meteor";
-import { Reaction } from "/lib/api";
+import Reaction from "/imports/plugins/core/core/server/Reaction";
 import { Shops } from "/lib/collections";
 
 /**

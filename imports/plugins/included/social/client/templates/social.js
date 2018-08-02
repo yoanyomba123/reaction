@@ -1,16 +1,13 @@
 import { merge } from "lodash";
 import { Template } from "meteor/templating";
 import { Reaction } from "/client/api";
-import { Packages } from "/lib/collections";
 
 Template.reactionSocial.onCreated(function () {
   const self = this;
   return this.autorun(() => {
     const subscription = Reaction.Subscriptions.Packages;
     if (subscription.ready()) {
-      const socialSettings = Packages.findOne({
-        name: "reaction-social"
-      });
+      const socialSettings = Reaction.getPackageSettings("reaction-social");
       if (socialSettings) {
         self.socialSettings = socialSettings.settings.public;
       }

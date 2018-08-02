@@ -1,7 +1,7 @@
 import { check } from "meteor/check";
 import { Meteor } from "meteor/meteor";
-import { Reaction } from "/lib/api";
 import { Tags } from "/lib/collections";
+import Reaction from "/imports/plugins/core/core/server/Reaction";
 import getSlug from "/imports/plugins/core/core/server/Reaction/getSlug";
 
 /**

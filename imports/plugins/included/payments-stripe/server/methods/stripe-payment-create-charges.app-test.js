@@ -247,7 +247,7 @@ describe("stripe/payment/createCharges", function () {
       return cart.shopId;
     });
 
-    sandbox.stub(Reaction, "getPackageSettingsWithOptions", function () {
+    sandbox.stub(Reaction, "getPackageSettings", function () {
       return testStripePkg;
     });
 
@@ -310,7 +310,7 @@ describe("stripe/payment/createCharges", function () {
       return cart.shopId;
     });
 
-    sandbox.stub(Reaction, "getPackageSettingsWithOptions", function () {
+    sandbox.stub(Reaction, "getPackageSettings", function () {
       return testStripePkg;
     });
 
@@ -374,7 +374,7 @@ describe("stripe/payment/createCharges", function () {
       return cart.shopId;
     });
 
-    sandbox.stub(Reaction, "getPackageSettingsWithOptions", function () {
+    sandbox.stub(Reaction, "getPackageSettings", function () {
       return testStripePkg;
     });
 

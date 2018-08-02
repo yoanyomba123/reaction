@@ -39,7 +39,7 @@ Meteor.methods({
     check(id, String);
     SearchPackageConfig.validate(modifier, { modifier: true });
 
-    const currentSettings = Packages.findOne(id);
+    const currentSettings = Packages.findOne({ _id: id });
     const newSettingsArray = _.keys(modifier.$set);
     const changedSettings = [];
     for (const setting of newSettingsArray) {

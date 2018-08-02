@@ -59,10 +59,7 @@ AutoForm.addHooks("example-payment-form", {
     };
     const storedCard = `${form.type.charAt(0).toUpperCase() + form.type.slice(1)} ${doc.cardNumber.slice(-4)}`;
     Meteor.subscribe("Packages", Reaction.getShopId());
-    const packageData = Packages.findOne({
-      name: "example-paymentmethod",
-      shopId: Reaction.getShopId()
-    });
+    const packageData = Reaction.getPackageSettings("example-paymentmethod");
     const { cart, token: cartToken } = getCart();
     Example.authorize(form, {
       total: cart.getTotal(),

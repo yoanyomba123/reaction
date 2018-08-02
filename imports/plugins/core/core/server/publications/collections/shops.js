@@ -20,7 +20,7 @@ Meteor.publish("MerchantShops", function (shopsOfUser = Reaction.getShopsForUser
   }
 
   const domain = Reaction.getDomain();
-  const { enabled } = Reaction.getMarketplaceSettings();
+  const { enabled } = Reaction.getMarketplaceSettings() || {};
   // Don't publish currencies, languages, or locales for merchant shops.
   // We'll get that info from the primary shop.
   const fields = {

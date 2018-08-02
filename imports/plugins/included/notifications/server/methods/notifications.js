@@ -2,7 +2,7 @@ import Logger from "@reactioncommerce/logger";
 import { Meteor } from "meteor/meteor";
 import { check, Match } from "meteor/check";
 import Reaction from "/imports/plugins/core/core/server/Reaction";
-import { Notifications, Packages } from "/lib/collections";
+import { Notifications } from "/lib/collections";
 
 /**
  * @file Methods for Notifications. Run these methods using `Meteor.call()`.
@@ -53,11 +53,11 @@ Meteor.methods({
     }
 
     if (sms) {
-      const result = Packages.findOne({ name: "reaction-sms", shopId: Reaction.getShopId() });
-      if (result && result.enabled) {
+      const pkg = Reaction.getPackageSettings("reaction-sms", null, true);
+      if (pkg) {
         Meteor.call("sms/send", values.message, accountId, Reaction.getShopId(), (error) => {
           if (error) {
-            Logger.warn("Error: error occured while sending sms", error);
+            Logger.warn("Error: error occurred while sending sms", error);
           }
         });
       } else {

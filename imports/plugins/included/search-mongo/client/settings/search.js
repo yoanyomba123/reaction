@@ -1,7 +1,6 @@
 import { AutoForm } from "meteor/aldeed:autoform";
 import { Template } from "meteor/templating";
 import { Reaction, i18next } from "/client/api";
-import { Packages } from "/lib/collections";
 import { SearchPackageConfig } from "../../lib/collections/schemas";
 
 
@@ -10,10 +9,7 @@ Template.searchSettings.helpers({
     return SearchPackageConfig;
   },
   packageData() {
-    return Packages.findOne({
-      name: "reaction-search",
-      shopId: Reaction.getShopId()
-    });
+    return Reaction.getPackageSettings("reaction-search");
   }
 });
 

@@ -81,10 +81,7 @@ function getShippingRates(previousQueryResults, cart) {
     Logger.fatal("Multiple shipping providers is currently not supported");
     throw new Meteor.Error("not-implemented", "Multiple shipping providers is currently not supported");
   } else {
-    pkgData = Packages.findOne({
-      name: "reaction-shipping-rates",
-      shopId: Reaction.getPrimaryShopId()
-    });
+    pkgData = Reaction.getPackageSettings("reaction-shipping-rates", Reaction.getPrimaryShopId());
   }
 
 
