@@ -4,7 +4,7 @@ import { Template } from "meteor/templating";
 import { AutoForm } from "meteor/aldeed:autoform";
 import { $ } from "meteor/jquery";
 import { Logger, Reaction, Router } from "/client/api";
-import { Shops, Packages } from "/lib/collections";
+import { Shops } from "/lib/collections";
 import getCart from "/imports/plugins/core/cart/client/util/getCart";
 import { unstoreAnonymousCart } from "/imports/plugins/core/cart/client/util/anonymousCarts";
 import { Example } from "../../lib/api";

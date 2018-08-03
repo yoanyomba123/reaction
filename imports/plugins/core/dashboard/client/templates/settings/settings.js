@@ -1,7 +1,5 @@
-import _ from "lodash";
 import { Template } from "meteor/templating";
 import { Reaction } from "/client/api";
-import { Packages } from "/lib/collections";
 
 Template.settingsHeader.helpers({
 
@@ -16,32 +14,7 @@ Template.settingsHeader.helpers({
 
   isActionViewAtRootView() {
     return Reaction.isActionViewAtRootView();
-  },
-
-  /**
-   * thisApp
-   * @return {Object} Registry entry for item
-   * @ignore
-   */
-  thisApp() {
-    const reactionApp = Packages.findOne({
-      "registry.provides": "settings",
-      "registry.route": Reaction.Router.getRouteName()
-    }, {
-      enabled: 1,
-      registry: 1,
-      name: 1,
-      route: 1
-    });
-
-    if (reactionApp) {
-      const settingsData = _.find(reactionApp.registry, (item) => item.route === Reaction.Router.getRouteName() && item.provides && item.provides.includes("settings")); // eslint-disable-line max-len
-
-      return settingsData;
-    }
-    return reactionApp;
   }
-
 });
 
 Template.settingsHeader.events({
