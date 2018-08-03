@@ -23,7 +23,6 @@ import { EJSON } from "meteor/ejson";
  */
 export default function loadSettings(json) {
   check(json, String);
-  let exists;
   let service;
   let services;
   let settings;
@@ -39,25 +38,20 @@ export default function loadSettings(json) {
   // loop settings and upsert packages.
   for (const pkg of validatedJson) {
     for (const item of pkg) {
-      exists = Packages.findOne({
+      // insert/update into the Packages collection
+      result = Packages.upsert({
         name: item.name
+      }, {
+        $set: {
+          settings: item.settings,
+          enabled: item.enabled
+        }
+      }, {
+        multi: true,
+        upsert: true,
+        validate: false
       });
 
-      // insert into the Packages collection
-      if (exists) {
-        result = Packages.upsert({
-          name: item.name
-        }, {
-          $set: {
-            settings: item.settings,
-            enabled: item.enabled
-          }
-        }, {
-          multi: true,
-          upsert: true,
-          validate: false
-        });
-      }
       // sets the private settings of various
       // accounts authentication services
       if (item.settings.services) {
