@@ -2,10 +2,9 @@ import faker from "faker";
 import _ from "lodash";
 import Random from "@reactioncommerce/random";
 import { Factory } from "meteor/dburles:factory";
-import { Orders, Products } from "/lib/collections";
+import { Packages, Orders, Products } from "/lib/collections";
 import { getShop } from "./shops";
 import { getUser } from "./users";
-import { getPkgData } from "./packages";
 import { getAddress } from "./accounts";
 import { addProduct } from "./products";
 
@@ -97,6 +96,9 @@ export function getShopId() {
 
 export default function () {
   const shopId = getShopId();
+
+  const examplePaymentMethodPackage = Packages.findOne({ name: "example-paymentmethod" });
+
   /**
    * @name order
    * @memberof Fixtures
@@ -136,7 +138,7 @@ export default function () {
    * @property {String} billing.paymentMethod.method - `"credit"`
    * @property {String} billing.paymentMethod.processor - `"Example"`
    * @property {String} billing.paymentMethod.storedCard - `"Mastercard 2346"`
-   * @property {String} billing.paymentMethod.paymentPackageId - `getPkgData("example-paymentmethod")._id`
+   * @property {String} billing.paymentMethod.paymentPackageId - Payment package ID
    * @property {String} paymentSettingsKey - `"example-paymentmethod"`
    * @property {String} mode - `"authorize"`
    * @property {String} status - `"created"`
@@ -243,7 +245,7 @@ export default function () {
         method: "credit",
         processor: "Example",
         storedCard: "Mastercard 2346",
-        paymentPackageId: getPkgData("example-paymentmethod") ? getPkgData("example-paymentmethod")._id : "uiwneiwknekwewe",
+        paymentPackageId: examplePaymentMethodPackage ? examplePaymentMethodPackage._id : "uiwneiwknekwewe",
         paymentSettingsKey: "example-paymentmethod",
         mode: "authorize",
         status: "created",

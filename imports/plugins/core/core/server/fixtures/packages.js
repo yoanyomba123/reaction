@@ -3,21 +3,6 @@ import { Packages } from "/lib/collections";
 import { getShopId } from "./shops";
 
 /**
- * @method getPkgData
- * @memberof Fixtures
- * @summary Get package data object, given a package name
- * @example getPkgData("example-paymentmethod") ? getPkgData("example-paymentmethod")._id : "uiwneiwknekwewe"
- * @param  {String} pkgName name of package
- * @return {Object}         Package object
- */
-export const getPkgData = (pkgName) => {
-  const pkgData = Packages.findOne({
-    name: pkgName
-  });
-  return pkgData;
-};
-
-/**
  * @name examplePaymentMethod
  * @memberof Fixtures
  * @summary Create a new fixture based off an example payment package method
