@@ -13,17 +13,6 @@ Reaction.registerPackage({
   },
   registry: [
     {
-      provides: ["dashboard"],
-      route: "/shipping/rates",
-      name: "shipping",
-      label: "Shipping",
-      description: "Provide shipping rates",
-      icon: "fa fa-truck",
-      priority: 1,
-      container: "core",
-      workflow: "coreDashboardWorkflow"
-    },
-    {
       provides: ["shippingSettings"],
       name: "shipping/settings/flatRates",
       label: "Flat Rate",

@@ -712,7 +712,7 @@ export default {
       // Guard to prevent unexpected `for in` behavior
       if ({}.hasOwnProperty.call(packages, packageName)) {
         const config = packages[packageName];
-        this.assignOwnerRoles(shopId, packageName, config.registry);
+        this.assignOwnerRoles(shopId, packageName, config);
 
         const pkg = Object.assign({}, config, {
           shopId
@@ -851,18 +851,18 @@ export default {
     //
     // create the new admin user
     //
-    let accountId;
+    let userId;
     // we're checking again to see if this user was created but not specifically for this shop.
     if (Meteor.users.find({ "emails.address": options.email }).count() === 0) {
-      accountId = Accounts.createUser(options);
+      userId = Accounts.createUser(options);
     } else {
       // this should only occur when existing admin creates a new shop
-      accountId = Meteor.users.findOne({ "emails.address": options.email })._id;
+      userId = Meteor.users.findOne({ "emails.address": options.email })._id;
     }
 
     // update the user's name if it was provided
     // (since Accounts.createUser() doesn't allow that field and strips it out)
-    Meteor.users.update(accountId, {
+    Meteor.users.update({ _id: userId }, {
       $set: {
         name: options.name
       }
@@ -871,7 +871,7 @@ export default {
     // unless strict security is enabled, mark the admin email as validated
     if (!isSecureSetup) {
       Meteor.users.update({
-        "_id": accountId,
+        "_id": userId,
         "emails.address": options.email
       }, {
         $set: {
@@ -879,7 +879,7 @@ export default {
         }
       });
       Collections.Accounts.update({
-        "_id": accountId,
+        userId,
         "emails.address": options.email
       }, {
         $set: {
@@ -888,7 +888,7 @@ export default {
       });
     } else {
       // send verification email to admin
-      sendVerificationEmail(accountId);
+      sendVerificationEmail(userId);
     }
 
     // Set default owner roles
@@ -899,15 +899,14 @@ export default {
     ownerRoles = _.uniq(ownerRoles);
 
     // we don't use accounts/addUserPermissions here because we may not yet have permissions
-    Roles.setUserRoles(accountId, ownerRoles, shopId);
+    Roles.setUserRoles(userId, ownerRoles, shopId);
     // // the reaction owner has permissions to all sites by default
-    Roles.setUserRoles(accountId, ownerRoles, Roles.GLOBAL_GROUP);
-    // initialize package permissions we don't need to do any further permission configuration it is taken care of in the
-    // assignOwnerRoles
-    const packages = Packages.find().fetch();
-    for (const pkg of packages) {
-      this.assignOwnerRoles(shopId, pkg.name, pkg.registry);
-    }
+    Roles.setUserRoles(userId, ownerRoles, Roles.GLOBAL_GROUP);
+    // initialize package permissions we don't need to do any further permission configuration
+    // it is taken care of in the assignOwnerRoles
+    Packages.find().forEach((pkg) => {
+      this.assignOwnerRoles(shopId, pkg.name, pkg);
+    });
 
     // notify user that the default admin was created by
     // printing the account info to the console
@@ -918,10 +917,10 @@ export default {
         \n ********************************* \n\n`);
 
     // run hooks on new user object
-    const user = Meteor.users.findOne(accountId);
+    const user = Meteor.users.findOne({ _id: userId });
     Hooks.Events.run("afterCreateDefaultAdminUser", user);
 
-    return accountId;
+    return userId;
   },
 
   /**
@@ -973,7 +972,7 @@ export default {
         if (!shopId) return [];
 
         // existing registry will be upserted with changes, perhaps we should add:
-        this.assignOwnerRoles(shopId, pkgName, config.registry);
+        this.assignOwnerRoles(shopId, pkgName, config);
 
         // Settings from the package registry.js
         const settingsFromPackage = {
@@ -996,18 +995,6 @@ export default {
 
         const combinedSettings = merge({}, settingsFromPackage, settingsFromFixture || {}, settingsFromDB || {});
 
-        if (combinedSettings.registry) {
-          combinedSettings.registry = combinedSettings.registry.map((entry) => {
-            if (entry.provides && !Array.isArray(entry.provides)) {
-              entry.provides = [entry.provides];
-              Logger.warn(`Plugin ${combinedSettings.name} is using a deprecated version of the provides property for` +
-                          ` the ${entry.name || entry.route} registry entry. Since v1.5.0 registry provides accepts` +
-                          " an array of strings.");
-            }
-            return entry;
-          });
-        }
-
         // populate array of layouts that don't already exist in Shops
         if (combinedSettings.layout) {
           // filter out layout Templates
@@ -1017,6 +1004,7 @@ export default {
             }
           }
         }
+
         // Import package data
         this.Importer.package(combinedSettings, shopId);
         return Logger.debug(`Initializing ${shop.name} ${pkgName}`);

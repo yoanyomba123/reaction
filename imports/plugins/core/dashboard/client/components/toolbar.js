@@ -1,31 +1,30 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Blaze from "meteor/gadicc:blaze-react-component";
 import { Tracker } from "meteor/tracker";
 import { Components } from "@reactioncommerce/reaction-components";
 import {
   FlatButton,
-  Switch,
   Icon,
   VerticalDivider
 } from "/imports/plugins/core/ui/client/components";
+import ReactComponentOrBlazeTemplate from "/imports/plugins/core/core/client/components/ReactComponentOrBlazeTemplate";
 import { Translatable } from "/imports/plugins/core/ui/client/providers";
 import { Reaction } from "/client/api";
 import ShopSelect from "../components/shopSelect";
 
-class PublishControls extends Component {
+class OperatorToolbar extends Component {
   static propTypes = {
+    customControlsLeft: PropTypes.arrayOf(PropTypes.shape({
+      Component: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+      id: PropTypes.string.isRequired
+    })),
     dashboardHeaderTemplate: PropTypes.oneOfType([PropTypes.func, PropTypes.node, PropTypes.string]),
     documentIds: PropTypes.arrayOf(PropTypes.string),
     documents: PropTypes.arrayOf(PropTypes.object),
     hasCreateProductAccess: PropTypes.bool,
     isEnabled: PropTypes.bool,
-    isPreview: PropTypes.bool,
-    onAddProduct: PropTypes.func,
     onShopSelectChange: PropTypes.func,
-    onViewContextChange: PropTypes.func,
-    onVisibilityChange: PropTypes.func,
-    packageButtons: PropTypes.arrayOf(PropTypes.object),
+    pluginButtons: PropTypes.arrayOf(PropTypes.object),
     shopId: PropTypes.string,
     shops: PropTypes.arrayOf(PropTypes.object),
     showViewAsControls: PropTypes.bool, // eslint-disable-line react/boolean-prop-naming
@@ -53,12 +52,6 @@ class PublishControls extends Component {
   componentWillUnmount() {
     // Unmount the tracker that is checking for `hasShopSwitcherAccess` permission
     this.tracker.stop();
-  }
-
-  onViewContextChange = (event, isChecked) => {
-    if (typeof this.props.onViewContextChange === "function") {
-      this.props.onViewContextChange(event, isChecked ? "administrator" : "customer");
-    }
   }
 
   // Passthrough to shopSelectChange handler in container above
@@ -106,23 +99,6 @@ class PublishControls extends Component {
     return null;
   }
 
-  renderVisibilitySwitch() {
-    if (this.props.hasCreateProductAccess) {
-      return (
-        <Switch
-          i18nKeyLabel="app.editMode"
-          i18nKeyOnLabel="app.editMode"
-          label={"Edit Mode"}
-          onLabel={"Edit Mode"}
-          checked={!this.props.isPreview}
-          onChange={this.onViewContextChange}
-        />
-      );
-    }
-
-    return null;
-  }
-
   renderAdminButton() {
     return (
       <div className="hidden-xs">
@@ -131,11 +107,7 @@ class PublishControls extends Component {
           <FlatButton
             key="dashboard-button"
             onClick={() => {
-              Reaction.showActionView({
-                i18nKeyTitle: "dashboard.coreTitle",
-                title: "Dashboard",
-                template: "dashboardPackages"
-              });
+              Reaction.showActionViewByName("actionViewList");
             }}
           >
             <Icon icon="icon icon-reaction-logo" />
@@ -145,58 +117,46 @@ class PublishControls extends Component {
     );
   }
 
-  renderAddButton() {
-    if (this.props.hasCreateProductAccess) {
-      return (
-        <FlatButton
-          i18nKeyTooltip="app.shortcut.addProductLabel"
-          icon={"fa fa-plus"}
-          tooltip={"Add Product"}
-          onClick={this.props.onAddProduct}
-        />
-      );
-    }
+  renderPluginButtons() {
+    const { pluginButtons } = this.props;
 
-    return null;
+    return (pluginButtons || []).map((pluginButton) => (
+      <FlatButton
+        i18nKeyTooltip={pluginButton.i18nKeyLabel}
+        icon={pluginButton.icon}
+        key={pluginButton.id}
+        onClick={pluginButton.onClick}
+        tooltip={pluginButton.label}
+      />
+    ));
   }
 
-  renderPackageButons() {
-    if (Array.isArray(this.props.packageButtons)) {
-      return this.props.packageButtons.map((packageButton, index) => (
-        <FlatButton {...packageButton} key={index} />
-      ));
-    }
+  renderCustomControlsLeft() {
+    const { customControlsLeft } = this.props;
 
-    return null;
+    return (customControlsLeft || []).map((customControl) => <customControl.Component key={customControl.id} />);
   }
 
-  renderCustomControls() {
-    if (this.props.dashboardHeaderTemplate && this.props.hasCreateProductAccess) {
-      if (this.props.isEnabled) {
-        return [
-          <div className="hidden-xs" key="customControlsVerticaldivider"><VerticalDivider/></div>,
-          <Blaze key="customControls" template={this.props.dashboardHeaderTemplate} />
-        ];
-      }
-      return [
-        <Blaze key="customControls" template={this.props.dashboardHeaderTemplate} />
-      ];
-    }
+  renderCustomControlsRight() {
+    const { dashboardHeaderTemplate, hasCreateProductAccess } = this.props;
 
-    return null;
+    if (!dashboardHeaderTemplate || !hasCreateProductAccess) return null;
+
+    return (
+      <span key="customControls"><ReactComponentOrBlazeTemplate name={dashboardHeaderTemplate} /></span>
+    );
   }
 
   render() {
     return (
       <Components.Toolbar>
         <Components.ToolbarGroup firstChild={true}>
-          {this.renderVisibilitySwitch()}
+          {this.renderCustomControlsLeft()}
           {this.renderShopSelect()}
         </Components.ToolbarGroup>
         <Components.ToolbarGroup lastChild={true}>
-          {this.renderAddButton()}
-          {this.renderPackageButons()}
-          {this.renderCustomControls()}
+          {this.renderPluginButtons()}
+          {this.renderCustomControlsRight()}
         </Components.ToolbarGroup>
         {this.renderAdminButton()}
       </Components.Toolbar>
@@ -204,4 +164,4 @@ class PublishControls extends Component {
   }
 }
 
-export default Translatable()(PublishControls);
+export default Translatable()(OperatorToolbar);

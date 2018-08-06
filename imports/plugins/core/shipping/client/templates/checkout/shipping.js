@@ -192,12 +192,9 @@ Template.coreCheckoutShipping.events({
   "click [data-event-action=configure-shipping]"(event) {
     event.preventDefault();
 
-    const dashboardRegistryEntry = Reaction.Apps({ name: "reaction-dashboard", provides: "shortcut" });
-    const shippingRegistryEntry = Reaction.Apps({ name: "reaction-shipping", provides: "settings" });
+    Reaction.showActionViewByName("actionViewList");
 
-    Reaction.showActionView([
-      dashboardRegistryEntry[0],
-      shippingRegistryEntry[0]
-    ]);
+    const shippingRegistryEntry = Reaction.Apps({ name: "reaction-shipping", provides: "settings" });
+    Reaction.pushActionView(shippingRegistryEntry[0]);
   }
 });

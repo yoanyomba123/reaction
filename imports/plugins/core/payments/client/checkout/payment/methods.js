@@ -38,11 +38,8 @@ function enabledPayments() {
 }
 
 function openActionView() {
-  const dashboardRegistryEntry = Reaction.Apps({ name: "reaction-dashboard", provides: "shortcut" });
-  const paymentRegistryEntry = Reaction.Apps({ name: "reaction-payments", provides: "settings" });
+  Reaction.showActionViewByName("actionViewList");
 
-  Reaction.showActionView([
-    dashboardRegistryEntry[0],
-    paymentRegistryEntry[0]
-  ]);
+  const paymentRegistryEntry = Reaction.Apps({ name: "reaction-payments", provides: "settings" });
+  Reaction.pushActionView(paymentRegistryEntry[0]);
 }

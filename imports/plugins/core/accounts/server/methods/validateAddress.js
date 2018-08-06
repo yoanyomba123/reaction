@@ -2,7 +2,7 @@ import _ from "lodash";
 import { Meteor } from "meteor/meteor";
 import { Packages } from "/lib/collections";
 import Reaction from "/imports/plugins/core/core/server/Reaction";
-import * as Schemas from "/lib/collections/schemas";
+import { Address } from "/lib/collections/schemas";
 
 /**
  * @name getValidator
@@ -12,40 +12,18 @@ import * as Schemas from "/lib/collections/schemas";
  */
 function getValidator() {
   const shopId = Reaction.getShopId();
-  const geoCoders = Packages.find({
-    "registry": { $elemMatch: { provides: "addressValidation" } },
-    "settings.addressValidation.enabled": true,
+  const geoCoder = Packages.findOne({
+    "provides": "addressValidation",
+    "enabled": true,
     shopId,
-    "enabled": true
-  }).fetch();
+    "settings.addressValidation.enabled": true
+  });
 
-  if (!geoCoders.length) {
+  if (!geoCoder) {
     return "";
   }
-  let geoCoder;
-  // Just one?, use that one
-  if (geoCoders.length === 1) {
-    [geoCoder] = geoCoders;
-  }
 
-  geoCoder = geoCoders.find((gC) => {
-    // check if addressValidation is enabled but the package is disabled, don't do address validation
-    let registryName;
-    for (const registry of gC.registry) {
-      if (registry.provides && registry.provides.includes("addressValidation")) {
-        registryName = registry.name;
-      }
-    }
-    const packageKey = registryName.split("/")[2]; // "taxes/addressValidation/{packageKey}"
-    if (!_.get(gC.settings[packageKey], "enabled")) {
-      return false;
-    }
-    return true;
-  });
-  if (geoCoder && geoCoder.settings && geoCoder.settings.addressValidation) {
-    return geoCoder.settings.addressValidation.addressValidationMethod;
-  }
-  return null;
+  return geoCoder.settings.addressValidation.addressValidationMethod;
 }
 
 /**
@@ -138,8 +116,8 @@ function compareAddress(address, validationAddress) {
  * @returns {{validated: boolean, address: *}} - The results of the validation
  */
 export default function validateAddress(address) {
-  Schemas.Address.clean(address);
-  Schemas.Address.validate(address);
+  Address.clean(address);
+  Address.validate(address);
 
   let validated = true;
   let validationErrors;

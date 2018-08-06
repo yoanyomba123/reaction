@@ -9,24 +9,5 @@ Reaction.registerPackage({
     payments: {
       enabled: true
     }
-  },
-  registry: [
-    {
-      provides: ["dashboard"],
-      name: "payments",
-      label: "Payments",
-      description: "Payment Methods",
-      icon: "fa fa-credit-card",
-      priority: 1,
-      container: "core",
-      workflow: "coreDashboardWorkflow"
-    },
-    {
-      label: "Payment Settings",
-      icon: "fa fa-credit-card",
-      name: "payment/settings",
-      provides: ["settings"],
-      template: "paymentSettings"
-    }
-  ]
+  }
 });

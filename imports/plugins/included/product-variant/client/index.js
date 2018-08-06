@@ -1,5 +1,4 @@
-import "./templates/products/productGrid/publishControls.html";
-import "./templates/products/productGrid/publishControls.js";
+import "./registerUI";
 
 import "./templates/products/productSettings/productSettings.html";
 import "./templates/products/productSettings/productSettings.js";

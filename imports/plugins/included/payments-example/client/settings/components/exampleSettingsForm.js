@@ -20,9 +20,9 @@ class ExampleSettingsForm extends Component {
     };
   }
 
-  handleStateChange = (e) => {
+  handleStateChange = (event) => {
     const { settings } = this.state;
-    settings[e.target.name] = e.target.value;
+    settings[event.target.name] = event.target.value;
     this.setState({ settings });
   }
 
@@ -39,8 +39,8 @@ class ExampleSettingsForm extends Component {
     return this.setState({ settings });
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
+  handleSubmit = (event) => {
+    event.preventDefault();
     return this.props.onSubmit(this.state.settings);
   }
 

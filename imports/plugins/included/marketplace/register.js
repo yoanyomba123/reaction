@@ -5,6 +5,10 @@ Reaction.registerPackage({
   name: "reaction-marketplace",
   icon: "fa fa-globe",
   autoEnable: false,
+  permissions: [{
+    label: "Marketplace Shops",
+    permission: "marketplaceShops"
+  }],
   settings: {
     name: "Marketplace",
     enabled: true,
@@ -60,39 +64,5 @@ Reaction.registerPackage({
       merchantShippingRates: false, // Each merchant defines their own shipping rates
       shopPrefix: "/shop" // The prefix for the shop URL
     }
-  },
-  registry: [{
-    label: "Marketplace",
-    icon: "fa fa-globe",
-    provides: ["shopSettings"],
-    container: "dashboard",
-    template: "marketplaceShopSettings",
-    showForShopTypes: ["primary"]
-  }, {
-    route: "shop/settings/shops",
-    template: "MarketplaceShops",
-    name: "marketplaceShops",
-    label: "Marketplace Shops",
-    icon: "fa fa-globe",
-    provides: ["settings"],
-    container: "dashboard",
-    showForShopTypes: ["primary"],
-    meta: {
-      actionView: {
-        dashboardSize: "lg"
-      }
-    },
-    permissions: [{
-      label: "Marketplace Shops",
-      permission: "marketplaceShops"
-    }]
-  }, {
-    // This provides the settings container for marketplaceMerchantSettings
-    label: "My Shop Settings",
-    icon: "fa fa-briefcase",
-    provides: ["shopSettings"],
-    container: "dashboard",
-    template: "marketplaceMerchantSettings",
-    hideForShopTypes: ["primary"]
-  }]
+  }
 });

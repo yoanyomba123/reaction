@@ -8,20 +8,6 @@ Reaction.registerPackage({
   settings: {
     name: "Email"
   },
-  registry: [{
-    label: "Email Settings",
-    description: "Email settings",
-    icon: "fa fa-envelope-o",
-    name: "email/settings",
-    provides: ["settings"],
-    workflow: "coreEmailWorkflow",
-    template: "emailSettings",
-    meta: {
-      actionView: {
-        dashboardSize: "md"
-      }
-    }
-  }],
   layout: [{
     layout: "coreLayout",
     workflow: "coreEmailWorkflow",

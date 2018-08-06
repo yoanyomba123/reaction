@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
-import Blaze from "meteor/gadicc:blaze-react-component";
 import { Admin } from "/imports/plugins/core/ui/client/providers";
 import Radium from "radium";
 import "velocity-animate";
@@ -13,41 +12,31 @@ import {
   Translation,
   Overlay
 } from "/imports/plugins/core/ui/client/components";
-import { getComponent } from "@reactioncommerce/reaction-components";
-
+import ReactComponentOrBlazeTemplate from "/imports/plugins/core/core/client/components/ReactComponentOrBlazeTemplate";
 
 const getStyles = (props) => {
   const minWidth = Math.min(props.viewportWidth, 400);
   let viewSize = minWidth;
   let viewMaxSize = "400px";
+  let shouldAddBoxShadow = false;
   const actionView = props.actionView || {};
-  const provides = actionView.provides || [];
-  // legacy provides could be a string, is an array since 1.5.0, check for either.
-  // prototype.includes has the fortunate side affect of checking string equality as well as array inclusion.
-  const isBigView = provides.includes("dashboard") ||
-                    (provides.includes("shortcut") && actionView.container === "dashboard");
-  if (isBigView) {
-    viewSize = "90vw";
-    viewMaxSize = "100%";
-  }
 
-  if (actionView.meta && actionView.meta.actionView) {
-    const isSmView = actionView.meta.actionView.dashboardSize === "sm";
-    const isMdView = actionView.meta.actionView.dashboardSize === "md";
-    const isLgView = actionView.meta.actionView.dashboardSize === "lg";
-
-    if (isSmView) {
-      viewSize = `${minWidth}px`;
-      viewMaxSize = `${minWidth}px`;
-    }
-    if (isMdView) {
-      viewSize = "50vw";
-      viewMaxSize = "50vw";
-    }
-    if (isLgView) {
+  switch (actionView.dashboardSize) {
+    case "lg":
       viewSize = "90vw";
       viewMaxSize = "90vw";
-    }
+      shouldAddBoxShadow = true;
+      break;
+
+    case "md":
+      viewSize = "50vw";
+      viewMaxSize = "50vw";
+      break;
+
+    default:
+      viewSize = `${minWidth}px`;
+      viewMaxSize = `${minWidth}px`;
+      break;
   }
 
   if (props.actionViewIsOpen === false) {
@@ -62,7 +51,7 @@ const getStyles = (props) => {
       "position": "relative",
       "width": viewSize,
       "maxWidth": viewMaxSize,
-      "boxShadow": isBigView ? "0 0 40px rgba(0,0,0,.1)" : "",
+      "boxShadow": shouldAddBoxShadow ? "0 0 40px rgba(0,0,0,.1)" : "",
       "flex": "0 0 auto",
       "backgroundColor": "white",
       "overflow": "hidden",
@@ -148,7 +137,6 @@ class ActionView extends Component {
   static propTypes = {
     actionView: PropTypes.object,
     actionViewIsOpen: PropTypes.bool, // eslint-disable-line react/boolean-prop-naming
-    buttons: PropTypes.array,
     detailView: PropTypes.object,
     detailViewIsOpen: PropTypes.bool, // eslint-disable-line react/boolean-prop-naming
     handleActionViewBack: PropTypes.func,
@@ -220,52 +208,33 @@ class ActionView extends Component {
   }
 
   renderControlComponent() {
-    if (this.props.actionView && typeof this.props.actionView.template === "string") {
-      // Render a react component if one has been registered by name
-      try {
-        const component = getComponent(this.props.actionView.template);
+    const { actionView } = this.props;
 
-        return (
-          <div style={this.styles.masterView} className="master">
-            {React.createElement(component, this.props.actionView.data)}
-          </div>
-        );
-      } catch (e) {
-        return (
-          <div style={this.styles.masterView} className="master">
-            <Blaze
-              {...this.props.actionView.data}
-              template={this.props.actionView.template}
-            />
-          </div>
-        );
-      }
-    }
+    if (!actionView) return null;
 
-    return null;
+    return (
+      <div style={this.styles.masterView} className="master">
+        <ReactComponentOrBlazeTemplate
+          name={actionView.template}
+          props={actionView.data}
+        />
+      </div>
+    );
   }
 
   renderDetailComponent() {
-    if (this.props.detailView && typeof this.props.detailView.template === "string") {
-      return (
-        <div style={this.styles.detailView} className="detail">
-          <Blaze
-            {...this.props.detailView.data}
-            template={this.props.detailView.template}
-          />
-        </div>
-      );
-    }
+    const { detailView } = this.props;
 
-    return null;
-  }
+    if (!detailView) return null;
 
-  renderFooter() {
-    // if (this.props.footerTemplate) {
-    //   return (
-    //     <Blaze template={this.props.footerTemplate} />
-    //   );
-    // }
+    return (
+      <div style={this.styles.detailView} className="detail">
+        <ReactComponentOrBlazeTemplate
+          name={detailView.template}
+          props={detailView.data}
+        />
+      </div>
+    );
   }
 
   renderBackButton() {
@@ -303,11 +272,8 @@ class ActionView extends Component {
   }
 
   get actionViewIsLargeSize() {
-    const { meta } = this.props.actionView;
-    const dashboardSize = (meta && meta.actionView && meta.actionView.dashboardSize) || "sm";
-    const includesDashboard = this.props.actionView.provides && this.props.actionView.provides.includes("dashboard");
-
-    return includesDashboard || dashboardSize !== "sm";
+    const { dashboardSize } = this.props.actionView;
+    return dashboardSize && dashboardSize !== "sm";
   }
 
   get showOverlay() {
@@ -396,9 +362,7 @@ class ActionView extends Component {
           </div>
         </div>
         <div style={this.styles.body} className="admin-controls-content action-view-body">
-
           {this.renderControlComponent()}
-
         </div>
       </div>
 
@@ -415,38 +379,36 @@ class ActionView extends Component {
       "action-view-detail": true
     });
 
-    if (this.props.detailViewIsOpen) {
-      return (
-        <div className={baseClassName} style={this.styles.detailViewPanel}>
-          <div style={this.styles.header} className="header">
-            <VelocityTransitionGroup
-              enter={this.backButtonEnterAnimation}
-              leave={this.backButtonLeaveAnimation}
-            >
-              {this.renderDetailViewBackButton()}
-            </VelocityTransitionGroup>
+    if (!this.props.detailViewIsOpen) return null;
 
-            <div style={this.styles.heading} className="heading">
-              <h3 className="title" style={this.styles.title}>
-                <Translation
-                  defaultValue={actionView.label}
-                  i18nKey={actionView.i18nKeyLabel}
-                />
-              </h3>
-            </div>
+    return (
+      <div className={baseClassName} style={this.styles.detailViewPanel}>
+        <div style={this.styles.header} className="header">
+          <VelocityTransitionGroup
+            enter={this.backButtonEnterAnimation}
+            leave={this.backButtonLeaveAnimation}
+          >
+            {this.renderDetailViewBackButton()}
+          </VelocityTransitionGroup>
 
-            <div className="controls">
-              {/* Controls */}
-            </div>
+          <div style={this.styles.heading} className="heading">
+            <h3 className="title" style={this.styles.title}>
+              <Translation
+                defaultValue={actionView.label}
+                i18nKey={actionView.i18nKeyLabel}
+              />
+            </h3>
           </div>
-          <div style={this.styles.body} className="admin-controls-content action-view-body">
 
-            {/* this.renderControlComponent() */}
-            {this.renderDetailComponent()}
+          <div className="controls">
+            {/* Controls */}
           </div>
         </div>
-      );
-    }
+        <div style={this.styles.body} className="admin-controls-content action-view-body">
+          {this.renderDetailComponent()}
+        </div>
+      </div>
+    );
   }
 
   renderActionView() {
@@ -461,7 +423,6 @@ class ActionView extends Component {
     if (this.props.actionViewIsOpen) {
       return (
         <div style={this.styles.base} className={baseClassName} role="complementary">
-
           {this.renderMasterView()}
           <Overlay
             isVisible={this.showDetailViewOverlay}
@@ -473,13 +434,6 @@ class ActionView extends Component {
           >
             {this.renderDetailView()}
           </VelocityTransitionGroup>
-
-
-          <div className="admin-controls-footer">
-            <div className="admin-controls-container">
-              {this.renderFooter()}
-            </div>
-          </div>
         </div>
       );
     }

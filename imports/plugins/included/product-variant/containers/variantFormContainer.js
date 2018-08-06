@@ -12,6 +12,14 @@ import { TaxCodes } from "/imports/plugins/core/taxes/lib/collections";
 import { ProductVariant } from "/lib/collections/schemas";
 import VariantForm from "../components/variantForm";
 
+function getProvider() {
+  return Packages.findOne({
+    enabled: true,
+    provides: "taxCodes",
+    shopId: Reaction.getShopId()
+  });
+}
+
 const wrapComponent = (Comp) => (
   class VariantFormContainer extends Component {
     static propTypes = {
@@ -51,58 +59,20 @@ const wrapComponent = (Comp) => (
       }
     }
 
-    isProviderEnabled = () => {
-      const shopId = Reaction.getShopId();
-
-      const provider = Packages.findOne({
-        shopId,
-        "registry.provides": "taxCodes",
-        "$where"() {
-          const providerName = this.name.split("-")[1];
-          return this.settings[providerName].enabled;
-        }
-      });
-
-      if (provider) {
-        return true;
-      }
-      return false;
-    }
+    isProviderEnabled = () => !!getProvider()
 
     fetchTaxCodes = () => {
-      const shopId = Reaction.getShopId();
-      const provider = Packages.findOne({
-        shopId,
-        "registry.provides": "taxCodes",
-        "$where"() {
-          const providers = this.registry.filter((o) => o.provides && o.provides.includes("taxCodes"));
-          const providerName = providers[0].name.split("/")[2];
-
-          return this.settings[providerName].enabled;
-        }
-      });
-      const taxCodesArray = [];
-
-      const codes = TaxCodes.find({
-        shopId,
+      const provider = getProvider();
+      return TaxCodes.find({
+        shopId: Reaction.getShopId(),
         taxCodeProvider: provider.name
-      }).fetch();
-
-      codes.forEach((code) => {
-        taxCodesArray.push({
-          value: code.taxCode,
-          label: `${code.taxCode} | ${code.label}`
-        });
-      });
-      return taxCodesArray;
+      }).map((code) => ({
+        value: code.taxCode,
+        label: `${code.taxCode} | ${code.label}`
+      }));
     }
 
-    hasChildVariants = (variant) => {
-      if (ReactionProduct.checkChildVariants(variant._id) > 0) {
-        return true;
-      }
-      return false;
-    }
+    hasChildVariants = (variant) => (ReactionProduct.checkChildVariants(variant._id) > 0)
 
     greyDisabledFields = (variant) => {
       if (this.hasChildVariants(variant)) {

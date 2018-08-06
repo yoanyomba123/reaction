@@ -8,14 +8,6 @@ export default function () {
     autoEnable: true,
     settings: {
       name: "Layout"
-    },
-    registry: [{
-      provides: ["dashboard"],
-      label: "Routing",
-      description: "Routing utilities",
-      icon: "fa fa-share-square-o",
-      priority: 1,
-      container: "utilities"
-    }]
+    }
   });
 }

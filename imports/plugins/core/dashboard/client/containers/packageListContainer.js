@@ -1,9 +1,9 @@
 import React from "react";
 import { composeWithTracker } from "@reactioncommerce/reaction-components";
 import { Meteor } from "meteor/meteor";
-import { Template } from "meteor/templating";
 import { Roles } from "meteor/alanning:roles";
 import { Reaction } from "/client/api";
+import { getActionViews } from "/imports/client-plugin-registry";
 
 /**
  * Push package into action view navigation stack
@@ -17,21 +17,17 @@ function handleShowPackage(event, app) {
 }
 
 /**
- * Open full dashbaord menu
+ * Open full dashboard menu
  * @return {undefined} No return value
  * @private
  */
 function handleShowDashboard() {
   Reaction.hideActionViewDetail();
-  Reaction.showActionView({
-    i18nKeyTitle: "dashboard.coreTitle",
-    title: "Dashboard",
-    template: "dashboardPackages"
-  });
+  Reaction.showActionViewByName("actionViewList");
 }
 
 /**
- * Push dashbaord & package into action view navigation stack
+ * Push dashboard & package into action view navigation stack
  * @param  {SyntheticEvent} event Original event
  * @param  {Object} app Package data
  * @return {undefined} No return value
@@ -43,11 +39,12 @@ function handleOpenShortcut(event, app) {
 }
 
 function composer(props, onData) {
-  const audience = Roles.getRolesForUser(Meteor.userId(), Reaction.getShopId());
-  const settings = Reaction.Apps({ provides: "settings", enabled: true, audience }) || [];
+  const roles = Roles.getRolesForUser(Meteor.userId(), Reaction.getShopId());
 
-  const dashboard = Reaction.Apps({ provides: "dashboard", enabled: true, audience })
-    .filter((d) => typeof Template[d.template] !== "undefined") || [];
+  let actions = getActionViews({ roles, type: "action" });
+  actions = actions.filter((view) => view.name !== "actionViewList"); // don't include a link to self
+
+  const settings = getActionViews({ roles, type: "setting" });
 
   onData(null, {
     currentView: Reaction.getActionView(),
@@ -55,7 +52,7 @@ function composer(props, onData) {
       actions: {
         title: "Actions",
         i18nKeyTitle: "admin.dashboard.packageGroupActionsLabel",
-        packages: dashboard
+        packages: actions
       },
       settings: {
         title: "Settings",

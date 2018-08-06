@@ -1,3 +1,5 @@
+import "./registerUI";
+
 import "./templates/productDetailSimple.html";
 import "./templates/productDetailSimple.js";
 import { registerComponent } from "@reactioncommerce/reaction-components";

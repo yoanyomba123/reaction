@@ -5,9 +5,10 @@
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { Components, registerComponent, composeWithTracker } from "@reactioncommerce/reaction-components";
 import Blaze from "meteor/gadicc:blaze-react-component";
 import { Reaction } from "/client/api";
-import { Components, registerComponent, composeWithTracker } from "@reactioncommerce/reaction-components";
+import ReactComponentOrBlazeTemplate from "/imports/plugins/core/core/client/components/ReactComponentOrBlazeTemplate";
 
 class SettingsCard extends Component {
   static defaultProps = {
@@ -59,9 +60,11 @@ class SettingsCard extends Component {
   }
 
   renderCardBody() {
-    if (this.props.template) {
+    const { template } = this.props;
+
+    if (template) {
       return (
-        <Blaze template={this.props.template} />
+        <ReactComponentOrBlazeTemplate name={template} />
       );
     }
 

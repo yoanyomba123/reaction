@@ -13,36 +13,15 @@ Reaction.registerPackage({
   autoEnable: true,
   settings: {},
   registry: [{
-    route: "/dashboard/accounts",
-    name: "accounts",
-    provides: ["dashboard"],
-    label: "Accounts",
-    description: "Manage how members sign into your shop.",
-    icon: "fa fa-users",
-    container: "core",
-    template: "accountsDashboard",
-    workflow: "coreAccountsWorkflow",
-    priority: 1
-  }, {
     route: "/account/profile/verify",
     label: "Account Verify",
     name: "account/verify",
     workflow: "coreAccountsWorkflow",
     template: "VerifyAccount"
   }, {
-    label: "Account Settings",
-    icon: "fa fa-sign-in",
-    provides: ["settings"],
-    route: "/dashboard/account/settings",
-    container: "accounts",
-    workflow: "coreAccountsWorkflow",
-    template: "accountsSettings",
-    showForShopTypes: ["primary"]
-  }, {
     route: "/dashboard/accounts",
     name: "dashboard/accounts",
     workflow: "coreAccountsWorkflow",
-    provides: ["shortcut"],
     label: "Accounts",
     icon: "fa fa-users",
     priority: 1,
@@ -53,8 +32,7 @@ Reaction.registerPackage({
     template: "accountProfile",
     name: "account/profile",
     label: "Profile",
-    icon: "fa fa-user",
-    provides: ["userAccountDropdown"]
+    icon: "fa fa-user"
   }],
   layout: [{
     layout: "coreLayout",

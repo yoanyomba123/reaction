@@ -1,35 +1,11 @@
 import React from "react";
 import { Meteor } from "meteor/meteor";
-import { Session } from "meteor/session";
+import { Roles } from "meteor/alanning:roles";
 import { composeWithTracker } from "@reactioncommerce/reaction-components";
-import { Reaction, i18next } from "/client/api";
-import { Tags, Shops } from "/lib/collections";
+import { Reaction } from "/client/api";
+import { Shops } from "/lib/collections";
 import { AdminContextProvider } from "/imports/plugins/core/ui/client/providers";
-
-const handleAddProduct = () => {
-  Reaction.setUserPreferences("reaction-dashboard", "viewAs", "administrator");
-  Meteor.call("products/createProduct", (error, productId) => {
-    if (Meteor.isClient) {
-      let currentTag;
-      let currentTagId;
-
-      if (error) {
-        throw new Meteor.Error("create-product-error", error);
-      } else if (productId) {
-        currentTagId = Session.get("currentTag");
-        currentTag = Tags.findOne(currentTagId);
-        if (currentTag) {
-          Meteor.call("products/updateProductTags", productId, currentTag.name, currentTagId);
-        }
-        Session.set("productGrid/selectedProducts", [productId]);
-        // go to new product
-        Reaction.Router.go("product", {
-          handle: productId
-        });
-      }
-    }
-  });
-};
+import { getOperatorToolbarButtonsByRoles, getOperatorToolbarCustomControlsLeftByRoles } from "/imports/client-plugin-registry";
 
 /**
  * @summary Handler that fires when the shop selector is changed
@@ -46,51 +22,25 @@ const handleShopSelectChange = (event, shopId) => {
 
 function composer(props, onData) {
   // Reactive data sources
-  const routeName = Reaction.Router.getRouteName();
   const shopIds = Reaction.getShopsForUser(["owner", "admin", "dashboard"]);
   const shops = Shops.find({
     _id: { $in: shopIds }
   }).fetch();
-  // Standard variables
-  const packageButtons = [];
 
-  if (routeName !== "dashboard" && props.showPackageShortcuts) {
-    const registryItems = Reaction.Apps({ provides: "settings", container: "dashboard" });
-
-    for (const item of registryItems) {
-      if (Reaction.hasPermission(item.route, Meteor.userId())) {
-        let { icon } = item;
-        if (!item.icon && item.provides && item.provides.includes("settings")) {
-          icon = "gear";
-        }
-
-        packageButtons.push({
-          href: item.route,
-          icon,
-          tooltip: i18next.t(item.i18nKeyLabel, item.i18n),
-          tooltipPosition: "left middle",
-          onClick() {
-            Reaction.showActionView(item);
-          }
-        });
-      }
-    }
-  }
+  const roles = Roles.getRolesForUser(Meteor.userId(), Reaction.getShopId());
+  const pluginButtons = getOperatorToolbarButtonsByRoles(roles);
+  const customControlsLeft = getOperatorToolbarCustomControlsLeftByRoles(roles);
 
   onData(null, {
-    packageButtons,
-    dashboardHeaderTemplate: props.data.dashboardHeader,
-    isPreview: Reaction.isPreview(),
-    isActionViewAtRootView: Reaction.isActionViewAtRootView(),
     actionViewIsOpen: Reaction.isActionViewOpen(),
+    customControlsLeft,
+    dashboardHeaderTemplate: props.data.dashboardHeader,
     hasCreateProductAccess: Reaction.hasPermission("createProduct", Meteor.userId(), Reaction.getShopId()),
-    shopId: Reaction.getShopId(),
-    shops,
-
-    // Callbacks
-    onAddProduct: handleAddProduct,
+    isActionViewAtRootView: Reaction.isActionViewAtRootView(),
     onShopSelectChange: handleShopSelectChange,
-    onViewContextChange: props.handleViewContextChange
+    pluginButtons,
+    shopId: Reaction.getShopId(),
+    shops
   });
 }
 

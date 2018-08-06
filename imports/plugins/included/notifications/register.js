@@ -5,15 +5,15 @@ Reaction.registerPackage({
   name: "reaction-notification",
   icon: "fa fa-bell",
   autoEnable: true,
+  permissions: [{
+    label: "Notifications",
+    permission: "notifications"
+  }],
   registry: [{
     label: "Notifications",
     name: "notifications",
     route: "/notifications",
     workflow: "coreWorkflow",
-    permissions: [{
-      label: "Notifications",
-      permission: "notifications"
-    }],
     template: "notificationRoute"
   }]
 });

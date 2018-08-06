@@ -22,11 +22,7 @@ class NotificationRoute extends Component {
 
   handleClick = (event, notify) => {
     if (notify.type === "forAdmin") {
-      const actionViewData = Reaction.Apps({
-        name: "reaction-orders",
-        provides: "dashboard"
-      });
-      Reaction.showActionView(actionViewData);
+      Reaction.showActionViewByName("orders");
     } else {
       Reaction.Router.go(notify.url);
     }

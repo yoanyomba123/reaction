@@ -28,14 +28,14 @@ class ShortcutBar extends Component {
       return map(this.props.groupedPackages, (group, groupName) => {
         // Loop through the individual cards of packages
         if (Array.isArray(group.packages)) {
-          const items = group.packages.map((packageData, index) => {
+          const items = group.packages.map((packageData) => {
             const isActive = isEqual(this.props.currentView, packageData);
 
             // Standard list element
             return (
               <FlatButton
                 active={isActive}
-                key={index}
+                key={packageData.id}
                 i18nKeyTooltip={packageData.i18nKeyLabel}
                 icon={packageData.icon}
                 onClick={this.props.handleOpenShortcut}

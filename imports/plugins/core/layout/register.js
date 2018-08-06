@@ -7,13 +7,5 @@ Reaction.registerPackage({
   autoEnable: true,
   settings: {
     name: "Layout"
-  },
-  registry: [{
-    provides: ["dashboard"],
-    label: "Layout",
-    description: "Layout utilities",
-    icon: "fa fa-object-group",
-    priority: 1,
-    container: "appearance"
-  }]
+  }
 });

@@ -22,25 +22,5 @@ Reaction.registerPackage({
         vendor: 4
       }
     }
-  },
-  registry: [
-    // Dashboard card
-    {
-      provides: ["dashboard"],
-      label: "Search",
-      description: "Search",
-      icon: "fa fa-search",
-      priority: 2,
-      container: "core"
-    },
-    // Settings Panel
-    {
-      label: "Search Settings",
-      icon: "fa fa-search",
-      route: "/dashboard/search",
-      provides: ["settings"],
-      container: "dashboard",
-      template: "searchSettings"
-    }
-  ]
+  }
 });

@@ -5,6 +5,8 @@ import { Meteor } from "meteor/meteor";
 import { Reaction, i18next } from "/client/api";
 import { ExampleSettingsForm } from "../components";
 
+const settingsKey = "example-paymentmethod";
+
 class ExampleSettingsFormContainer extends Component {
   constructor(props) {
     super(props);
@@ -18,16 +20,13 @@ class ExampleSettingsFormContainer extends Component {
     this.saveUpdate = this.saveUpdate.bind(this);
   }
 
-  handleChange(e) {
-    e.preventDefault();
-    this.setState({ apiKey: e.target.value });
+  handleChange(event) {
+    event.preventDefault();
+    this.setState({ apiKey: event.target.value });
   }
 
   handleSubmit(settings) {
-    // e.preventDefault();
-
-    const packageId = this.props.packageData._id;
-    const { settingsKey } = this.props.packageData.registry[0];
+    const { packageData } = this.props;
 
     const fields = [{
       property: "apiKey",
@@ -37,10 +36,10 @@ class ExampleSettingsFormContainer extends Component {
       value: settings.support
     }];
 
-    this.saveUpdate(fields, packageId, settingsKey);
+    this.saveUpdate(fields, packageData._id);
   }
 
-  saveUpdate(fields, id, settingsKey) {
+  saveUpdate(fields, id) {
     Meteor.call("registry/update", id, settingsKey, fields, (err) => {
       if (err) {
         return Alerts.toast(i18next.t("admin.settings.saveFailed"), "error");
@@ -50,7 +49,6 @@ class ExampleSettingsFormContainer extends Component {
   }
 
   render() {
-    const { settingsKey } = this.props.packageData.registry[0];
     return (
       <ExampleSettingsForm
         onChange={this.handleChange}

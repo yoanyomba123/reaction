@@ -70,7 +70,7 @@
       </div>
     </div>
 
-    {{#each reactionApps provides='shopSettings'}}
+    {{#each customShopSettingsForms}}
       <div class="panel panel-default">
         <div class="panel-heading panel-heading-flex">
           <div class="panel-title">
@@ -86,12 +86,12 @@
           </div>
           {{#if showAppSwitch template}}
           <div class="panel-controls">
-            <input class="checkbox-switch" type="checkbox" name="enabled" data-id={{packageId}} data-key="{{settingsKey}}" {{checked enabled}}>
+            <input class="checkbox-switch" type="checkbox" name="enabled" data-id={{pkg._id}} data-key="{{settingsKey}}" {{checked pkg.enabled}}>
           </div>
           {{/if}}
         </div>
         <div id="collapsable-{{template}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapsable-{{template}}">
-          <div class="panel-body {{shown enabled}}">
+          <div class="panel-body {{shown pkg.enabled}}">
             {{> Template.dynamic template=template data=.}}
           </div>
         </div>

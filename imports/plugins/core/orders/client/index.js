@@ -1,3 +1,5 @@
+import "./registerUI";
+
 import "./helpers";
 
 import "./templates/list/pdf.html";

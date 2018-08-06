@@ -4,18 +4,20 @@ import { check, Match } from "meteor/check";
 import { Roles } from "meteor/alanning:roles";
 import { Packages } from "/lib/collections";
 import Reaction from "/imports/plugins/core/core/server/Reaction";
-import { translateRegistry } from "/lib/api";
 
-// for transforming packages before publication sets some defaults for the client and adds i18n while checking
-// privileged settings for enabled status.
+/**
+ * @summary Transforms the document to remove all non-public settings if the user
+ *   should not see them
+ * @param {Object} doc The Package document
+ * @param {String} userId The current user ID
+ * @returns {Object} Transformed document
+ */
 function transform(doc, userId) {
-  const registrySettings = {};
-  const packageSettings = {};
   let permissions = ["admin", "owner", doc.name];
 
   // Get all permissions, add them to an array
-  if (doc.registry && doc.registry.permissions) {
-    for (const item of doc.registry.permissions) {
+  if (doc.permissions) {
+    for (const item of doc.permissions) {
       permissions.push(item.permission);
     }
   }
@@ -24,45 +26,18 @@ function transform(doc, userId) {
   // check for admin,owner or package permissions to view settings
   const hasAdmin = Roles.userIsInRole(userId, permissions, doc.shopId);
 
-  if (doc.registry) {
-    for (let registry of doc.registry) {
-      // add some normalized defaults
-      registry.packageId = doc._id;
-      registry.shopId = doc.shopId;
-      registry.packageName = registry.packageName || doc.name;
-      [registry.settingsKey] = (registry.name || doc.name).split("/").splice(-1);
-      // check and set package enabled state
-      registry.permissions = [...permissions];
-      if (registry.route) {
-        registry.permissions.push(registry.name || `${doc.name}/${registry.template}`);
-      }
-      if (doc.settings && doc.settings[registry.settingsKey]) {
-        registry.enabled = !!doc.settings[registry.settingsKey].enabled;
-      } else {
-        registry.enabled = !!doc.enabled;
-      }
-      // define export settings
-      registrySettings[registry.settingsKey] = {
-        enabled: registry.enabled
-      };
-
-      // add i18n keys
-      registry = translateRegistry(registry, doc);
-    }
-  }
   // admin users get all settings the intent of this it so block publication of settings without limiting the use settings
   // in this transform. non admin users should get public setting
-  if (hasAdmin === false && doc.settings) {
-    registrySettings.public = doc.settings.public;
-    delete doc.settings;
-    Object.assign(packageSettings, registrySettings);
-    doc.settings = packageSettings;
+  if (!hasAdmin && doc.settings) {
+    doc.settings = {
+      public: doc.settings.public
+    };
   }
 
   return doc;
 }
 
-Meteor.publish("Packages", function (shopId) {
+Meteor.publish("Packages", function publishPackages(shopId) {
   check(shopId, Match.Maybe(String));
 
   const self = this;
@@ -121,4 +96,6 @@ Meteor.publish("Packages", function (shopId) {
     }
     return self.ready();
   }
+
+  return self.ready();
 });

@@ -5,6 +5,10 @@ Reaction.registerPackage({
   name: "reaction-product-variant",
   icon: "fa fa-cubes",
   autoEnable: true,
+  permissions: [{
+    label: "Create Product",
+    permission: "createProduct"
+  }],
   registry: [{
     route: "/tag/:slug?",
     name: "tag",
@@ -16,13 +20,7 @@ Reaction.registerPackage({
     label: "Add Product",
     icon: "fa fa-plus",
     template: "productDetail",
-    provides: ["shortcut"],
-    container: "addItem",
-    priority: 1,
-    permissions: [{
-      label: "Create Product",
-      permission: "createProduct"
-    }]
+    priority: 1
   }],
   layout: [{
     layout: "coreLayout",
@@ -35,7 +33,7 @@ Reaction.registerPackage({
       layoutHeader: "NavBar",
       layoutFooter: "",
       notFound: "productNotFound",
-      dashboardHeader: "productDetailSimpleToolbar",
+      dashboardHeader: "ProductPublish",
       dashboardControls: "productDetailDashboardControls",
       dashboardHeaderControls: "",
       adminControlsFooter: "adminControlsFooter"
@@ -51,7 +49,7 @@ Reaction.registerPackage({
       layoutHeader: "NavBar",
       layoutFooter: "",
       notFound: "productNotFound",
-      dashboardHeader: "gridPublishControls",
+      dashboardHeader: "GridProductPublish",
       dashboardControls: "productDetailDashboardControls",
       dashboardHeaderControls: "",
       adminControlsFooter: "adminControlsFooter"

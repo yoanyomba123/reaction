@@ -42,13 +42,7 @@ const wrapComponent = (Comp) => (
             Session.set("productGrid/selectedProducts", []);
 
             // Reset the action view of selected products
-            Reaction.setActionView({
-              label: "Grid Settings",
-              i18nKeyLabel: "gridSettingsPanel.title",
-              template: "productSettings",
-              type: "product",
-              data: {}
-            });
+            Reaction.setActionViewByName("gridSettings");
           }
         }
       }
@@ -146,11 +140,7 @@ const wrapComponent = (Comp) => (
       // Open actionView to productDetails panel
       Reaction.state.set("edit/focus", "productDetails");
 
-      Reaction.setActionView({
-        i18nKeyLabel: "productDetailEdit.productSettings",
-        label: "Product Settings",
-        template: "ProductAdmin"
-      });
+      Reaction.setActionViewByName("editProduct");
 
       if (this.props.isSearch) {
         this.props.unmountMe();

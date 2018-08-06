@@ -11,6 +11,10 @@ Reaction.registerPackage({
   name: "reaction-social",
   icon: "fa fa-share-alt",
   autoEnable: true,
+  permissions: [{
+    label: "Social",
+    permission: "dashboard/social"
+  }],
   settings: {
     public: {
       autoInit: true,
@@ -33,24 +37,6 @@ Reaction.registerPackage({
     }
   },
   registry: [{
-    provides: ["dashboard"],
-    label: "Social",
-    description: "Social Channel configuration",
-    icon: "fa fa-share-alt",
-    priority: 2,
-    container: "connect",
-    permissions: [{
-      label: "Social",
-      permission: "dashboard/social"
-    }]
-  }, {
-    label: "Social Settings",
-    icon: "fa fa-share-alt",
-    route: "/dashboard/social",
-    provides: ["settings"],
-    container: "dashboard",
-    template: "socialSettings"
-  }, {
     template: "reactionSocial",
     provides: ["social"]
   }]

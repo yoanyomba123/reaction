@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Components } from "@reactioncommerce/reaction-components";
-import { Reaction } from "/client/api";
 import Login from "./login";
 
 const iconStyle = {
@@ -19,12 +18,17 @@ const menuStyle = {
 
 class MainDropdown extends Component {
   static propTypes = {
-    adminShortcuts: PropTypes.object,
     currentAccount: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
     handleChange: PropTypes.func,
+    menuItems: PropTypes.arrayOf(PropTypes.shape({
+      i18nKeyLabel: PropTypes.string,
+      icon: PropTypes.string,
+      id: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      onClick: PropTypes.func.isRequired
+    })),
     userImage: PropTypes.object,
-    userName: PropTypes.string,
-    userShortcuts: PropTypes.object
+    userName: PropTypes.string
   }
 
   buttonElement() {
@@ -40,31 +44,15 @@ class MainDropdown extends Component {
     );
   }
 
-  renderAdminIcons() {
+  renderMenuItems() {
     return (
-      Reaction.Apps(this.props.adminShortcuts).map((shortcut) => (
+      this.props.menuItems.map((option) => (
         <Components.MenuItem
-          key={shortcut.packageId}
-          className="accounts-a-tag"
-          label={shortcut.label}
-          i18nKeyLabel={shortcut.i18nKeyLabel}
-          icon={shortcut.icon}
-          iconStyle={iconStyle}
-          value={shortcut}
-        />
-      ))
-    );
-  }
-
-  renderUserIcons() {
-    return (
-      Reaction.Apps(this.props.userShortcuts).map((option) => (
-        <Components.MenuItem
-          key={option.packageId}
+          key={option.id}
           className="accounts-a-tag"
           label={option.label}
           i18nKeyLabel={option.i18nKeyLabel}
-          icon={option.icon && option.icon}
+          icon={option.icon}
           iconStyle={iconStyle}
           value={option}
         />
@@ -118,8 +106,7 @@ class MainDropdown extends Component {
                 attachment: "together"
               }]}
             >
-              {this.renderUserIcons()}
-              {this.renderAdminIcons()}
+              {this.renderMenuItems()}
               {this.renderSignOutButton()}
             </Components.DropDownMenu>
           </div>

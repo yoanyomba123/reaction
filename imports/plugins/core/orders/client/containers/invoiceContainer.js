@@ -607,23 +607,7 @@ const composer = (props, onData) => {
     totalItems: _.sumBy(order.items, (item) => (item.shopId === shopId ? item.quantity : 0))
   });
 
-  // get discounts
-  const enabledPaymentsArr = [];
-  const apps = Reaction.Apps({
-    provides: "paymentMethod",
-    enabled: true
-  });
-  for (const app of apps) {
-    if (app.enabled === true) enabledPaymentsArr.push(app);
-  }
-  let discounts = false;
-
-  for (const enabled of enabledPaymentsArr) {
-    if (enabled.packageName === "discount-codes") {
-      discounts = true;
-      break;
-    }
-  }
+  const discounts = Reaction.isPluginEnabled("discount-codes");
 
   // get unique lineItems
   const shipment = props.currentData.fulfillment;

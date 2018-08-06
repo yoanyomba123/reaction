@@ -313,10 +313,6 @@ const wrapComponent = (Comp) =>
       });
     };
 
-    handleViewContextChange = (event, value) => {
-      Reaction.Router.setQueryParams({ as: value });
-    };
-
     handleDeleteProduct = () => {
       ReactionProduct.archiveProduct(this.props.product);
     };
@@ -335,7 +331,6 @@ const wrapComponent = (Comp) =>
             mediaGalleryComponent={<Components.MediaGallery media={media} />}
             onAddToCart={this.handleAddToCart}
             onCartQuantityChange={this.handleCartQuantityChange}
-            onViewContextChange={this.handleViewContextChange}
             socialComponent={<SocialContainer />}
             topVariantComponent={<VariantListContainer />}
             onDeleteProduct={this.handleDeleteProduct}

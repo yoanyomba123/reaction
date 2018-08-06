@@ -3,8 +3,9 @@ import { Meteor } from "meteor/meteor";
 import { Template } from "meteor/templating";
 import { AutoForm } from "meteor/aldeed:autoform";
 import { Reaction, i18next } from "/client/api";
-import { Shops } from "/lib/collections";
+import { Packages, Shops } from "/lib/collections";
 import { Media } from "/imports/plugins/core/files/client";
+import { getSettingsForms } from "/imports/client-plugin-registry";
 import ShopBrandMediaManager from "./ShopBrandMediaManager";
 
 
@@ -80,6 +81,15 @@ Template.shopSettings.helpers({
 
     // If marketplace is disabled, every shop can switch apps
     return true;
+  },
+  customShopSettingsForms() {
+    const shop = Shops.findOne({
+      _id: Reaction.getShopId()
+    });
+    return shop ? getSettingsForms({ location: "shopSettings", shopType: shop.shopType }) : [];
+  },
+  pkg() {
+    return Packages.findOne({ name: this.pluginName });
   }
 });
 

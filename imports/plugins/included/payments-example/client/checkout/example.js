@@ -75,7 +75,7 @@ AutoForm.addHooks("example-payment-form", {
         paymentMethod = {
           processor: "Example",
           paymentPackageId: packageData._id,
-          paymentSettingsKey: packageData.registry[0].settingsKey,
+          paymentSettingsKey: "example-paymentmethod",
           storedCard,
           method: "credit",
           transactionId: transaction.transactionId,

@@ -1,3 +1,5 @@
+import "./registerUI";
+
 export { default as AccountsDashboard } from "./components/accountsDashboard";
 export { default as AddressBookForm } from "./components/addressBookForm";
 export { default as AddressBookReview } from "./components/addressBookReview";

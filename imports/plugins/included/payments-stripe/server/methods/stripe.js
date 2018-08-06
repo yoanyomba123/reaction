@@ -172,9 +172,7 @@ function buildPaymentMethods(options) {
         storedCard,
         method: "credit",
         paymentPackageId: packageData._id,
-        // TODO: REVIEW WITH AARON - why is paymentSettings key important
-        // and why is it just defined on the client?
-        paymentSettingsKey: packageData.name.split("/").splice(-1)[0],
+        paymentSettingsKey: "reaction-stripe",
         transactionId: transactionsByShopId[shopId].id,
         amount: transactionsByShopId[shopId].amount * 0.01,
         status: normalizeStatus(transactionsByShopId[shopId]),

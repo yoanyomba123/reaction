@@ -2,11 +2,10 @@ import { compose, withProps } from "recompose";
 import { Meteor } from "meteor/meteor";
 import { Accounts } from "meteor/accounts-base";
 import { Roles } from "meteor/alanning:roles";
-import { Session } from "meteor/session";
 import { registerComponent, composeWithTracker, withCurrentAccount } from "@reactioncommerce/reaction-components";
 import { i18nextDep, i18next, Reaction, Logger } from "/client/api";
-import { Tags } from "/lib/collections";
 import { getUserAvatar } from "/imports/plugins/core/accounts/client/helpers/helpers";
+import { getAccountDropdownOptionsByRoles } from "/imports/client-plugin-registry";
 import MainDropdown from "../components/mainDropdown";
 
 function displayName(displayUser) {
@@ -34,22 +33,17 @@ function displayName(displayUser) {
   }
 }
 
-function getAdminShortcutIcons() {
-  // get shortcuts with audience permissions based on user roles
-  const roles = Roles.getRolesForUser(Meteor.userId(), Reaction.getShopId());
-
-  return {
-    provides: "shortcut",
-    enabled: true,
-    audience: roles
-  };
-}
-
+/**
+ * @summary change handler function for when a dropdown option is clicked
+ * @param {Object} event The event
+ * @param {String|Object} value The option value
+ * @returns {undefined}
+ */
 function handleChange(event, value) {
   event.preventDefault();
 
   if (value === "logout") {
-    return Meteor.logout((error) => {
+    Meteor.logout((error) => {
       if (error) {
         Logger.error(error, "Failed to logout.");
       }
@@ -60,54 +54,29 @@ function handleChange(event, value) {
       // for any new user who uses the same browser, temporarily, until the app is refreshed. This fixes that issue.
       Reaction.setShopId(Reaction.getPrimaryShopId());
     });
+    return;
   }
 
-  if (value.name === "createProduct") {
-    Reaction.setUserPreferences("reaction-dashboard", "viewAs", "administrator");
-    Meteor.call("products/createProduct", (error, productId) => {
-      let currentTag;
-      let currentTagId;
-
-      if (error) {
-        throw new Meteor.Error("create-product-error", error);
-      } else if (productId) {
-        currentTagId = Session.get("currentTag");
-        currentTag = Tags.findOne(currentTagId);
-        if (currentTag) {
-          Meteor.call("products/updateProductTags", productId, currentTag.name, currentTagId);
-        }
-        // go to new product
-        Reaction.Router.go("product", {
-          handle: productId
-        });
-      }
-    });
-  } else if (value.name !== "account/profile") {
-    return Reaction.showActionView(value);
-  } else if (value.route || value.name) {
-    const route = value.name || value.route;
-    return Reaction.Router.go(route);
-  }
+  // Else value is a registered option with an onClick
+  value.onClick();
 }
 
 const composer = ({ currentAccount }, onData) => {
   const userImage = getUserAvatar(currentAccount);
   const userName = displayName(currentAccount);
-  const adminShortcuts = getAdminShortcutIcons();
+
+  const roles = Roles.getRolesForUser(Meteor.userId(), Reaction.getShopId());
+  const menuItems = getAccountDropdownOptionsByRoles(roles);
 
   onData(null, {
-    adminShortcuts,
+    menuItems,
     userImage,
     userName
   });
 };
 
 const handlers = {
-  handleChange,
-  userShortcuts: {
-    provides: "userAccountDropdown",
-    enabled: true
-  }
+  handleChange
 };
 
 registerComponent("MainDropdown", MainDropdown, [

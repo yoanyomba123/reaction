@@ -22,7 +22,6 @@ class PublishControls extends Component {
     onAction: PropTypes.func,
     onAddProduct: PropTypes.func,
     onPublishClick: PropTypes.func,
-    onViewContextChange: PropTypes.func,
     onVisibilityChange: PropTypes.func,
     revisions: PropTypes.arrayOf(PropTypes.object),
     showViewAsControls: PropTypes.bool, // eslint-disable-line react/boolean-prop-naming
@@ -84,12 +83,6 @@ class PublishControls extends Component {
   handleAction = (event, value) => {
     if (this.props.onAction) {
       this.props.onAction(event, value, this.props.documentIds);
-    }
-  }
-
-  onViewContextChange = (event, isChecked) => {
-    if (typeof this.props.onViewContextChange === "function") {
-      this.props.onViewContextChange(event, isChecked ? "customer" : "administrator");
     }
   }
 
@@ -233,26 +226,11 @@ class PublishControls extends Component {
     );
   }
 
-  renderVisibilitySwitch() {
-    return (
-      <Switch
-        i18nKeyLabel={"admin.dashboard.preview"}
-        label={"Preview"}
-        checked={this.props.isPreview}
-        onChange={this.onViewContextChange}
-      />
-    );
-  }
-
   renderAdminButton() {
     return (
       <FlatButton
         onClick={() => {
-          Reaction.showActionView({
-            i18nKeyTitle: "dashboard.coreTitle",
-            title: "Dashboard",
-            template: "dashboardPackages"
-          });
+          Reaction.showActionViewByName("actionViewList");
         }}
       >
         <Icon style={{ fontSize: 24 }} icon="icon icon-reaction-logo" />

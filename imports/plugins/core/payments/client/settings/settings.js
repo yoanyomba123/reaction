@@ -46,7 +46,6 @@ Template.paymentSettings.helpers({
 Template.paymentSettings.events({
   "change input[name=enabled]": (event) => {
     event.preventDefault();
-    const settingsKey = event.target.getAttribute("data-key");
     const packageId = event.target.getAttribute("data-id");
     const fields = [{
       property: "enabled",
@@ -54,7 +53,7 @@ Template.paymentSettings.events({
     }];
     // update package registry
     if (packageId) {
-      Meteor.call("registry/update", packageId, settingsKey, fields);
+      Meteor.call("registry/update", packageId, "payments", fields);
       Meteor.call("shop/togglePackage", packageId, !event.target.checked);
     }
   }

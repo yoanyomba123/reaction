@@ -140,7 +140,7 @@ export function Apps(optionHash) {
     });
 
     for (const registry of matchingRegistry) {
-      reactionApps.push(registry);
+      reactionApps.push({ ...registry, packageId: app._id });
     }
   });
 
@@ -154,14 +154,12 @@ export function Apps(optionHash) {
  * @memberof BlazeTemplateHelpers
  * @summary Return an array of filtered, structured `reactionApps` as a Template Helper
  * @example {{#each reactionApps provides="settings" name=packageName container=container}}
- * @example {{#each reactionApps provides="userAccountDropdown" enabled=true}}
  * @param {optionHash} optionHash Option hash
  * @return {Object[]} returns an array of filtered, structure reactionApps
  * ```[{
  *   enabled: true
  *   label: "Stripe"
  *   name: "reaction-stripe"
- *   packageId: "QqkGsQCDRhg2LSn8J"
  *   priority: 1
  *   provides: "paymentMethod"
  *   template: "stripePaymentForm"
@@ -170,3 +168,13 @@ export function Apps(optionHash) {
  *  }]```
  */
 Template.registerHelper("reactionApps", (optionHash) => Reaction.Apps(optionHash));
+
+/**
+ * @summary Find out whether a plugin is enabled for a shop
+ * @param {String} name The name of the plugin
+ * @param {String} [shopId=Reaction.getShopId()] The shop ID
+ * @returns {Boolean} Is it enabled?
+ */
+export function isPluginEnabled(name, shopId = Reaction.getShopId()) {
+  return !!Packages.findOne({ enabled: true, name, shopId });
+}

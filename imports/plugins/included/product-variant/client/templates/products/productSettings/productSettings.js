@@ -76,11 +76,7 @@ Template.productSettingsListItem.events({
     Reaction.state.set("edit/focus", "productDetails");
 
     // Set actionView to product admin
-    Reaction.setActionView({
-      i18nKeyLabel: "productDetailEdit.productSettings",
-      label: "Product Settings",
-      template: "ProductAdmin"
-    });
+    Reaction.setActionViewByName("editProduct");
   }
 });
 

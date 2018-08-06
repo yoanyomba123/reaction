@@ -1,3 +1,5 @@
+import "./registerUI";
+
 import "./templates/apps/facebook.html";
 import "./templates/apps/facebook.js";
 import "./templates/apps/googleplus.html";

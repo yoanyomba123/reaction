@@ -8,11 +8,11 @@ import { Tracker } from "meteor/tracker";
 import { ReactiveVar } from "meteor/reactive-var";
 import { ReactiveDict } from "meteor/reactive-dict";
 import { Roles } from "meteor/alanning:roles";
-import Logger from "/client/modules/logger";
 import { Countries } from "/client/collections";
 import { localeDep } from "/client/modules/i18n";
 import { Packages, Shops, Accounts } from "/lib/collections";
 import { Router } from "/client/modules/router";
+import { getActionViewByName } from "/imports/client-plugin-registry";
 import { DomainsMixin } from "./domains";
 
 /**
@@ -791,12 +791,30 @@ export default {
    * @name showActionView
    * @method
    * @memberof Core/Client
-   * @param {String} viewData {label, template, data}
-   * @returns {String} Session "admin/showActionView"
+   * @param {String} [viewData] {label, template, data}
+   * @returns {undefined}
    */
   showActionView(viewData) {
     Session.set("admin/showActionView", true);
-    this.setActionView(viewData);
+
+    if (viewData) {
+      this.setActionView(viewData);
+    }
+  },
+
+  setActionViewByName(name, data) {
+    const viewData = getActionViewByName(name);
+    this.setActionView({ ...viewData, data });
+  },
+
+  showActionViewByName(name, data) {
+    Session.set("admin/showActionView", true);
+
+    const viewData = getActionViewByName(name);
+
+    if (viewData) {
+      this.setActionView({ ...viewData, data });
+    }
   },
 
   /**
@@ -828,27 +846,19 @@ export default {
    */
   setActionView(viewData) {
     this.hideActionViewDetail();
-    if (viewData) {
-      let viewStack;
 
+    let viewStack;
+    if (viewData) {
       if (Array.isArray(viewData)) {
         viewStack = viewData;
       } else {
         viewStack = [viewData];
       }
-
-      Session.set("admin/actionView", viewStack);
     } else {
-      const registryItem = this.getRegistryForCurrentRoute("settings");
-
-      if (registryItem) {
-        this.setActionView(registryItem);
-      } else {
-        this.setActionView({
-          template: "blankControls"
-        });
-      }
+      viewStack = [{ template: "blankControls" }];
     }
+
+    Session.set("admin/actionView", viewStack);
   },
 
   /**
@@ -859,22 +869,13 @@ export default {
    * @returns {undefined}
    */
   pushActionView(viewData) {
+    if (!viewData) throw new Error("pushActionView requires viewData");
+
     Session.set("admin/showActionView", true);
 
-    const actionViewStack = Session.get("admin/actionView");
-
-    if (viewData) {
-      actionViewStack.push(viewData);
-      Session.set("admin/actionView", actionViewStack);
-    } else {
-      const registryItem = this.getRegistryForCurrentRoute("settings");
-
-      if (registryItem) {
-        this.pushActionView(registryItem);
-      } else {
-        this.pushActionView({ template: "blankControls" });
-      }
-    }
+    const actionViewStack = Session.get("admin/actionView") || [];
+    actionViewStack.push(viewData);
+    Session.set("admin/actionView", actionViewStack);
   },
 
   /**
@@ -1068,41 +1069,6 @@ export default {
       return this.Router.current().params.slug;
     }
     return null;
-  },
-
-  /**
-   * @name getRegistryForCurrentRoute
-   * @method
-   * @memberof Core/Client
-   * @param {String} [provides] Provides value, default to "dashboard"
-   * @returns {Object} Registry data, or empty object
-   */
-  getRegistryForCurrentRoute(provides = "dashboard") {
-    this.Router.watchPathChange();
-    const currentRouteName = this.Router.getRouteName();
-    const currentRoute = this.Router.current();
-    const { template } = currentRoute.route.options;
-    // find registry entries for routeName
-    const reactionApp = Packages.findOne({
-      "registry.name": currentRouteName,
-      "registry.provides": provides,
-      "enabled": true
-    }, {
-      enabled: 1,
-      registry: 1,
-      route: 1,
-      name: 1,
-      label: 1,
-      settings: 1
-    });
-
-    // valid application
-    if (reactionApp) {
-      const settingsData = _.find(reactionApp.registry, (item) => item.provides && item.provides.includes(provides) && item.template === template);
-      return settingsData;
-    }
-    Logger.debug("getRegistryForCurrentRoute not found", template, provides);
-    return {};
   },
 
   /**

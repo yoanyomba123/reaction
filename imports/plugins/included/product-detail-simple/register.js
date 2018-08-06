@@ -22,7 +22,7 @@ Reaction.registerPackage({
       layoutHeader: "NavBar",
       layoutFooter: "",
       notFound: "productNotFound",
-      dashboardHeader: "productDetailSimpleToolbar",
+      dashboardHeader: "ProductPublish",
       dashboardControls: "productDetailDashboardControls",
       dashboardHeaderControls: "",
       adminControlsFooter: "adminControlsFooter"

@@ -54,11 +54,7 @@ class ProductField extends Component {
     // Open actionView to productDetails panel
     Reaction.state.set("edit/focus", "productDetails");
 
-    Reaction.setActionView({
-      i18nKeyLabel: "productDetailEdit.productSettings",
-      label: "Product Settings",
-      template: "ProductAdmin"
-    });
+    Reaction.setActionViewByName("editProduct");
   }
 
   get fieldName() {

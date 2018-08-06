@@ -1,61 +1,28 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
-import { getComponent, registerComponent } from "@reactioncommerce/reaction-components";
+import { registerComponent } from "@reactioncommerce/reaction-components";
 import Blaze from "meteor/gadicc:blaze-react-component";
-import { Template } from "meteor/templating";
+import ReactComponentOrBlazeTemplate from "/imports/plugins/core/core/client/components/ReactComponentOrBlazeTemplate";
 
-class CoreLayout extends React.Component {
-  constructor(props) {
-    super(props);
-
-    const { structure } = this.props;
-    const { layoutHeader, layoutFooter } = structure || {};
-
-    const headerComponent = layoutHeader && getComponent(layoutHeader);
-    const footerComponent = layoutFooter && getComponent(layoutFooter);
-
-    if (headerComponent) {
-      this.headerComponent = React.createElement(headerComponent, {});
-    }
-
-    if (footerComponent) {
-      this.footerComponent = React.createElement(footerComponent, {});
-    }
-  }
-
+class CoreLayout extends Component {
   render() {
     const { actionViewIsOpen, structure } = this.props;
-    const { template } = structure || {};
+    const { layoutHeader, layoutFooter, template } = structure || {};
 
     const pageClassName = classnames({
       "page": true,
       "show-settings": actionViewIsOpen
     });
 
-    let mainNode = null;
-    try {
-      const mainComponent = getComponent(template);
-      mainNode = React.createElement(mainComponent, {});
-    } catch (error) {
-    //  Probe for Blaze template (legacy)
-      if (Template[template]) {
-        mainNode = <Blaze template={template} />;
-      }
-    }
-
     return (
       <div className={pageClassName} id="reactionAppContainer">
-
-        {this.headerComponent}
-
+        <ReactComponentOrBlazeTemplate name={layoutHeader} />
         <Blaze template="cartDrawer" className="reaction-cart-drawer" />
-
         <main>
-          {mainNode}
+          <ReactComponentOrBlazeTemplate name={template} />
         </main>
-
-        {this.footerComponent}
+        <ReactComponentOrBlazeTemplate name={layoutFooter} />
       </div>
     );
   }

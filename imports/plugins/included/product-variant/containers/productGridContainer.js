@@ -49,13 +49,7 @@ const wrapComponent = (Comp) => (
         const filteredProducts = products.filter((product) => selectedProducts.includes(product._id));
 
         if (Reaction.isPreview() === false) {
-          Reaction.showActionView({
-            label: "Grid Settings",
-            i18nKeyLabel: "gridSettingsPanel.title",
-            template: "productSettings",
-            type: "product",
-            data: { products: filteredProducts }
-          });
+          Reaction.showActionViewByName("gridSettings", { products: filteredProducts });
         }
       }
     }
@@ -87,13 +81,7 @@ const wrapComponent = (Comp) => (
       if (products) {
         const filteredProducts = products.filter((product) => selectedProducts.includes(product._id));
 
-        Reaction.showActionView({
-          label: "Grid Settings",
-          i18nKeyLabel: "gridSettingsPanel.title",
-          template: "productSettings",
-          type: "product",
-          data: { products: filteredProducts }
-        });
+        Reaction.showActionViewByName("gridSettings", { products: filteredProducts });
       }
     }
 
