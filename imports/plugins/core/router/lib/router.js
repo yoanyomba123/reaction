@@ -349,6 +349,7 @@ function hasRoutePermission(route) {
   return routeName === "index" ||
     routeName === "not-found" ||
     Router.Reaction.isAuthorized({
+      keycloakAuthParams: [{ roles: ["customer"] }],
       meteorAuthParams: [route.permissions, Router.Reaction.getUserId()]
     });
 }
@@ -519,6 +520,7 @@ function ReactionLayout(options = {}) {
       if (hasRoutePermission({ ...route, permissions }) === false && route.name !== "not-found" && !Meteor.user()) {
         // Note: route.permissions always undefined. TODO: Review
         const hasPermission = Router.Reaction.isAuthorized({
+          keycloakAuthParams: [{ roles: ["customer"] }],
           meteorAuthParams: [route.permissions, Meteor.userId()]
         });
         if (!hasPermission) {

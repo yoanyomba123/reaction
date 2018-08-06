@@ -16,6 +16,7 @@ class ReactionLayout extends Component {
   checkElementPermissions(block) {
     let permissions;
     const hasAdminAccess = Reaction.isAuthorized({
+      keycloakAuthParams: [{ roles: ["admin"] }],
       meteorAuthParams: [["owner", "admin"], Reaction.getUserId()]
     });
 
@@ -26,6 +27,7 @@ class ReactionLayout extends Component {
     }
 
     return Reaction.isAuthorized({
+      keycloakAuthParams: [{ roles: ["customer"] }],
       meteorAuthParams: [permissions || [], Reaction.getUserId()]
     });
   }

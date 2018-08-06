@@ -17,6 +17,7 @@ ProductsContainer.propTypes = {
 
 function composer(props, onData) {
   const isAdmin = Reaction.isAuthorized({
+    keycloakAuthParams: [{ roles: ["admin"] }],
     meteorAuthParams: ["createProduct", Reaction.getUserId()]
   });
 
