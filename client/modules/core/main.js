@@ -198,8 +198,15 @@ export default {
   * @name keycloakAuth
   * @returns {Boolean} Boolean
   */
-  keycloakAuth() {
-    return true;
+  keycloakAuth([roleParams, permissionParams]) {
+    if (roleParams) {
+      if (!roleParams.roles) return true; // no need to check if no roles passed in
+
+      const found = _.some(roleParams.roles, (role) => window.keycloak.hasRealmRole(role));
+      return found;
+    }
+
+    return false;
   },
   /**
    * @name hasPermission
