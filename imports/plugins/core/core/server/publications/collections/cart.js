@@ -8,7 +8,7 @@ Meteor.publish("Cart", function (accountId, anonymousCarts, shopId) {
   check(anonymousCarts, Match.Maybe([Object]));
   check(shopId, Match.Maybe(String));
 
-  const userId = Meteor.userId();
+  const { userId } = this;
   let account;
   if (userId) {
     account = Accounts.findOne({ userId }, { fields: { _id: 1 } });

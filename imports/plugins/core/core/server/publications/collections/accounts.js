@@ -8,8 +8,10 @@ import Reaction from "/imports/plugins/core/core/server/Reaction";
  * accounts
  */
 
-Meteor.publish("Accounts", function () {
+Meteor.publish("Accounts", function (options = {}) {
   const userId = Meteor.userId();
+  const resource = "urn:reaction:accounts";
+  const { token } = options;
 
   if (!userId) {
     return this.ready();
@@ -27,6 +29,11 @@ Meteor.publish("Accounts", function () {
     fields: { _id: 1 }
   }).fetch().map((group) => group._id);
 
+  const hasAccountsManage = Reaction.isAuthorized({
+    keycloakAuthParams: [null, { resource, scope: `${resource}:admin`, token }],
+    meteorAuthParams: [["admin", "owner", "reaction-accounts"], userId]
+  });
+
   // global admin can get all accounts
   if (Roles.userIsInRole(userId, ["owner"], Roles.GLOBAL_GROUP)) {
     return Collections.Accounts.find({
@@ -34,7 +41,8 @@ Meteor.publish("Accounts", function () {
     });
 
   // shop admin gets accounts for just this shop
-  } else if (Roles.userIsInRole(userId, ["admin", "owner", "reaction-accounts"], shopId)) {
+  // } else if (Roles.userIsInRole(userId, ["admin", "owner", "reaction-accounts"], shopId)) {
+  } else if (hasAccountsManage) {
     return Collections.Accounts.find({
       groups: { $nin: nonAdminGroups },
       shopId

@@ -10,6 +10,7 @@ import { Roles } from "meteor/alanning:roles";
 import { EJSON } from "meteor/ejson";
 import * as Collections from "/lib/collections";
 import ConnectionDataStore from "/imports/plugins/core/core/server/util/connectionDataStore";
+import keycloakAuthz from "../util/keycloak-authz";
 import createGroups from "./createGroups";
 import processJobs from "./processJobs";
 import sendVerificationEmail from "./sendVerificationEmail";
@@ -155,7 +156,37 @@ export default {
     // return if user has permissions in the group
     return Roles.userIsInRole(userId, permissions, group);
   },
+  /**
+  * @name keycloakAuth
+  * @returns {Boolean} Boolean
+  */
+  keycloakAuth([roleParams, permissionParams]) {
+    if (roleParams) {
+      if (!roleParams.roles) return true; // no need to check if no roles passed in
 
+      const found = _.some(roleParams.roles, (role) => window.keycloak.hasRealmRole(role));
+      return found;
+    }
+
+    if (permissionParams) {
+      return Promise.await(keycloakAuthz(permissionParams));
+    }
+
+    return false;
+  },
+  /**
+  * @name isAuthorized
+  * @param {Array} meteorAuthParams - contains all the args needed to call hasPermission
+  * @param {Array} keycloakAuthParams - contains args needed to call the Keycloak auth func
+  * @returns {Boolean} boolean
+  */
+  isAuthorized({ keycloakAuthParams, meteorAuthParams }) {
+    if (Meteor.settings.public.keycloakEnabled) {
+      return this.keycloakAuth(keycloakAuthParams);
+    }
+
+    return this.hasPermission(...meteorAuthParams);
+  },
   /**
    * @name hasOwnerAccess
    * @method
