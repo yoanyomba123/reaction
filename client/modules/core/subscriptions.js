@@ -7,6 +7,7 @@ import { Roles } from "meteor/alanning:roles";
 import { Accounts } from "/lib/collections";
 import Reaction from "./main";
 import { getAnonymousCartsReactive, unstoreAnonymousCart } from "/imports/plugins/core/cart/client/util/anonymousCarts";
+import { getUserId } from "./helpers/globals";
 
 export const Subscriptions = {};
 
@@ -19,9 +20,8 @@ Subscriptions.Manager = new SubsManager();
  */
 
 Tracker.autorun(() => {
-  const userId = Meteor.userId();
   Subscriptions.Account = Subscriptions.Manager.subscribe("Accounts");
-  Subscriptions.UserProfile = Meteor.subscribe("UserProfile", userId);
+  // Subscriptions.UserProfile = Meteor.subscribe("UserProfile", userId); // deprecated subscription. TODO: Remove
 });
 
 // Primary shop subscription
@@ -47,7 +47,7 @@ Subscriptions.BrandAssets = Subscriptions.Manager.subscribe("BrandAssets");
 
 const cartSubCreated = new ReactiveVar(false);
 Tracker.autorun(() => {
-  const userId = Meteor.userId();
+  const userId = getUserId();
   if (!userId) return;
 
   const account = Accounts.findOne({ userId });
@@ -79,7 +79,7 @@ function mergeCart(_id, token) {
 // call the mergeCart function to merge it into an account cart and destroy
 let isMerging = false;
 Tracker.autorun(() => {
-  const userId = Meteor.userId();
+  const userId = getUserId();
   if (!userId) return;
 
   const shopId = Reaction.getCartShopId();
