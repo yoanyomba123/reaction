@@ -7,6 +7,21 @@ import { Roles } from "meteor/alanning:roles";
 /* eslint "no-alert": 0 */
 
 /**
+ * @method userId
+ * @summary returns the logged in userId
+ * @return {String} String
+ */
+export function getUserId() {
+  // The accountId linked to the logged-in profile data is used to find the user's Account doc
+  if (Meteor.settings.public.keycloakEnabled) {
+    return Session.get("reaction_keycloak_userId");
+  }
+
+  // This returns the userId for both logged in Meteor users and anonymous users
+  return Meteor.userId();
+}
+
+/**
  * @name toggleSession
  * @method
  * @memberof Helpers
