@@ -1,3 +1,4 @@
+import { Session } from "meteor/session";
 import Logger from "/client/modules/logger";
 import { Meteor } from "meteor/meteor";
 import { ReactiveVar } from "meteor/reactive-var";
@@ -20,7 +21,8 @@ Subscriptions.Manager = new SubsManager();
  */
 
 Tracker.autorun(() => {
-  Subscriptions.Account = Subscriptions.Manager.subscribe("Accounts");
+  const options = { token: Session.get("reaction_keycloak_token") };
+  Subscriptions.Account = Subscriptions.Manager.subscribe("Accounts", options);
   // Subscriptions.UserProfile = Meteor.subscribe("UserProfile", userId); // deprecated subscription. TODO: Remove
 });
 

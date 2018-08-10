@@ -9,11 +9,12 @@ import Reaction from "/imports/plugins/core/core/server/Reaction";
  */
 
 Meteor.publish("Accounts", function (options = {}) {
+  check(options, Object);
   const userId = Meteor.userId();
   const resource = "urn:reaction:accounts";
   const { token } = options;
 
-  if (!userId) {
+  if (!userId || !token) {
     return this.ready();
   }
 
@@ -22,29 +23,13 @@ Meteor.publish("Accounts", function (options = {}) {
     return this.ready();
   }
 
-  const nonAdminGroups = Collections.Groups.find({
-    name: { $in: ["guest", "customer"] },
-    shopId
-  }, {
-    fields: { _id: 1 }
-  }).fetch().map((group) => group._id);
-
   const hasAccountsManage = Reaction.isAuthorized({
-    keycloakAuthParams: [null, { resource, scope: `${resource}:admin`, token }],
+    keycloakAuthParams: { resourceCheckParams: { resource, scope: `${resource}:admin`, token } },
     meteorAuthParams: [["admin", "owner", "reaction-accounts"], userId]
   });
 
-  // global admin can get all accounts
-  if (Roles.userIsInRole(userId, ["owner"], Roles.GLOBAL_GROUP)) {
+  if (hasAccountsManage) {
     return Collections.Accounts.find({
-      groups: { $nin: nonAdminGroups }
-    });
-
-  // shop admin gets accounts for just this shop
-  // } else if (Roles.userIsInRole(userId, ["admin", "owner", "reaction-accounts"], shopId)) {
-  } else if (hasAccountsManage) {
-    return Collections.Accounts.find({
-      groups: { $nin: nonAdminGroups },
       shopId
     });
   }

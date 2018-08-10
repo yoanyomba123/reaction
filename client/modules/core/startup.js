@@ -28,7 +28,7 @@ Meteor.startup(() => {
     .init({ flow: "implicit" })
     .success((authenticated) => {
       if (authenticated) {
-        localStorage.setItem("reaction_keycloak_token", keycloak.token);
+        Session.set("reaction_keycloak_token", keycloak.token); // store token in a global reactive source
 
         keycloak.loadUserProfile().success((profile) => {
           const accountId = profile.attributes["reaction-account-id"][0];
