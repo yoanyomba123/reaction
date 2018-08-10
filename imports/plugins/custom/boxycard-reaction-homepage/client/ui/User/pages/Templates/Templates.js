@@ -5,12 +5,11 @@ import { render, ReactDOM } from "react-dom";
 import Grid from 'material-ui/Grid';
 import Hidden from 'material-ui/Hidden';
 import { Link } from "react-router-dom";
-import { Globals } from "../../../../api/collections";
+import { Globals } from "../../../../../lib/collections";
 import { combineStyles } from "../../../../config/helpers";
 import globalStyles from "../../../../config/globalStyles";
 import colors from "../../../../config/colors";
 import styles from "./styles";
-import { connect } from 'react-redux'
 import { updateAlert } from "../../../Actions";
 import Scroll from "react-scroll";
 import NavbarHome from '../../components/NavbarNew'
@@ -175,9 +174,12 @@ class LandingPage extends Component {
     )
   }
   renderBigMain() {
-    const history = this.props.history
-    const location = history.location
-    const pathname = location.pathname
+    //TODO:: Template selection
+    // const history = this.props.history
+    // const location = history.location
+    // const pathname = location.pathname
+
+     const pathname= 'http://www.google.com'
     return (
       <Grid container>
         <Grid item xs={12} sm={12} md={3} lg={3} xl={3} style={{ display: 'flex', flexDirection: 'column', fontFamily: 'Roboto', fontSize: 23, color: 'white', backgroundColor: '#3B3B3B', textAlign: 'left', width: '100%', paddingLeft: '2%', paddingTop: '2%' }}>
@@ -230,21 +232,9 @@ class LandingPage extends Component {
 
 
 
-const MeteorLandingPage = createContainer(() => {
+ export const Templates  = createContainer(() => {
   return {
 
   };
 }, LandingPage);
 
-const mapStateToProps = () => {
-  return {}
-}
-const mapDispatchToProps = (dispatch) => {
-  return {
-    doUpdateAlert: (alertMessage) => {
-      dispatch(updateAlert(alertMessage))
-    },
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(MeteorLandingPage);

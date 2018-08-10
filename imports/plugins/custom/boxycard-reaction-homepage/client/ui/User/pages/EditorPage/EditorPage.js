@@ -77,14 +77,14 @@ const RANGE_FILTERS = [
 ];
 
 /**
- * Editor global variables 
- * 
- * They are used to maintain the editor state and to be functionality support, 
+ * Editor global variables
+ *
+ * They are used to maintain the editor state and to be functionality support,
  * editor changes and data complexity in fabric are too much for redux state)
  */
 let auxObject, watermarkImage, auxObjects = [], changeLog =[], auxProps = {}
 
-class EditorPage extends Component {
+export default class EditorPage extends Component {
   /**
    * Constructor
    */
@@ -194,7 +194,7 @@ class EditorPage extends Component {
 
     this.outsideView = outsideView;
     this.insideView = insideView;
-    
+
     this.changeView(true);
 
     const resizeContainers = element => {
@@ -205,13 +205,13 @@ class EditorPage extends Component {
     document.querySelectorAll('.canvas-container').forEach(resizeContainers);
 
     document.querySelectorAll('.lower-canvas').forEach(resizeContainers);
-    
+
     document.querySelectorAll('.upper-canvas').forEach(resizeContainers);
 
     setTimeout(() => {
       this.setState({
         isLoading: false
-      }); 
+      });
     }, 1500);
   }
 
@@ -237,10 +237,10 @@ class EditorPage extends Component {
       this.deselectAll();
       return;
     }
-    
+
     if (target.type === 'i-text') {
       const text = target;
-      
+
       this.setState({
         textStrokeColor: text.stroke,
         strokeWidth: text.strokeWidth,
@@ -321,7 +321,7 @@ class EditorPage extends Component {
 
   undo() {
     const [lastAction, ...actions] = changeLog;
-    
+
     switch (lastAction.type) {
       case 'activeStyle': {
         this.setActiveStyle(lastAction.styleName, lastAction.prevValue, lastAction.object, lastAction.messurable, true);
@@ -380,16 +380,16 @@ class EditorPage extends Component {
       // case 'moveObject': {
       //   lastAction.object.set('top', lastAction.moveFrom.top);
       //   lastAction.object.set('left', lastAction.moveFrom.left);
-        
+
       //   this.fabricCanvas.renderAll();
       // } break;
       default: return;
     }
-    
+
     this.setState({
       canUndo: actions.length > 0
     });
-    
+
     changeLog = actions;
   }
 
@@ -427,7 +427,7 @@ class EditorPage extends Component {
       // this.addActionToChangeLog({
       //   object,
       //   moveFrom: {
-      //     top: auxProps.top, 
+      //     top: auxProps.top,
       //     left: auxProps.left,
       //   },
       //   type: 'moveObject'
@@ -489,7 +489,7 @@ class EditorPage extends Component {
   addActionToChangeLog (action) {
     //we can hook up the saving functionality here.
     changeLog = [action, ...changeLog];
-    
+
     this.setState({
       canUndo: changeLog.length > 0,
       unsavedChanges: true
@@ -540,7 +540,7 @@ class EditorPage extends Component {
       });
 
       fabricCanvas.add(oImg).setActiveObject(oImg);
-      
+
       this.handleOnObjectSelected(true, {
         target: {
           ...img,
@@ -576,7 +576,7 @@ class EditorPage extends Component {
           .scale(0.9, 0.9);
 
         watermarkImage = img;
-        
+
         this.insideView.add(img).bringForward(img).renderAll();
       });
     } else {
@@ -595,7 +595,7 @@ class EditorPage extends Component {
 
     fabric.loadSVGFromURL(`/images/assets/${imageName}`, (layers) => {
       const img = fabric.util.groupSVGElements(layers);
-      
+
       img.set({
         originalScale: 1,
         cornerSize: CORNER_SIZE,
@@ -695,7 +695,7 @@ class EditorPage extends Component {
 
     pdf.addImage(this.outsideView.toDataURL('image/png'), 'PNG', 0, 0, 7 + (1/4), 2 + (1/4));
     pdf.addImage(this.insideView.toDataURL('image/png'), 'PNG', 0, 2 + (1/4), 7 + (1/4), 2 + (1/4));
-    
+
     pdf.save('MyBoxyCard.pdf');
   }
 
@@ -875,7 +875,7 @@ class EditorPage extends Component {
       });
 
       this.deselectAll();
-      
+
       this.fabricCanvas.remove(originalImage).add(img).setActiveObject(img).renderAll();
 
       this.addActionToChangeLog({
@@ -916,7 +916,7 @@ class EditorPage extends Component {
 
       this.insideView.clear();
       this.outsideView.clear();
-      
+
       this.insideView.loadFromJSON(data.inside).renderAll();
       this.outsideView.loadFromJSON(data.outside).renderAll();
 
@@ -929,7 +929,7 @@ class EditorPage extends Component {
 
   setBackgroundImage(imageName) {
     fabric.Image.fromURL(`/images/assets/${imageName}`, (image) => {
-      
+
       if (this.fabricCanvas.backgroundImage) {
         this.addActionToChangeLog({
           background: this.fabricCanvas.backgroundImage,
@@ -944,7 +944,7 @@ class EditorPage extends Component {
 
       this.fabricCanvas.setBackgroundImage(image, this.fabricCanvas.renderAll.bind(this.fabricCanvas), {
         left: 0,
-        top: 0,  
+        top: 0,
         scaleY: this.fabricCanvas.height / image.height,
         scaleX: this.fabricCanvas.width / image.width,
       });
@@ -1006,7 +1006,7 @@ class EditorPage extends Component {
         filters,
       });
     });
-    
+
   }
 
   applyFilter(index, filter, prop, value) {
@@ -1047,7 +1047,7 @@ class EditorPage extends Component {
 
     this.fabricCanvas.loadFromJSON(json, () => {
       this.fabricCanvas.setActiveObject(this.fabricCanvas._objects[0]);
-      
+
       this.fabricCanvas.renderAll();
     });
   }
@@ -1069,7 +1069,7 @@ class EditorPage extends Component {
     const scale = 2;
 
     auxObjects.forEach(object => {
-      
+
       object.scaleX = scale;
       object.scaleY = scale;
       object.top = auxSvgObject.top + (object.top * scale);
@@ -1098,7 +1098,7 @@ class EditorPage extends Component {
     this.restoreSVGObject(modifiedPaths => {
       auxSvgObject._objects.forEach((path, index) => {
         const auxObject = modifiedPaths[index];
-  
+
         path.fill = auxObject.fill;
       });
     }, true)
@@ -1138,7 +1138,7 @@ class EditorPage extends Component {
       flipY: auxSvgObject.flipY
     })
       .scale(2, 2);
-    
+
     modifiedPaths.forEach(object => {
       this.fabricCanvas.remove(object).renderAll();
     });
@@ -1147,7 +1147,7 @@ class EditorPage extends Component {
       undoOptions.objectsToRemove.push(group);
 
     this.addActionToChangeLog(undoOptions);
-    
+
     this.fabricCanvas.add(group);
 
     this.deselectAll();
@@ -1270,15 +1270,15 @@ class EditorPage extends Component {
             style={combineStyles([globalStyles.textWhite, globalStyles.text14, globalStyles.textBold5])}
           >
             Upload Your Own
-            <input 
-              type="file" 
-              style={{display: 'none'}} 
-              ref={elem => this.loadFileInput = elem} 
-              onChange={this.handleOnUpload.bind(this)}  
+            <input
+              type="file"
+              style={{display: 'none'}}
+              ref={elem => this.loadFileInput = elem}
+              onChange={this.handleOnUpload.bind(this)}
             />
           </Button>
           {this.state.unsavedChanges ? (
-            <Button 
+            <Button
               onClick={this.handleOnSave.bind(this)}
               style={combineStyles([globalStyles.textWhite, globalStyles.text14, globalStyles.textBold5])}
             >
@@ -1376,35 +1376,35 @@ class EditorPage extends Component {
           { height: windowHeight },
         ])}
       >
-        {this.renderBtn({ 
-          iconComp: <SvgIcon name="camera" size={2} color="#fff"/>, 
-          text: "Insert Image", 
-          onClick: () => this.setState({ activeBtnIndex: 0 }), 
-          isActive: (activeBtnIndex === 0) 
+        {this.renderBtn({
+          iconComp: <SvgIcon name="camera" size={2} color="#fff"/>,
+          text: "Insert Image",
+          onClick: () => this.setState({ activeBtnIndex: 0 }),
+          isActive: (activeBtnIndex === 0)
         })}
-        {this.renderBtn({ 
-          iconComp: <SvgIcon name="text" size={2} color="#fff"/>, 
-          text: "Insert Text", 
-          onClick: () => { 
-            this.addText(); 
-            this.setState({ activeBtnIndex: 1 }) 
-          }, 
-          isActive: (activeBtnIndex === 1) 
+        {this.renderBtn({
+          iconComp: <SvgIcon name="text" size={2} color="#fff"/>,
+          text: "Insert Text",
+          onClick: () => {
+            this.addText();
+            this.setState({ activeBtnIndex: 1 })
+          },
+          isActive: (activeBtnIndex === 1)
         })}
-        {this.renderBtn({ 
-          iconComp: <SvgIcon name="background" size={2} color="#fff"/>, 
-          text: "Background", 
+        {this.renderBtn({
+          iconComp: <SvgIcon name="background" size={2} color="#fff"/>,
+          text: "Background",
           onClick: () => this.setState({ activeBtnIndex: 2 }),
-          isActive: (activeBtnIndex === 2) 
+          isActive: (activeBtnIndex === 2)
         })}
-        {this.renderBtn({ 
-          iconComp: <SvgIcon name="back" size={2} color="#fff"/>, 
-          text: "New Template", 
-          isActive: (activeBtnIndex === 3) 
+        {this.renderBtn({
+          iconComp: <SvgIcon name="back" size={2} color="#fff"/>,
+          text: "New Template",
+          isActive: (activeBtnIndex === 3)
         })}
-        {this.renderBtn({ 
-          iconComp: <SvgIcon name="hire" size={2} color="#fff"/>, 
-          text: "Hire a Pro", 
+        {this.renderBtn({
+          iconComp: <SvgIcon name="hire" size={2} color="#fff"/>,
+          text: "Hire a Pro",
           btnIndex: 4,
           onClick: () => this.setState({hireProModal: true})
         })}
@@ -1470,18 +1470,18 @@ class EditorPage extends Component {
           key: 2,
           iconComp: <SvgIcon name="library" size={2} color="#fff" />,
           text: "Image Library",
-          onClick: () => this.imagesModal.open() 
+          onClick: () => this.imagesModal.open()
         }),
-        this.renderBtn({ 
+        this.renderBtn({
           key: 3,
-          iconComp: <SvgIcon name="smile" size={2} color="#fff" />, 
-          text: "Say Cheese", 
-          isDisabled: true, onClick: () => { } 
+          iconComp: <SvgIcon name="smile" size={2} color="#fff" />,
+          text: "Say Cheese",
+          isDisabled: true, onClick: () => { }
         }),
-        this.renderBtn({ 
+        this.renderBtn({
           key: 4,
-          iconComp: <SvgIcon name="qr" size={2} color="#fff" />, 
-          text: "QR Code", 
+          iconComp: <SvgIcon name="qr" size={2} color="#fff" />,
+          text: "QR Code",
           isDisabled: true, onClick: () => { }
         })
       ]
@@ -1490,9 +1490,9 @@ class EditorPage extends Component {
     children.push({
       shown: activeBtnIndex === 1,
       components: [
-        <ColorPicker 
+        <ColorPicker
           key={0}
-          trigger={this.renderBtn({ iconComp: <FaSquare size={28} color={this.state.textStrokeColor} />, text: "Stroke Color", onClick: () => this.textStrokeColorPicker.open(100, 50) })} 
+          trigger={this.renderBtn({ iconComp: <FaSquare size={28} color={this.state.textStrokeColor} />, text: "Stroke Color", onClick: () => this.textStrokeColorPicker.open(100, 50) })}
           ref={elem => this.textStrokeColorPicker = elem}
           value={this.state.textStrokeColor}
           onChange={value => {
@@ -1503,31 +1503,31 @@ class EditorPage extends Component {
             this.fabricCanvas.renderAll();
           }}
         />,
-        this.renderBtn({ 
+        this.renderBtn({
           key: 1,
           iconComp: (
             <span>
               <div><SvgIcon name="stroke" size={2} color="#fff" /></div>
-              <Range 
-                value 
-                inputOnly 
-                value={this.state.strokeWidth || 0} 
-                max={60} 
+              <Range
+                value
+                inputOnly
+                value={this.state.strokeWidth || 0}
+                max={60}
                 onChange={(value) => {
                   this.setState({
                     strokeWidth: parseInt(value, 10)
                   });
 
                   this.setActiveStyle('strokeWidth', parseInt(value, 10))
-                }} 
+                }}
               />
             </span>
-          ), 
-          text: "Stroke Width" 
+          ),
+          text: "Stroke Width"
         }),
-        <ColorPicker 
+        <ColorPicker
           key={2}
-          trigger={this.renderBtn({ iconComp: <FaSquare size={28} color={this.state.textBackgroundColor} />, text: "Background Color", onClick: () => this.textBackgroundColorPicker.open(100, 50) })} 
+          trigger={this.renderBtn({ iconComp: <FaSquare size={28} color={this.state.textBackgroundColor} />, text: "Background Color", onClick: () => this.textBackgroundColorPicker.open(100, 50) })}
           ref={elem => this.textBackgroundColorPicker = elem}
           value={this.state.textBackgroundColor}
           onChange={value => {
@@ -1545,8 +1545,8 @@ class EditorPage extends Component {
       shown: activeBtnIndex === 2,
       components: [
         <ColorPicker
-          key={0} 
-          trigger={this.renderBtn({ iconComp: <FaSquare size={28} color={this.state.backgroundColor} />, text: "Fill Color", onClick: () => this.backgroundColorPicker.open(100, 50) })} 
+          key={0}
+          trigger={this.renderBtn({ iconComp: <FaSquare size={28} color={this.state.backgroundColor} />, text: "Fill Color", onClick: () => this.backgroundColorPicker.open(100, 50) })}
           ref={elem => this.backgroundColorPicker = elem}
           value={this.state.backgroundColor}
           onChange={value => {
@@ -1576,7 +1576,7 @@ class EditorPage extends Component {
     });
 
     return (
-      <div 
+      <div
         style={combineStyles([
           globalStyles.noMarginPadding,
           globalStyles.cont100,
@@ -1593,7 +1593,7 @@ class EditorPage extends Component {
       </div>
     );
   }
-  
+
   renderSideBar() {
     const width = window.innerWidth
     const windowHeight = window.innerHeight
@@ -1643,7 +1643,7 @@ class EditorPage extends Component {
           vertical: 'top',
           horizontal: 'left',
         }}
-      > 
+      >
         <section style={styles.filtersSection}>
           <Grid container>
             {ONE_CLICK_FILTERS.map((filter, index) => (
@@ -1669,8 +1669,8 @@ class EditorPage extends Component {
                 <Grid item xs={6}>
                   <Range
                     value={this.state.filters[filter] || 0}
-                    min={filter === 'hue' ? -2 : -1} 
-                    max={filter === 'hue' ? 2 : 1} 
+                    min={filter === 'hue' ? -2 : -1}
+                    max={filter === 'hue' ? 2 : 1}
                     step={filter === 'hue' ? 0.002 : 0.1}
                     width={'100%'}
                     label={upperFirst(filter)}
@@ -2078,42 +2078,42 @@ class EditorPage extends Component {
     const height = canvasHeight;
 
     ctxSideview1.drawImage(
-      targetCanvas, 
-      -bleedingEdge, 
-      -bleedingEdge - 2, 
-      width, 
+      targetCanvas,
+      -bleedingEdge,
+      -bleedingEdge - 2,
+      width,
       height
     );
 
     ctxSideview2.drawImage(
-      targetCanvas, 
-      -bleedingEdge - ((canvasWidth - (bleedingEdge * 2)) / 4), 
-      -bleedingEdge - 2, 
-      width, 
+      targetCanvas,
+      -bleedingEdge - ((canvasWidth - (bleedingEdge * 2)) / 4),
+      -bleedingEdge - 2,
+      width,
       height
     );
 
     ctxSideview3.drawImage(
-      targetCanvas, 
-      -bleedingEdge - ((canvasWidth - (bleedingEdge * 2)) / 2), 
-      -bleedingEdge - 2, 
-      width, 
+      targetCanvas,
+      -bleedingEdge - ((canvasWidth - (bleedingEdge * 2)) / 2),
+      -bleedingEdge - 2,
+      width,
       height
     );
-    
+
     ctxSideview4.drawImage(
-      targetCanvas, 
+      targetCanvas,
       -canvasWidth + ((canvasWidth - (bleedingEdge * 2)) / 4) + bleedingEdge,
-      -bleedingEdge, 
-      width, 
+      -bleedingEdge,
+      width,
       height
     );
-    
+
     ctxSideview5.drawImage(
-      targetCanvas, 
-      -bleedingEdge - 2, 
-      -bleedingEdge - 2, 
-      width, 
+      targetCanvas,
+      -bleedingEdge - 2,
+      -bleedingEdge - 2,
+      width,
       height
     );
   }
@@ -2154,7 +2154,7 @@ class EditorPage extends Component {
             spacing={0}
           >
             {this.state.editingSvg ? this.renderControlsFor('svg') : null}
-            {!this.state.editingSvg ? this.renderControlsFor('generalAlways') : null} 
+            {!this.state.editingSvg ? this.renderControlsFor('generalAlways') : null}
             {!this.state.editingSvg && selectedObject ? this.renderControlsFor('generalSelected') : null}
           </Grid>
         </Grid>
@@ -2204,13 +2204,13 @@ class EditorPage extends Component {
             <div style={{ height: 36, width: 36 }}>
               <Button
                 onClick={() => {
-                  this.setState({ 
-                    modalExplanationVisible: !this.state.modalExplanationVisible, 
-                    textExplanation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' 
+                  this.setState({
+                    modalExplanationVisible: !this.state.modalExplanationVisible,
+                    textExplanation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
                   })
                 }}
-                color="primary" 
-                aria-label="add" 
+                color="primary"
+                aria-label="add"
                 style={{ width: 36, height: 36, margin: 0, padding: 0, backgroundColor: 'yellow' }}
                 //fab
                 variant="fab"
@@ -2344,8 +2344,8 @@ class EditorPage extends Component {
         ])}
       >
         <div>
-          <ZoomableZone 
-            width={canvasWidth + (bleedingEdge * 2)} 
+          <ZoomableZone
+            width={canvasWidth + (bleedingEdge * 2)}
             height={canvasHeight + (bleedingEdge * 2)}
           >
             <BleedingEdge isEditorMode={this.state.isEditorMode} bleedingEdge={bleedingEdge} canvasHeight={canvasHeight} canvasWidth={canvasWidth} />
@@ -2425,8 +2425,8 @@ class EditorPage extends Component {
             </Button>
           </div>
           <Button onClick={() => {
-            this.setState({ 
-              modalExplanationVisible: !this.state.modalExplanationVisible, 
+            this.setState({
+              modalExplanationVisible: !this.state.modalExplanationVisible,
               textExplanation: (
                 <div
                   style={combineStyles([globalStyles.flex, globalStyles.center, globalStyles.text18])}
@@ -2443,7 +2443,7 @@ class EditorPage extends Component {
       </Grid>
     )
   }
-  
+
   renderHireProModal () {
     return (
       <Dialog
@@ -2571,21 +2571,4 @@ class EditorPage extends Component {
   }
 }
 
-const MeteorLandingPage = createContainer(() => {
-  return {
 
-  }
-}, EditorPage)
-
-const mapStateToProps = () => {
-  return {}
-}
-const mapDispatchToProps = (dispatch) => {
-  return {
-    doUpdateAlert: (alertMessage) => {
-      dispatch(updateAlert(alertMessage))
-    },
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(MeteorLandingPage);

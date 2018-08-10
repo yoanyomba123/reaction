@@ -5,7 +5,7 @@ import { render, ReactDOM } from "react-dom";
 import Grid from 'material-ui/Grid';
 import Hidden from 'material-ui/Hidden';
 import { Link } from "react-router-dom";
-import { Globals } from "../../../../api/collections";
+import { Globals } from "../../../../../lib/collections";
 import { combineStyles } from "../../../../config/helpers";
 import globalStyles from "../../../../config/globalStyles";
 import colors from "../../../../config/colors";
@@ -22,7 +22,7 @@ import Ripples from 'react-ripples'
 
 const scroll = Scroll.animateScroll;
 
-class LandingPage extends Component {
+export default class Inspiration extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -194,21 +194,3 @@ class LandingPage extends Component {
 
 
 
-const MeteorLandingPage = createContainer(() => {
-  return {
-
-  };
-}, LandingPage);
-
-const mapStateToProps = () => {
-  return {}
-}
-const mapDispatchToProps = (dispatch) => {
-  return {
-    doUpdateAlert: (alertMessage) => {
-      dispatch(updateAlert(alertMessage))
-    },
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(MeteorLandingPage);
