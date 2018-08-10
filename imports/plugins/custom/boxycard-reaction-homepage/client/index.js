@@ -1,3 +1,7 @@
 import "./config/defaults"
 import "./ui/Storefront"
 import "./ui/User/pages/HomePage"
+import "./ui/User/pages/About"
+import "./ui/User/pages/EditorPage"
+import "./ui/User/pages/ContactPage"
+import "./ui/User/pages/FAQs"
