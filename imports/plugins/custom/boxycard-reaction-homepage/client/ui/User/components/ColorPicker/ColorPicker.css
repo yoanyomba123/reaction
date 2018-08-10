@@ -1,0 +1,11 @@
+.bc-color-picker {
+    max-width: 224px !important;
+    max-height: 200px !important;
+    margin-left: 0px;
+}
+
+.bc-color-picker-item {
+    float: left !important;
+    height: unset !important;
+    padding: 8px !important;
+}

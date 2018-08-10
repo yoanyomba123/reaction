@@ -1,0 +1,61 @@
+.container {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: auto;
+}
+.scene {
+  perspective: 900px;
+  perspective-origin: 0% -20%;
+}
+
+.side {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  box-sizing: border-box;
+  padding: 0;
+  font: 40px/1 "Trebuchet MS", sans-serif;
+  color: #fff;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.left {
+  transform: translateX(-50px) rotateY(-90deg);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-image: url('/images/graphics/cube/left.png');
+}
+.right {
+  transform: translateX(50px) rotateY(90deg);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-image: url('/images/graphics/cube/right.png');
+}
+.back {
+  transform: translateZ(-50px) rotateX(180deg);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-image: url('/images/graphics/cube/back.png');
+}
+.top {
+  transform: translateY(-50px) rotateX(90deg);
+}
+.bottom {
+  transform: translateY(50px) rotateX(270deg);
+}
+.front {
+  transform: translateZ(50px);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-image: url('/images/graphics/cube/front.png');
+}
+.left,
+.right {
+  background-color: rgba(105, 136, 190, 0.5);
+}
+.back,
+.front {
+  background-color: rgba(32, 170, 151, 0.5);
+}

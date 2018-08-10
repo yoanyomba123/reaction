@@ -1,0 +1,11 @@
+.image-modal-item {
+    opacity: 0.8;
+    transform: scale(1);
+    transition: all .3s ease;
+    cursor: pointer;
+}
+
+.image-modal-item:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
