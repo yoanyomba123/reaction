@@ -11,3 +11,4 @@ docs
 node_modules
 packages/*/.npm
 packages/*/lib/bower
+/ci/credentials.yml

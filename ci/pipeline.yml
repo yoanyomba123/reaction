@@ -1,0 +1,28 @@
+---
+jobs:
+- name: build-boxycard-docker-image
+  public: true
+  serial: true
+  plan:
+  - get: source-code
+    trigger: true
+  - put: boxycard-docker-image
+    params:
+      tag: source-code/.git/refs/heads/master
+      rootfs: true
+      save: true
+      build: source-code
+resources:
+- name: source-code
+  type: git
+  source:
+    uri: git@github.com:boomerdigital/boxycard-reaction
+    branch: master
+    private_key: ((private-repo-key))
+- name: boxycard-docker-image
+  type: docker-image
+  source:
+  source:
+    username: ((docker-hub-username))
+    password: ((docker-hub-password))
+    repository: ((docker-hub-org-username))/boxycard

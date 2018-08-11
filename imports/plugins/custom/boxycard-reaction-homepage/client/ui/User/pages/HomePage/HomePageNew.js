@@ -17,6 +17,8 @@ import ContainerDimensions from 'react-container-dimensions'
 import Button from 'material-ui/Button';
 import Ripples from 'react-ripples'
 import { Motion, spring } from 'react-motion'
+import { Redirect } from 'react-router-dom'
+
 import './cube.css'
 
 const scroll = Scroll.animateScroll;
@@ -35,6 +37,7 @@ export default class MeteorLandingPage extends Component {
       rotationAngle: 0,
     }
     this.handleScroll = this.handleScroll.bind(this)
+    this.handleGetStarted= this.handleGetStarted.bind(this)
   }
   componentWillMount() {
     this._isMounted = true
@@ -51,6 +54,16 @@ export default class MeteorLandingPage extends Component {
     this._isMounted = false
     window.removeEventListener("scroll", this.handleScroll);
   }
+
+
+
+  handleGetStarted(e){
+
+    window.location="/editor"
+  }
+
+
+
   handleScroll(e) {
     if (this._isMounted) {
       const windowHeight = window.innerHeight
@@ -595,7 +608,9 @@ export default class MeteorLandingPage extends Component {
                 style={{ width: '65%', height: 'auto', zIndex: 10, position: 'absolute' }}/>
 
               <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', zIndex: 50, position: 'relative', paddingTop: 389 }}>
-                <Button style={{ fontFamily: 'Helevetica+Neue', color: 'white', fontSize: 23, fontWeight: 400, textAlign: 'center', color: 'white', backgroundColor: '#0ea6db', borderRadius: 3, borderStyle: 'solid', borderColor: 'black', borderWidth: 2.5 }}>
+                <Button style={{ fontFamily: 'Helevetica+Neue', color: 'white', fontSize: 23, fontWeight: 400, textAlign: 'center', color: 'white', backgroundColor: '#0ea6db', borderRadius: 3, borderStyle: 'solid', borderColor: 'black', borderWidth: 2.5 }}
+                onClick={this.handleGetStarted}
+                 >
                   START DESIGNING YOUR BOXY CARD NOW
                 </Button>
               </Grid>
