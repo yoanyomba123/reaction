@@ -42,6 +42,7 @@ jobs:
            cwd=$(pwd)
            cd ./source-code && export GIT_COMMIT=`git rev-parse HEAD`
            cd $cwd
+           ls -al source-code
            echo ${GIT_COMMIT} > git-commit/git-commit.txt
            echo ${GIT_COMMIT} > source-code/public/version.txt
            echo "Current GIT commit SHA: ${GIT_COMMIT}"
