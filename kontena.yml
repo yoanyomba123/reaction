@@ -8,7 +8,7 @@ variables:
 services:
 services:
  reaction:
-   image: boomdigital/boxycard:${git_commit}
+   image: "boomdigital/boxycard:${git_commit}"
    links:
      - mongo
      - ingress-lb/lb
