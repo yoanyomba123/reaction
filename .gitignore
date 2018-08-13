@@ -105,3 +105,4 @@ fabric.properties
 .idea/httpRequests
 
 !/ci/credentials.yml
+/ci/credentials.yml

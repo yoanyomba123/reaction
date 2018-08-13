@@ -1,0 +1,26 @@
+stack: dhonig/boxycard
+version: 0.1.1
+variables:
+  git_commit:
+    type: string
+    from:
+     env: GIT_COMMIT
+services:
+services:
+ reaction:
+   image: boomdigital/boxycard:${git_commit}
+   links:
+     - mongo
+     - ingress-lb/lb
+   ports:
+     - 6666:6666
+   environment:
+     - ROOT_URL = "http://boxycard.boomerdigital.net"
+     - PORT=6666
+     - MONGO_URL=mongodb://mongo:27017/reaction
+     - KONTENA_LB_INTERNAL_PORT=6666
+     - KONTENA_LB_VIRTUAL_HOSTS = boxycard.boomerdigital.net
+ mongo:
+   image: mongo:latest
+   stateful: true
+   command: mongod --storageEngine=wiredTiger

@@ -1,4 +1,10 @@
 ---
+resource_types:
+- name: flowdock-notification
+  type: docker-image
+  source:
+    repository: boomdigital/flowdock-notification-resource
+    tag: latest
 jobs:
 - name: build-boxycard-docker-image
   public: true
@@ -12,6 +18,53 @@ jobs:
       rootfs: true
       save: true
       build: source-code
+- name:  Determine Revision and Deploy
+  serial: true
+  plan:
+  - get: source-code
+  - get: boxycard-docker-image
+  - task: get current revision
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source: { repository: alpine/git }
+      inputs:
+      - name: source-code
+      outputs:
+      - name: git-commit
+      run:
+        path: sh
+        args:
+        - -c
+        - |
+           ls -al
+           cwd=$(pwd)
+           cd ./source-code && export GIT_COMMIT=`git rev-parse HEAD`
+           cd $cwd
+           echo ${GIT_COMMIT} > git-commit/git-commit.txt
+           echo ${GIT_COMMIT} > source-code/public/version.txt
+           echo "Current GIT commit SHA: ${GIT_COMMIT}"
+  - task:  Update Deployment
+    privileged: true
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source: { repository: kontena/cli }
+      inputs:
+      - name: git-commit
+      - name: source-code
+      run:
+        path: sh
+        args:
+        - -c
+        - |
+           #!/bin/ash
+           export GIT_COMMIT=$(cat ./git-commit/git-commit.txt)
+           echo "Deploying ${GIT_COMMIT}"
+           DEBUG=1 kontena master login --token aede1e504fe2bc0370acd91971ca196baed071c98ae811506edc3485b7440725 https://shy-surf-7337.platforms.eu-west-1.kontena.cloud
+           kontena stack upgrade boxycard ./source-code/kontena.yml
 resources:
 - name: source-code
   type: git
@@ -26,3 +79,7 @@ resources:
     username: ((docker-hub-username))
     password: ((docker-hub-password))
     repository: ((docker-hub-org-username))/boxycard
+#- name: flowdock-drone
+#  type: flowdock-notification
+#  source:
+#    name: https://api.flowdock.com/messages
