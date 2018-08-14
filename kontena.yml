@@ -21,6 +21,6 @@ services:
      - KONTENA_LB_INTERNAL_PORT=6666
      - KONTENA_LB_VIRTUAL_HOSTS = boxycard.boomerdigital.net
  mongo:
-   image: mongo:latest
+   image: mongo:3.6
    stateful: true
    command: mongod --storageEngine=wiredTiger
