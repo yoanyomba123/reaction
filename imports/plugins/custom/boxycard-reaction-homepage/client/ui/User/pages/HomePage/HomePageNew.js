@@ -17,6 +17,7 @@ import Button from 'material-ui/Button';
 import Ripples from 'react-ripples'
 import { Motion, spring } from 'react-motion'
 import { Redirect } from 'react-router-dom'
+import Typekit from 'react-typekit';
 
 import './cube.css'
 
@@ -162,12 +163,12 @@ export default class MeteorLandingPage extends Component {
     const windowHeight = window.innerHeight
     return (
       <div style={{ backgroundColor: '#eee', width: '100%' }}>
-        <Grid container style={{ paddingTop: 200 }}>
+        <Grid container style={{ paddingTop: 250 }}>
           <img
             src='images/bg/boxy-bg.svg'
-            style={{ position: 'absolute', width: '40%', height: 'auto', zIndex: 10, display: 'block', marginLeft: 'auto', marginRight: 'auto', top: 0, left: '50%', transform: 'translate(-50%, 0%)' }}/>
-          <Grid item xs={12} sm={12} md={3} lg={4} xl={4} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-end', width: '100%', paddingTop: 36 }}>
-            <div style={{ fontFamily: 'Roboto', fontSize: 28, fontWeight: 500, color: 'black', paddingRight: 5 }}>
+            style={{ position: 'absolute', width: '40%', height: 'auto', zIndex: 0, display: 'block', marginLeft: 'auto', marginRight: 'auto', top: 0, left: '50%', transform: 'translate(-50%, 0%)' }}/>
+          <Grid item xs={12} sm={12} md={3} lg={4} xl={4} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-end', width: '100%', paddingTop: 26 }}>
+            <div style={{ fontFamily: 'futura-pt', fontSize: 43, fontWeight: 500, color: 'black', paddingRight: 5 }}>
               Hey there{name}.
             </div>
             <div style={{ width: '60%', paddingRight: 5, marginTop: 14, marginBottom: 0 }}>
@@ -175,7 +176,7 @@ export default class MeteorLandingPage extends Component {
                 src='images/graphics/cards-with-benefits.png'
                 style={{ width: '100%', height: 'auto' }}/>
             </div>
-            <div style ={{ fontFamily: 'Helevetica+Neue', color: '#999999', width: '60%', paddingRight: 5, textAlign: 'right', fontSize: 14, paddingTop: -1.5 }}>
+            <div style ={{ fontFamily: 'Helvetica Neue', color: '#999999', width: '60%', paddingRight: 5, textAlign: 'right', fontSize: 16, paddingTop: -1.5 }}>
               <div>Museum-Quality Prints</div>
               <div>Eight Faces Of Space</div>
               <div>Fits With The Rest In Your Wallet</div>
@@ -531,6 +532,7 @@ export default class MeteorLandingPage extends Component {
       <div>
         {this.renderBigMain()}
         <div style={{ height: 500 }}></div>
+        <Typekit kitId="igo7pcj" />
       </div>
     )
   }
