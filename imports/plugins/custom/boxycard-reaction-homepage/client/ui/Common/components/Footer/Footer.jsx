@@ -7,7 +7,7 @@ import globalStyles from "../../../../config/globalStyles"
 import { combineStyles } from "../../../../config/helpers"
 import styles from "./styles"
 import { appName } from "../../../../config/globalConsts"
-
+import { registerComponent } from "@reactioncommerce/reaction-components";
 
 const helpMenus = [
   {
@@ -51,7 +51,7 @@ const menus = [
   }
 ]
 
-export default class Footer extends Component {
+class Footer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -76,3 +76,5 @@ export default class Footer extends Component {
     )
   }
 }
+
+registerComponent("BoxycardFooter", Footer);
