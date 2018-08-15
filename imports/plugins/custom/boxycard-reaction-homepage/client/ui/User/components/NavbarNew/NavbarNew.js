@@ -12,7 +12,6 @@ import MdSearch from "react-icons/lib/md/search";
 import FaClose from 'react-icons/lib/fa/close'
 import FaShoppingCart from "react-icons/lib/fa/shopping-cart";
 import MdMenu from "react-icons/lib/md/menu";
-import StickyDiv from 'react-stickydiv';
 import Grid from 'material-ui/Grid';
 import Hidden from 'material-ui/Hidden';
 import Drawer from "material-ui/Drawer";
@@ -457,49 +456,45 @@ class Navbar extends NavBar {
               </Grid>
 
               <Grid item xs={12} sm={4} md={4} lg={4} xl={4} style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', flexDirection: 'row', zIndex: 1 }}>
-                <StickyDiv>
-                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', flexDirection: 'row', zIndex: 1 }}>
-                    <div style={{ backgroundColor: 'black', padding: '1%', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: 5, width: '90%', maxWidth: 253 }}>
-                      <div style={{ zIndex: 1, padding: '2%' }}>
-                        <a href='/myaccount' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>MY ACCOUNT</a>
-                      </div>
-                      <div style={{ zIndex: 1, padding: '2%' }}>
-                        <a href='/cart' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>CART</a>
-                      </div>
-                      <div style={{ zIndex: 1, padding: '2%' }}>
-                        <a href='/login' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>LOGIN</a>
-                      </div>
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', flexDirection: 'row', zIndex: 1 }}>
+                  <div style={{ backgroundColor: 'black', padding: '1%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 5, width: '90%', maxWidth: 253 }}>
+                    <div style={{ zIndex: 1, padding: '2%' }}>
+                      <a href='/myaccount' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>MY ACCOUNT</a>
+                    </div>
+                    <div style={{ zIndex: 1, padding: '2%' }}>
+                      <a href='/cart' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>CART</a>
+                    </div>
+                    <div style={{ zIndex: 1, padding: '2%' }}>
+                      <a href='/login' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>LOGIN</a>
                     </div>
                   </div>
-                </StickyDiv>
+                </div>
               </Grid>
             </Grid>
 
             <Grid container style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-              <StickyDiv>
-                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                  <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: 'black', borderRadius: 5, width: '37%', minWidth: 460, zIndex: 100 }}>
-                    <div style={{ zIndex: 1, padding: '2%' }}>
-                      <a href='/' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>HOME</a>
-                    </div>
-                    <div style={{ zIndex: 1, padding: '2%' }}>
-                      <a href='/about'style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>ABOUT</a>
-                    </div>
-                    <div style={{ zIndex: 1, padding: '2%' }}>
-                      <a href='/templates' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>TEMPLATES</a>
-                    </div>
-                    <div style={{ zIndex: 1, padding: '2%' }}>
-                      <a href='/inspiration' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>INSPIRATION</a>
-                    </div>
-                    <div style={{ zIndex: 1, padding: '2%' }}>
-                      <a href='/faqs' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>FAQS</a>
-                    </div>
-                    <div style={{ zIndex: 1, padding: '2%' }}>
-                      <a href='/contact' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>CONTACT</a>
-                    </div>
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: 'black', borderRadius: 5, width: '37%', minWidth: 460, zIndex: 100 }}>
+                  <div style={{ zIndex: 1, padding: '2%' }}>
+                    <a href='/' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>HOME</a>
+                  </div>
+                  <div style={{ zIndex: 1, padding: '2%' }}>
+                    <a href='/about'style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>ABOUT</a>
+                  </div>
+                  <div style={{ zIndex: 1, padding: '2%' }}>
+                    <a href='/templates' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>TEMPLATES</a>
+                  </div>
+                  <div style={{ zIndex: 1, padding: '2%' }}>
+                    <a href='/inspiration' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>INSPIRATION</a>
+                  </div>
+                  <div style={{ zIndex: 1, padding: '2%' }}>
+                    <a href='/faqs' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>FAQS</a>
+                  </div>
+                  <div style={{ zIndex: 1, padding: '2%' }}>
+                    <a href='/contact' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>CONTACT</a>
                   </div>
                 </div>
-              </StickyDiv>
+              </div>
             </Grid>
 
           </Grid>

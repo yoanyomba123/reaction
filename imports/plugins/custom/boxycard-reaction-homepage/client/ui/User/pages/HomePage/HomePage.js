@@ -218,11 +218,6 @@ class LandingPage extends Component {
 
     )
   }
-  renderSmallMain() {
-    return(
-      <div>Small</div>
-    )
-  }
 
   renderBigMain() {
     const name = ', Andrea'
@@ -596,7 +591,6 @@ class LandingPage extends Component {
       <div style={{ width: '100%' }}>
         {this.renderSmallNav()}
         {this.renderBigNav()}
-        {this.renderSmallMain()}
         {this.renderBigMain()}
         <div style={{ height: 500 }}></div>
       </div>
