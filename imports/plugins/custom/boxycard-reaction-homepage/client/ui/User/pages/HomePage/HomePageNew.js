@@ -287,7 +287,7 @@ export default class MeteorLandingPage extends Component {
             </div>
             <img
               src='images/graphics/frames2-fg.png'
-              style={{ width: '110%', height: 'auto', zIndex: 10, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}/>
+              style={{ width: '110%', height: 'auto', zIndex: 100, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}/>
             <img
               src='images/graphics/frames3-bg.png'
               style={{ zIndex: 1, width: '107%', height: 'auto', position: 'absolute', paddingTop: '9.9%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}/>
@@ -337,7 +337,7 @@ export default class MeteorLandingPage extends Component {
                   style={{ width: '118%', height: 'auto', zIndex: 10 }}/>
                 <img
                   src='images/graphics/wallet-fg.png'
-                  style={{ zIndex: 15, width: '118%', height: 'auto', position: 'absolute', top: 1.8 }}/>
+                  style={{ zIndex: 100, width: '118%', height: 'auto', position: 'absolute', top: 1.8 }}/>
               </Grid>
               <Grid item xs={12} sm={12} md={3} lg={3} xl={3} style={{ width: '100%', height: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                 <div style={{ fontFamily: 'Roboto', fontSize: 42, fontWeight: 700, color: 'black', paddingRight: '20%', justifyContent: 'center', alignItems: 'center', paddingTop: 100, marginLeft: -100 }}>
