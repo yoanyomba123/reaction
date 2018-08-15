@@ -1,0 +1,7 @@
+import "./pages/HomePage"
+import "./pages/About"
+import "./pages/Templates"
+import "./pages/EditorPage"
+import "./pages/Inspiration"
+import "./pages/Contact"
+import "./pages/FAQs"

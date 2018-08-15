@@ -12,7 +12,7 @@ import colors from "../../../../config/colors";
 import styles from "./styles";
 import { updateAlert } from "../../../Actions";
 import Scroll from "react-scroll";
-import NavbarHome from '../../components/NavbarNew'
+
 import StickyDiv from 'react-stickydiv';
 import ReactPlayer from 'react-player'
 import ContainerDimensions from 'react-container-dimensions'
