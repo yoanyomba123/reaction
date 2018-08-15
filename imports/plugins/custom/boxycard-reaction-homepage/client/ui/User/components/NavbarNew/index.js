@@ -1,3 +1,3 @@
-import NavbarNew from "./Navbar"
+import NavbarNew from "./NavbarNew"
 
 export default NavbarNew
