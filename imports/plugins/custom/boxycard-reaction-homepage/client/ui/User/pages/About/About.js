@@ -380,9 +380,6 @@ export default class LandingPage extends Component {
   render() {
     return (
       <div>
-        {this.renderSmallNav()}
-        {this.renderBigNav()}
-        {this.renderSmallMain()}
         {this.renderBigMain()}
       </div>
     )
