@@ -98,6 +98,21 @@ const styles = {
     height: "100%",
     backgroundColor: colors.grey,
     cursor: "pointer"
+  },
+  button: {
+    fontFamily: 'Helevetica+Neue',
+    color: 'white',
+    fontSize: 23,
+    fontWeight: 400,
+    textAlign: 'center',
+    color: 'white',
+    backgroundColor: '#0ea6db',
+    borderRadius: 3,
+    borderStyle: 'solid',
+    borderColor: 'black',
+    borderWidth: 2.5,
+    position: 'absolute',
+    bottom: 20
   }
 }
 
