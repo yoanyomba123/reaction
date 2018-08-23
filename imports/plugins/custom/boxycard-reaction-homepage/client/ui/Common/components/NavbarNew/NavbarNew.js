@@ -26,8 +26,10 @@ import Dialog, {
   DialogContentText,
   DialogTitle,
 } from 'material-ui/Dialog';
+import { getRawComponent, replaceComponent } from "@reactioncommerce/reaction-components";
+const NavBar = getRawComponent("NavBar");
 
-class Navbar extends Component {
+class Navbar extends NavBar {
   constructor(props) {
     super(props);
     this.state = {
@@ -433,6 +435,93 @@ class Navbar extends Component {
       </Hidden>
     )
   }
+
+  renderBigNav() {
+    return (
+      <Hidden only={['xs', 'sm']}>
+        <Grid container spacing={24}>
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+            <img
+              src='images/bg/header-home-bg.png'
+              style={{ position: 'absolute', width: '100%', height: 'auto', zIndex: 1, minHeight: 279, minWidth: 1336, display: 'block', marginLeft: 'auto', marginRight: 'auto', top: 0, left: '50%', transform: 'translate(-50%, 0%)' }}/>
+            <Grid container>
+              <Grid item xs={12} sm={4} md={4} lg={4} xl={4} style={{ zIndex: 1, padding: '1%' }}>
+              </Grid>
+              <Grid item xs={12} sm={4} md={4} lg={4} xl={4} style={{ zIndex: 1, padding: '1%', display: 'flex', justifyContent: 'center', alignItems: 'flex', flexDirection: 'row' }}>
+                <div style={{ backgroundColor: 'rgba(0,0,0,0.6)', paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, display: 'flex', justifyContent: 'center', alignItems: 'center',  marginBottom: '3%', width: '80%' }}>
+                  <div style={{ backgroundColor: 'black', padding: '3% 1%', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+                    <img src='images/boxycard-logo.svg' style={{ position: 'relative', width: '88%', height: 'auto', zIndex: 100 }}/>
+                  </div>
+                </div>
+              </Grid>
+
+              <Grid item xs={12} sm={4} md={4} lg={4} xl={4} style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', flexDirection: 'row', zIndex: 1 }}>
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', flexDirection: 'row', zIndex: 1, width: '100%' }}>
+                  <div style={{ backgroundColor: 'black', padding: '3%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 5, width: '90%', maxWidth: 253 }}>
+                    <div style={{ zIndex: 1 }}>
+                      <a href='/myaccount' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>MY ACCOUNT</a>
+                    </div>
+                    <div style={{ zIndex: 1 }}>
+                      <a href='/cart' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>CART</a>
+                    </div>
+                    <div style={{ zIndex: 1 }}>
+                      <a href='/login' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>LOGIN</a>
+                    </div>
+                  </div>
+                </div>
+              </Grid>
+            </Grid>
+
+            <Grid container style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'black', borderRadius: 5, width: '37%', minWidth: 460, zIndex: 100, padding: '3%' }}>
+                  <div style={{ zIndex: 1 }}>
+                    <a href='/' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>HOME</a>
+                  </div>
+                  <div style={{ zIndex: 1 }}>
+                    <a href='/about'style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>ABOUT</a>
+                  </div>
+                  <div style={{ zIndex: 1 }}>
+                    <a href='/templates' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>TEMPLATES</a>
+                  </div>
+                  <div style={{ zIndex: 1 }}>
+                    <a href='/inspiration' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>INSPIRATION</a>
+                  </div>
+                  <div style={{ zIndex: 1 }}>
+                    <a href='/faqs' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>FAQS</a>
+                  </div>
+                  <div style={{ zIndex: 1 }}>
+                    <a href='/contact' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>CONTACT</a>
+                  </div>
+                </div>
+              </div>
+            </Grid>
+
+          </Grid>
+        </Grid>
+      </Hidden>
+    );
+  }
+  renderSmallNav() {
+    return (
+      <Hidden only={['md','lg','xl']}>
+        <Grid container style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: '3%' }}>
+          <div style={{backgroundColor: 'rgba(0,0,0,0.6)', paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 100, width: '80%' }}>
+            <div style={{ zIndex: 100, backgroundColor: 'black', paddingTop: '3%', paddingBottom: '3%', paddingLeft: '1%', paddingRight: '1%', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
+              <img src='images/boxycard-logo.svg' style={{ position: 'relative', width: '75%', height: 'auto', zIndex: 100 }}/>
+            </div>
+          </div>
+          <Grid item xs={12} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+            <img
+              src='images/bg/header-home-bg.png'
+              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: 'auto', zIndex: 2, minHeight: 279, minWidth: 1336, display: 'block', marginLeft: 'auto', marginRight: 'auto', top: 0, left: '50%', transform: 'translate(-50%, 0%)' }}/>
+          </Grid>
+        </Grid>
+      </Hidden>
+
+    )
+  }
+
   render() {
     return (
       <Grid
@@ -456,7 +545,6 @@ class Navbar extends Component {
           <div>Drawer</div>
         </Drawer>
         {this.renderModalLogin()}
-        {this.renderBigScreen()}
         {this.renderSmallScreen()}
         <Dialog
           open={this.state.showAlert}
@@ -480,6 +568,8 @@ class Navbar extends Component {
             </Button>
           </DialogActions>
         </Dialog>
+        {this.renderSmallNav()}
+        {this.renderBigNav()}
       </Grid>
     );
   }
@@ -509,4 +599,5 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
+replaceComponent("NavBar", MeteorNav);
 export default connect(mapStateToProps, mapDispatchToProps)(MeteorNav);

@@ -6,16 +6,17 @@ const styles = {
     paddingLeft: "6%",
     paddingTop: "5%",
     paddingRight: "6%",
-    borderTopWidth: 1,
+    borderTopWidth: 10,
     borderTopStyle: 'solid',
-    borderTopColor: colors.grey,
-    borderBottomWidth: 1,
-    borderBottomStyle: 'solid',
-    borderBottomColor: colors.grey,
+    borderTopColor: "#3b3b3b",
+    backgroundColor: "#555555"
+  },
+  footerLinks: {
+    color: "#fff"
   },
   contCopyright: {
-    padding: "2.5%",
-    marginTop: "2.5%",
+    color: "#fff",
+    marginTop: 25
   },
   img: {
     width: "100%",

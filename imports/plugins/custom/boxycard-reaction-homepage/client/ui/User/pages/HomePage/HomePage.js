@@ -13,7 +13,7 @@ import styles from "./styles";
 import { connect } from 'react-redux'
 import { updateAlert } from "../../../Actions";
 import Scroll from "react-scroll";
-import NavbarHome from '../../components/NavbarNew'
+
 import StickyDiv from 'react-stickydiv';
 import ReactPlayer from 'react-player'
 import ContainerDimensions from 'react-container-dimensions'
@@ -216,11 +216,6 @@ class LandingPage extends Component {
         </Grid>
       </Hidden>
 
-    )
-  }
-  renderSmallMain() {
-    return(
-      <div>Small</div>
     )
   }
 
@@ -596,7 +591,6 @@ class LandingPage extends Component {
       <div style={{ width: '100%' }}>
         {this.renderSmallNav()}
         {this.renderBigNav()}
-        {this.renderSmallMain()}
         {this.renderBigMain()}
         <div style={{ height: 500 }}></div>
       </div>

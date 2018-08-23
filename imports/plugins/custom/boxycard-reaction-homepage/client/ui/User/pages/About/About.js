@@ -11,7 +11,6 @@ import colors from "../../../../config/colors";
 import styles from "./styles";
 import { updateAlert } from "../../../Actions";
 import Scroll from "react-scroll";
-import NavbarHome from '../../components/NavbarNew'
 import StickyDiv from 'react-stickydiv';
 import Ripples from 'react-ripples'
 
@@ -381,9 +380,6 @@ export default class LandingPage extends Component {
   render() {
     return (
       <div>
-        {this.renderSmallNav()}
-        {this.renderBigNav()}
-        {this.renderSmallMain()}
         {this.renderBigMain()}
       </div>
     )
