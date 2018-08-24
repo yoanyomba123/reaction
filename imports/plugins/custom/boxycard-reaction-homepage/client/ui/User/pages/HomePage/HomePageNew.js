@@ -17,6 +17,7 @@ import Button from 'material-ui/Button';
 import Ripples from 'react-ripples'
 import { Motion, spring } from 'react-motion'
 import { Redirect } from 'react-router-dom'
+import Typekit from 'react-typekit';
 
 import './cube.css'
 
@@ -162,12 +163,12 @@ export default class MeteorLandingPage extends Component {
     const windowHeight = window.innerHeight
     return (
       <div style={{ backgroundColor: '#eee', width: '100%' }}>
-        <Grid container style={{ paddingTop: 200 }}>
+        <Grid container style={{ paddingTop: 250 }}>
           <img
             src='images/bg/boxy-bg.svg'
-            style={{ position: 'absolute', width: '40%', height: 'auto', zIndex: 10, display: 'block', marginLeft: 'auto', marginRight: 'auto', top: 0, left: '50%', transform: 'translate(-50%, 0%)' }}/>
-          <Grid item xs={12} sm={12} md={3} lg={4} xl={4} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-end', width: '100%', paddingTop: 36 }}>
-            <div style={{ fontFamily: 'Roboto', fontSize: 28, fontWeight: 500, color: 'black', paddingRight: 5 }}>
+            style={{ position: 'absolute', width: '40%', height: 'auto', zIndex: 0, display: 'block', marginLeft: 'auto', marginRight: 'auto', top: 0, left: '50%', transform: 'translate(-50%, 0%)' }}/>
+          <Grid item xs={12} sm={12} md={3} lg={4} xl={4} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-end', width: '100%', paddingTop: 26 }}>
+            <div style={{ fontFamily: 'futura-pt', fontSize: 43, fontWeight: 500, color: 'black', paddingRight: 5 }}>
               Hey there{name}.
             </div>
             <div style={{ width: '60%', paddingRight: 5, marginTop: 14, marginBottom: 0 }}>
@@ -175,7 +176,7 @@ export default class MeteorLandingPage extends Component {
                 src='images/graphics/cards-with-benefits.png'
                 style={{ width: '100%', height: 'auto' }}/>
             </div>
-            <div style ={{ fontFamily: 'Helevetica+Neue', color: '#999999', width: '60%', paddingRight: 5, textAlign: 'right', fontSize: 14, paddingTop: -1.5 }}>
+            <div style ={{ fontFamily: 'Helvetica Neue', color: '#999999', width: '60%', paddingRight: 5, textAlign: 'right', fontSize: 16, paddingTop: -1.5 }}>
               <div>Museum-Quality Prints</div>
               <div>Eight Faces Of Space</div>
               <div>Fits With The Rest In Your Wallet</div>
@@ -279,7 +280,7 @@ export default class MeteorLandingPage extends Component {
         <Grid container style={{ paddingTop: 500 }}>
           <Grid item xs={12} sm={12} md={3} lg={3} xl={3}></Grid>
           <Grid item xs={12} sm={12} md={6} lg={6} xl={6} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', position: 'relative' }}>
-            <div style={{ paddingRight: '47%', zIndex: 20 }}>
+            <div style={{ paddingRight: '47%', zIndex: 50 }}>
               <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'black', width: '142%', height: '11%', padding: 10, color: 'white', fontSize: '280%', fontWeight: 300, fontFamily: 'Roboto' }}>
                 Museum-Quality Prints
               </div>
@@ -493,7 +494,7 @@ export default class MeteorLandingPage extends Component {
                 </div>
               </Grid>
             </Grid>
-            <Grid container style={{ paddingTop: 500 }}>
+            <Grid container style={{ paddingTop: 600 }}>
               <Grid item xs={12} sm={12} md={4} lg={4} xl={4} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-start', width: '100%' }}>
                 <div style={{ fontFamily: 'Roboto', fontSize: 42, fontWeight: 700, color: 'black', lineHeight: 1, paddingLeft: '40%' }}>
                   Stack Them!
@@ -506,14 +507,14 @@ export default class MeteorLandingPage extends Component {
                 </div>
               </Grid>
             </Grid>
-            <Grid container style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', margin: 0, padding: 0 }}>
+            <Grid container style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
               <img
                 id="boxesImg"
                 src='images/graphics/lobby2-bg.png'
-                style={{ width: '65%', height: 'auto', zIndex: 10, position: 'absolute' }}/>
+                style={{ width: '65%', height: 'auto', zIndex: 10 }}/>
 
-              <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', zIndex: 50, position: 'relative', paddingTop: 389 }}>
-                <Button style={{ fontFamily: 'Helevetica+Neue', color: 'white', fontSize: 23, fontWeight: 400, textAlign: 'center', color: 'white', backgroundColor: '#0ea6db', borderRadius: 3, borderStyle: 'solid', borderColor: 'black', borderWidth: 2.5 }}
+              <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', zIndex: 50, position: 'relative' }}>
+                <Button style={styles.button}
                 onClick={this.handleGetStarted}
                  >
                   START DESIGNING YOUR BOXY CARD NOW
@@ -530,7 +531,7 @@ export default class MeteorLandingPage extends Component {
     return (
       <div>
         {this.renderBigMain()}
-        <div style={{ height: 500 }}></div>
+        <Typekit kitId="igo7pcj" />
       </div>
     )
   }

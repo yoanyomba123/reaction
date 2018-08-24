@@ -449,22 +449,22 @@ class Navbar extends NavBar {
               </Grid>
               <Grid item xs={12} sm={4} md={4} lg={4} xl={4} style={{ zIndex: 1, padding: '1%', display: 'flex', justifyContent: 'center', alignItems: 'flex', flexDirection: 'row' }}>
                 <div style={{ backgroundColor: 'rgba(0,0,0,0.6)', paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, display: 'flex', justifyContent: 'center', alignItems: 'center',  marginBottom: '3%', width: '80%' }}>
-                  <div style={{ backgroundColor: 'black', paddingTop: '3%', paddingBottom: '2%', paddingLeft: '1%', paddingRight: '1%', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+                  <div style={{ backgroundColor: 'black', padding: '3% 1%', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
                     <img src='images/boxycard-logo.svg' style={{ position: 'relative', width: '88%', height: 'auto', zIndex: 100 }}/>
                   </div>
                 </div>
               </Grid>
 
               <Grid item xs={12} sm={4} md={4} lg={4} xl={4} style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', flexDirection: 'row', zIndex: 1 }}>
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', flexDirection: 'row', zIndex: 1 }}>
-                  <div style={{ backgroundColor: 'black', padding: '1%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 5, width: '90%', maxWidth: 253 }}>
-                    <div style={{ zIndex: 1, padding: '2%' }}>
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', flexDirection: 'row', zIndex: 1, width: '100%' }}>
+                  <div style={{ backgroundColor: 'black', padding: '3%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 5, width: '90%', maxWidth: 253 }}>
+                    <div style={{ zIndex: 1 }}>
                       <a href='/myaccount' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>MY ACCOUNT</a>
                     </div>
-                    <div style={{ zIndex: 1, padding: '2%' }}>
+                    <div style={{ zIndex: 1 }}>
                       <a href='/cart' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>CART</a>
                     </div>
-                    <div style={{ zIndex: 1, padding: '2%' }}>
+                    <div style={{ zIndex: 1 }}>
                       <a href='/login' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>LOGIN</a>
                     </div>
                   </div>
@@ -474,23 +474,23 @@ class Navbar extends NavBar {
 
             <Grid container style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: 'black', borderRadius: 5, width: '37%', minWidth: 460, zIndex: 100 }}>
-                  <div style={{ zIndex: 1, padding: '2%' }}>
+                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'black', borderRadius: 5, width: '37%', minWidth: 460, zIndex: 100, padding: '3%' }}>
+                  <div style={{ zIndex: 1 }}>
                     <a href='/' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>HOME</a>
                   </div>
-                  <div style={{ zIndex: 1, padding: '2%' }}>
+                  <div style={{ zIndex: 1 }}>
                     <a href='/about'style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>ABOUT</a>
                   </div>
-                  <div style={{ zIndex: 1, padding: '2%' }}>
+                  <div style={{ zIndex: 1 }}>
                     <a href='/templates' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>TEMPLATES</a>
                   </div>
-                  <div style={{ zIndex: 1, padding: '2%' }}>
+                  <div style={{ zIndex: 1 }}>
                     <a href='/inspiration' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>INSPIRATION</a>
                   </div>
-                  <div style={{ zIndex: 1, padding: '2%' }}>
+                  <div style={{ zIndex: 1 }}>
                     <a href='/faqs' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>FAQS</a>
                   </div>
-                  <div style={{ zIndex: 1, padding: '2%' }}>
+                  <div style={{ zIndex: 1 }}>
                     <a href='/contact' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>CONTACT</a>
                   </div>
                 </div>

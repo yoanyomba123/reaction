@@ -1,1 +1,1 @@
-import "./Footer";
+export { default as BoxycardFooter } from "./footer";
