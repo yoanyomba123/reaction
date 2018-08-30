@@ -146,95 +146,95 @@ jobs:
               echo "No deploy for forks"
             fi
 
-  deploy-to-ecs:
-    <<: *defaults
-    steps:
-      - checkout
-      - run:
-          name: Deploy new task definition and update service in ECS
-          command: |
-            .circleci/bin/ecs-deploy.sh
+  # deploy-to-ecs:
+  #   <<: *defaults
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Deploy new task definition and update service in ECS
+  #         command: |
+  #           .circleci/bin/ecs-deploy.sh
 
-  deploy-docs:
-    <<: *defaults
-    steps:
-      - checkout
-      - run:
-          name: Install AWS CLI
-          command: sudo apt-get -y -qq install awscli
-      - run:
-          name: NPM Install JSDoc
-          command: sudo npm install -g jsdoc
-      - run:
-          name: Build JSDoc files
-          command: |
-            jsdoc . \
-              --verbose \
-              --configure .reaction/jsdoc/jsdoc.json \
-              --readme .reaction/jsdoc/templates/static/README.md
-      - run:
-          name: Deploy Doc files to S3
-          command: |
-            if [[ "${API_DOC_BUCKET}" && "${API_DOC_BUCKET_REGION}" ]]; then
-              aws s3 sync /tmp/reaction-docs ${API_DOC_BUCKET} --delete --region ${API_DOC_BUCKET_REGION}
-            else
-              echo "S3 bucket configuration not found for jsdocs"
-              echo "Set API_DOC_BUCKET and API_DOC_BUCKET_REGION to build and deploy jsdocs to S3"
-              exit 1;
-            fi
+  # deploy-docs:
+  #   <<: *defaults
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Install AWS CLI
+  #         command: sudo apt-get -y -qq install awscli
+  #     - run:
+  #         name: NPM Install JSDoc
+  #         command: sudo npm install -g jsdoc
+  #     - run:
+  #         name: Build JSDoc files
+  #         command: |
+  #           jsdoc . \
+  #             --verbose \
+  #             --configure .reaction/jsdoc/jsdoc.json \
+  #             --readme .reaction/jsdoc/templates/static/README.md
+  #     - run:
+  #         name: Deploy Doc files to S3
+  #         command: |
+  #           if [[ "${API_DOC_BUCKET}" && "${API_DOC_BUCKET_REGION}" ]]; then
+  #             aws s3 sync /tmp/reaction-docs ${API_DOC_BUCKET} --delete --region ${API_DOC_BUCKET_REGION}
+  #           else
+  #             echo "S3 bucket configuration not found for jsdocs"
+  #             echo "Set API_DOC_BUCKET and API_DOC_BUCKET_REGION to build and deploy jsdocs to S3"
+  #             exit 1;
+  #           fi
 
-  eslint:
-    <<: *defaults
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - ${GLOBAL_CACHE_VERSION}-node-modules-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
-            - ${GLOBAL_CACHE_VERSION}-node-modules-{{ .Branch }}
-            - ${GLOBAL_CACHE_VERSION}-node-modules-master
-      - run:
-          name: Run Lint
-          command: |
-            npm run lint -- --quiet
+  # eslint:
+  #   <<: *defaults
+  #   steps:
+  #     - checkout
+  #     - restore_cache:
+  #         keys:
+  #           - ${GLOBAL_CACHE_VERSION}-node-modules-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
+  #           - ${GLOBAL_CACHE_VERSION}-node-modules-{{ .Branch }}
+  #           - ${GLOBAL_CACHE_VERSION}-node-modules-master
+  #     - run:
+  #         name: Run Lint
+  #         command: |
+  #           npm run lint -- --quiet
 
-  test-app:
-    <<: *defaults
-    steps:
-      - checkout
-      - restore_cache:
-          name: Restoring Meteor cache
-          key: ${GLOBAL_CACHE_VERSION}-meteor
-      - run:
-          name: Link Restored Meteor
-          command: sudo ln -s ~/.meteor/meteor /usr/local/bin/meteor
-      - restore_cache:
-          # Fall back to less specific caches
-          keys:
-            - ${GLOBAL_CACHE_VERSION}-node-modules-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
-            - ${GLOBAL_CACHE_VERSION}-node-modules-{{ .Branch }}
-            - ${GLOBAL_CACHE_VERSION}-node-modules-master
-      - run:
-          name: Install Reaction CLI
-          command: sudo npm install -g reaction-cli
-      - run:
-          name: Load App Plugins
-          command: reaction plugins load
-      - run:
-          name: Run Meteor Integration Tests
-          command: .circleci/tests.sh
+  # test-app:
+  #   <<: *defaults
+  #   steps:
+  #     - checkout
+  #     - restore_cache:
+  #         name: Restoring Meteor cache
+  #         key: ${GLOBAL_CACHE_VERSION}-meteor
+  #     - run:
+  #         name: Link Restored Meteor
+  #         command: sudo ln -s ~/.meteor/meteor /usr/local/bin/meteor
+  #     - restore_cache:
+  #         # Fall back to less specific caches
+  #         keys:
+  #           - ${GLOBAL_CACHE_VERSION}-node-modules-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
+  #           - ${GLOBAL_CACHE_VERSION}-node-modules-{{ .Branch }}
+  #           - ${GLOBAL_CACHE_VERSION}-node-modules-master
+  #     - run:
+  #         name: Install Reaction CLI
+  #         command: sudo npm install -g reaction-cli
+  #     - run:
+  #         name: Load App Plugins
+  #         command: reaction plugins load
+  #     - run:
+  #         name: Run Meteor Integration Tests
+  #         command: .circleci/tests.sh
 
-  test-unit:
-    <<: *defaults
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - ${GLOBAL_CACHE_VERSION}-node-modules-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
-            - ${GLOBAL_CACHE_VERSION}-node-modules-{{ .Branch }}
-            - ${GLOBAL_CACHE_VERSION}-node-modules-master
-      - run:
-          name: Run Unit Tests
-          command: npm run test:unit
+  # test-unit:
+  #   <<: *defaults
+  #   steps:
+  #     - checkout
+  #     - restore_cache:
+  #         keys:
+  #           - ${GLOBAL_CACHE_VERSION}-node-modules-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
+  #           - ${GLOBAL_CACHE_VERSION}-node-modules-{{ .Branch }}
+  #           - ${GLOBAL_CACHE_VERSION}-node-modules-master
+  #     - run:
+  #         name: Run Unit Tests
+  #           command: npm run test:unit
 
   test-integration:
     <<: *defaults
@@ -252,56 +252,56 @@ jobs:
           name: Run Integration Tests
           command: npm run test:integration
 
-  dockerfile-lint:
-    <<: *defaults
-    docker:
-      - image: hadolint/hadolint:v1.6.6-6-g254b4ff
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: Dockerfile Lint
-          command: |
-            hadolint Dockerfile
+  # dockerfile-lint:
+  #   <<: *defaults
+  #   docker:
+  #     - image: hadolint/hadolint:v1.6.6-6-g254b4ff
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker
+  #     - run:
+  #         name: Dockerfile Lint
+  #         command: |
+  #           hadolint Dockerfile
 
-  snyk-security:
-    <<: *defaults
-    steps:
-      - checkout
-      - setup_remote_docker
-      - restore_cache:
-          keys:
-            - ${GLOBAL_CACHE_VERSION}-node-modules-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
-            - ${GLOBAL_CACHE_VERSION}-node-modules-{{ .Branch }}
-            - ${GLOBAL_CACHE_VERSION}-node-modules-master
-      - run:
-          name: Snyk Test
-          command: |
-            CIRCLE_PR_NUMBER="${CIRCLE_PR_NUMBER:-${CIRCLE_PULL_REQUEST##*/}}" # Determine PR number from pull request link
-            if [[ -v CIRCLE_PR_NUMBER ]] && [ -n ${CIRCLE_PR_NUMBER} ]; then
-              url="https://api.github.com/repos/${DOCKER_REPOSITORY}/pulls/$CIRCLE_PR_NUMBER" # Get PR from github API
-              TARGET_BRANCH=$(curl "$url" | jq '.base.ref' | tr -d '"') # Determine target/base branch from API response
-            fi
+  # snyk-security:
+  #   <<: *defaults
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker
+  #     - restore_cache:
+  #         keys:
+  #           - ${GLOBAL_CACHE_VERSION}-node-modules-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
+  #           - ${GLOBAL_CACHE_VERSION}-node-modules-{{ .Branch }}
+  #           - ${GLOBAL_CACHE_VERSION}-node-modules-master
+  #     - run:
+  #         name: Snyk Test
+  #         command: |
+  #           CIRCLE_PR_NUMBER="${CIRCLE_PR_NUMBER:-${CIRCLE_PULL_REQUEST##*/}}" # Determine PR number from pull request link
+  #           if [[ -v CIRCLE_PR_NUMBER ]] && [ -n ${CIRCLE_PR_NUMBER} ]; then
+  #             url="https://api.github.com/repos/${DOCKER_REPOSITORY}/pulls/$CIRCLE_PR_NUMBER" # Get PR from github API
+  #             TARGET_BRANCH=$(curl "$url" | jq '.base.ref' | tr -d '"') # Determine target/base branch from API response
+  #           fi
 
-            if [ -z "${TARGET_BRANCH}" ] || [  ${TARGET_BRANCH} == "null" ]; then
-              echo "Not a PR. Skipping Snyk."
-              exit 0
-            fi
+  #           if [ -z "${TARGET_BRANCH}" ] || [  ${TARGET_BRANCH} == "null" ]; then
+  #             echo "Not a PR. Skipping Snyk."
+  #             exit 0
+  #           fi
 
-            # If target branch does not exist or is master, run snyk tests
-            if [ ${TARGET_BRANCH} == "master" ] || [ -z "${TARGET_BRANCH/[ ]*\n/}" ]; then
-              PATH=$PATH:$CIRCLE_WORKING_DIRECTORY/node_modules/.bin && \
-                snyk test
-            else
-              # If package.json is different from the base branch, run snyk
-              if git diff origin/$CIRCLE_BRANCH..origin/$TARGET_BRANCH package.json | grep diff; then
-                echo "package.json different. Running Snyk."
-                PATH=$PATH:$CIRCLE_WORKING_DIRECTORY/node_modules/.bin && \
-                snyk test
-              else
-                echo "package.json identical to target branch. Skipping Snyk."
-              fi
-            fi
+  #           # If target branch does not exist or is master, run snyk tests
+  #           if [ ${TARGET_BRANCH} == "master" ] || [ -z "${TARGET_BRANCH/[ ]*\n/}" ]; then
+  #             PATH=$PATH:$CIRCLE_WORKING_DIRECTORY/node_modules/.bin && \
+  #               snyk test
+  #           else
+  #             # If package.json is different from the base branch, run snyk
+  #             if git diff origin/$CIRCLE_BRANCH..origin/$TARGET_BRANCH package.json | grep diff; then
+  #               echo "package.json different. Running Snyk."
+  #               PATH=$PATH:$CIRCLE_WORKING_DIRECTORY/node_modules/.bin && \
+  #               snyk test
+  #             else
+  #               echo "package.json identical to target branch. Skipping Snyk."
+  #             fi
+  #           fi
 
 workflows:
   version: 2
@@ -309,19 +309,19 @@ workflows:
     jobs:
       - build
       - dockerfile-lint
-      - test-app:
-          requires:
-            - build
-      - test-unit:
-          requires:
-            - build
+      # - test-app:
+      #     requires:
+      #       - build
+      # - test-unit:
+      #     requires:
+      #       - build
       # TODO uncomment and figure out why they always fail on CI
       - test-integration:
            equires:
             - build
-      - eslint:
-          requires:
-            - build
+      # - eslint:
+      #     requires:
+      #       - build
       - docker-build:
           context: reaction-build-read
           requires:
@@ -330,21 +330,21 @@ workflows:
           context: reaction-publish-docker
           requires:
             - docker-build
-      - deploy-to-ecs:
-          requires:
-            - docker-push
-          filters:
-            branches:
-              only: /^release-1\.15\.\d+$/
-      - deploy-docs:
-          requires:
-            - test-unit
-            - test-app
-            - docker-build
-          filters:
-            branches:
-              only: /^master$/
-      - snyk-security:
-          context: reaction-validation
-          requires:
-            - build
+      # - deploy-to-ecs:
+      #     requires:
+      #       - docker-push
+      #     filters:
+      #       branches:
+      #         only: /^release-1\.15\.\d+$/
+      # - deploy-docs:
+      #     requires:
+      #       - test-unit
+      #       - test-app
+      #       - docker-build
+          # filters:
+          #   branches:
+          #     only: /^master$/
+      # - snyk-security:
+      #     context: reaction-validation
+      #     requires:
+      #       - build
