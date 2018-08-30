@@ -66,6 +66,10 @@ jobs:
             else
               echo "The css file size is" $size
             fi
+      # REMOVE THIS
+      - run:
+          name: Run Integration Tests
+          command: npm run test:integration            
       # Store node_modules dependency cache.
       # Saved with package.json checksum and timestamped branch name keys.
       - save_cache:
@@ -319,9 +323,9 @@ workflows:
       #     requires:
       #       - build
       # TODO uncomment and figure out why they always fail on CI
-      - test-integration:
-           requires:
-            - build
+      # - test-integration:
+      #      requires:
+      #       - build
       # - eslint:
       #     requires:
       #       - build
