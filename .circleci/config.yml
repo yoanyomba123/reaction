@@ -13,6 +13,7 @@ defaults: &defaults
   working_directory: ~/reaction-app
   docker:
     - image: circleci/node:8-stretch
+    - image: circleci/mongo:3.2-jessie-ram
 
 jobs:
   build:
@@ -239,7 +240,8 @@ jobs:
   test-integration:
     <<: *defaults
     docker:
-      - image: circleci/mongo:3
+      - image: circleci/node:8-stretch
+      - image: circleci/mongo:3.2-jessie-ram
     steps:
       - checkout
       - restore_cache:
@@ -252,7 +254,7 @@ jobs:
           key: mongodb-memory-server
       - run:
           name: Run Integration Tests
-          command: npm install && npm run test:integration
+          command: npm run test:integration
 
   dockerfile-lint:
     <<: *defaults
