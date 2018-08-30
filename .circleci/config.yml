@@ -317,7 +317,7 @@ workflows:
       #       - build
       # TODO uncomment and figure out why they always fail on CI
       - test-integration:
-           equires:
+           requires:
             - build
       # - eslint:
       #     requires:
