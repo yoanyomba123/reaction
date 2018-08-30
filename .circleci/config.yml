@@ -238,7 +238,6 @@ jobs:
 
   test-integration:
     <<: *defaults
-    docker:
     steps:
       - checkout
       - restore_cache:
