@@ -65,11 +65,7 @@ jobs:
               exit 3
             else
               echo "The css file size is" $size
-            fi
-      # REMOVE THIS
-      - run:
-          name: Run Integration Tests
-          command: npm run test:integration            
+            fi         
       # Store node_modules dependency cache.
       # Saved with package.json checksum and timestamped branch name keys.
       - save_cache:
@@ -243,8 +239,6 @@ jobs:
   test-integration:
     <<: *defaults
     docker:
-      - image: circleci/node:8-stretch
-      - image: circleci/mongo:3.6-jessie
     steps:
       - checkout
       - restore_cache:
@@ -252,6 +246,19 @@ jobs:
             - v1-node-modules-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
             - v1-node-modules-{{ .Branch }}
             - v1-node-modules-master
+      - run:
+          name: Install Meteor
+          command: |
+            if [[ -f ~/.meteor/meteor ]]; then \
+              printf "\nMeteor already installed. Creating symlink.\n"
+              sudo ln -s ~/.meteor/meteor /usr/local/bin/meteor;
+            else
+              printf "\Installing Meteor\n"
+              curl https://install.meteor.com | /bin/sh
+            fi
+      - run:
+          name: Meteor NPM Install
+          command: meteor npm install           
       - restore_cache:
           name: Restoring mongodb-memory-server MongoDB cache
           key: mongodb-memory-server
@@ -323,9 +330,9 @@ workflows:
       #     requires:
       #       - build
       # TODO uncomment and figure out why they always fail on CI
-      # - test-integration:
-      #      requires:
-      #       - build
+      - test-integration:
+           requires:
+            - build
       # - eslint:
       #     requires:
       #       - build
