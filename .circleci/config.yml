@@ -250,7 +250,7 @@ jobs:
           key: mongodb-memory-server
       - run:
           name: Run Integration Tests
-          command: npm run test:integration
+          command: npm install && npm run test:integration
 
   dockerfile-lint:
     <<: *defaults
