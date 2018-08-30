@@ -13,7 +13,6 @@ defaults: &defaults
   working_directory: ~/reaction-app
   docker:
     - image: circleci/node:8-stretch
-    - image: circleci/mongo:3.2-jessie-ram
 
 jobs:
   build:
@@ -241,7 +240,7 @@ jobs:
     <<: *defaults
     docker:
       - image: circleci/node:8-stretch
-      - image: circleci/mongo:3.2-jessie-ram
+      - image: circleci/mongo:3.6-jessie
     steps:
       - checkout
       - restore_cache:
