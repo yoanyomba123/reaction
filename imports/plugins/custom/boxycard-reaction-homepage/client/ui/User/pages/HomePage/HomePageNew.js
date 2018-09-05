@@ -98,6 +98,12 @@ export default class MeteorLandingPage extends Component {
         }
       }
 
+      if(framesTop > 0 && mainSides[0].classList.contains('box-img')) {
+        for (var i = 0; i < mainSides.length; ++i) {
+           mainSides[i].classList.remove('box-img')
+        }
+      }
+
       // Wallet
 
       const card = document.getElementById('cta-card')
@@ -112,6 +118,10 @@ export default class MeteorLandingPage extends Component {
       if (cardTop < 0) {
         for (var i = 0; i < cube.length; ++i) {
           cube[i].classList.add('flattened')
+        }
+      } else {
+        for (var i = 0; i < cube.length; ++i) {
+          cube[i].classList.remove('flattened')
         }
       }
 
