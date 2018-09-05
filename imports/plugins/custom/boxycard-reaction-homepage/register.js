@@ -40,7 +40,25 @@ Reaction.registerPackage({
       route: "/editor",
       name: "editor",
       template: "editorPage",
-      workflow: "coreWorkflow"
+      workflow: "coreDashboardWorkflow"
+    }
+  ],
+  layout: [
+    {
+      layout: "coreLayout",
+      workflow: "coreDashboardWorkflow",
+      enabled: true,
+      priority: 0,
+      structure: {
+        template: "editorPage",
+        layoutHeader: "",
+        layoutFooter: "",
+        notFound: "notFound",
+        dashboardHeader: "",
+        dashboardControls: "dashboardControls",
+        dashboardHeaderControls: "",
+        adminControlsFooter: "adminControlsFooter"
+      }
     }
   ]
 });
