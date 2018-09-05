@@ -42,33 +42,24 @@ export default class MeteorLandingPage extends Component {
     this.handleScroll = this.handleScroll.bind(this)
     this.handleGetStarted= this.handleGetStarted.bind(this)
   }
-  componentWillMount() {
-    this._isMounted = true
-    window.addEventListener("scroll", this.handleScroll);
-  }
   componentDidMount() {
-    scroll.scrollTo(0, {
-      duration: 0,
-      delay: 0,
-      smooth: true,
-    });
+    this._isMounted = true
+    debugger
+    this.handleScroll()
+    // window.addEventListener("scroll", this.handleScroll);
   }
+
   componentWillUnmount() {
     this._isMounted = false
     window.removeEventListener("scroll", this.handleScroll);
   }
 
-
-
   handleGetStarted(e){
-
     window.location="/editor"
   }
 
-
-
-  handleScroll(e) {
-    if (this._isMounted) {
+  handleScroll() {
+    // if (this._isMounted) {
       const boxy = document.querySelectorAll('#boxybox-main')
       const boxyFg = document.querySelectorAll('#boxybox-fg')
       const cube = document.getElementById('cube')
@@ -151,19 +142,18 @@ export default class MeteorLandingPage extends Component {
         duration: 100
       })
 
+        scene.setPin(boxy)
+          .addTo(boxyScrollController).on('start', function () {
+            console.log('Scene start');
+          }).on('end', function () {
+            console.log('Scene end');
+        });
 
-      scene.setPin(boxy)
-        .addTo(boxyScrollController).on('start', function () {
-          console.log('Scene start');
-        }).on('end', function () {
-          console.log('Scene end');
-      });
+      // frameScene.setTween(framesTimeline)
+      //   .addTo(boxyScrollController);
 
-      frameScene.setTween(framesTimeline)
-        .addTo(boxyScrollController);
-
-      elevatorScene.setTween(doorsTimeline)
-        .addTo(boxyScrollController);
+      // elevatorScene.setTween(doorsTimeline)
+      //   .addTo(boxyScrollController);
 
       elevatorPinScene.setPin(elevatorFrame, {
         pushFollowers: false
@@ -196,7 +186,7 @@ export default class MeteorLandingPage extends Component {
             cube.classList.remove('flattened');
         }
       }).addTo(boxyScrollController);
-    }
+    // }
   }
   renderMain() {
     return (
