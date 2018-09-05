@@ -291,7 +291,7 @@ export default class MeteorLandingPage extends Component {
             <p style={{ marginTop: 4 }}></p>
             <div style={{ width: '50%', height: 'auto', paddingLeft: 20 }}>
               <Ripples>
-                <img
+                <img onClick={this.handleGetStarted}
                   src='/images/btn/lets-boxy-btn.png'
                   style={{ width: '100%', height: 'auto' }}/>
               </Ripples>
