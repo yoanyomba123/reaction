@@ -202,11 +202,6 @@
   position: relative;
 }
 
-#cta-lobby {
-  width: 1000px;
-  margin-top: 1600px;
-}
-
 #cta-lobby .cta-back {
   position: static;
 }

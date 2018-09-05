@@ -18,9 +18,6 @@ import Ripples from 'react-ripples'
 import { Motion, spring } from 'react-motion'
 import { Redirect } from 'react-router-dom'
 import Typekit from 'react-typekit';
-import { TweenMax, TimelineLite } from "gsap";
-import * as ScrollMagic from "scrollmagic";
-import "scrollmagic/scrollmagic/uncompressed/plugins/animation.gsap";
 import './cube.css'
 import './home.css'
 
@@ -42,151 +39,144 @@ export default class MeteorLandingPage extends Component {
     this.handleScroll = this.handleScroll.bind(this)
     this.handleGetStarted= this.handleGetStarted.bind(this)
   }
-  componentDidMount() {
+  componentWillMount() {
     this._isMounted = true
-    debugger
-    this.handleScroll()
-    // window.addEventListener("scroll", this.handleScroll);
+    window.addEventListener("scroll", this.handleScroll);
   }
-
+  componentDidMount() {
+    scroll.scrollTo(0, {
+      duration: 0,
+      delay: 0,
+      smooth: true,
+    });
+  }
   componentWillUnmount() {
     this._isMounted = false
     window.removeEventListener("scroll", this.handleScroll);
   }
 
+
+
   handleGetStarted(e){
+
     window.location="/editor"
   }
 
-  handleScroll() {
-    // if (this._isMounted) {
-      const boxy = document.querySelectorAll('#boxybox-main')
-      const boxyFg = document.querySelectorAll('#boxybox-fg')
-      const cube = document.getElementById('cube')
-      const cubeFace = document.querySelectorAll('#cube span')
-      const wallet = document.querySelectorAll('#cta-wallet')
-      const walletFg = document.querySelectorAll('#cta-wallet .cta-front')
-      const matrix = document.querySelectorAll('#cta-matrix')
-      const framesFg = document.querySelectorAll('#cta-frames .cta-front')
-      const elevatorDoors = document.querySelectorAll('#cta-elevator-doors')
-      const elevatorFrame = document.querySelectorAll('#cta-elevator-frame')
-      const elevatorDoorLeft = document.querySelectorAll('#door-left')
-      const elevatorDoorRight = document.querySelectorAll('#door-right')
-      const lobby = document.querySelectorAll('#cta-lobby')
 
-      const windowHeight = window.innerHeight;
-      const boxyHeight = 60;
-      const triggerHeight = (1 / 2) - (boxyHeight / windowHeight);
-      const triggerFramesHeight = 0.4;
 
-      const doorStop = 0;
-      const boxyFadeTween = TweenMax.to('#cube span', 2.5, {opacity: 1}); // Tween duration is driven by frameScene duration
-      const leftDoorTween = TweenMax.to('#door-left', 0.5, {
-          left: -100 + doorStop
-      });
-      const rightDoorTween = TweenMax.to('#door-right', 0.5, {
-          left: 100 - doorStop
-      });
-
-      const doorsTimeline = new TimelineLite({
-          tweens: [leftDoorTween, rightDoorTween],
-          align: 'start'
-      });
-
-      const boxyRotateTween = TweenMax.to('#cube', 8.0, {
-          rotationY: '+=360deg'
-      });
-
-      const framesTimeline = new TimelineLite({
-          tweens: [boxyFadeTween],
-          align: 'sequence'
-      }).add(boxyRotateTween, '+=2');
-
-      const boxyScrollController = new ScrollMagic.Controller();
-      const scene = new ScrollMagic.Scene({
-        triggerElement: '#boxybox-main',
-        triggerHook: triggerHeight,
-        duration: 5480
+  handleScroll(e) {
+    if (this._isMounted) {
+      const windowHeight = window.innerHeight
+      const cube = document.querySelectorAll('.cube')
+      const cubeCont = document.getElementById('cubeCont')
+      const cubeOffset = cubeCont.getBoundingClientRect()
+      const cubeTop = cubeOffset.top
+      let isScrollingUp = false;
+      if (this.state.scrollY > window.pageYOffset) {
+        isScrollingUp = true
+      }
+      /* the distance the page moved between scroll event cycles */
+      const delta = window.pageYOffset - this.state.scrollY
+      /* set the state of scrollY and isScrollingUp */
+      this.setState({
+        scrollY: window.pageYOffset,
+        isScrollingUp,
       })
 
-      const elevatorScene = new ScrollMagic.Scene({
-        triggerElement: '#cta-lobby',
-        triggerHook: 1 //triggerElevatorHeight
-      })
+      // frames
 
-      const elevatorPinScene = new ScrollMagic.Scene({
-        triggerElement: '#cta-elevator-frame',
-        triggerHook: -0.04,
-        duration: 1050
-      })
+      const frames = document.getElementById('cta-frames')
+      const viewportFrames = frames.getBoundingClientRect()
+      const framesTop = viewportFrames.top
+      const heightFrames = viewportFrames.height
+      const mainSides = document.querySelectorAll('.cube .side');
 
-      const elevatorPinScene2 = new ScrollMagic.Scene({
-        triggerElement: '#cta-elevator-doors',
-        triggerHook: -0.04,
-        duration: 1050
-      })
-
-      const frameScene = new ScrollMagic.Scene({
-        triggerElement: '#cta-frames .cta-front',
-        triggerHook: triggerFramesHeight,
-        duration: 1600
-      })
-      const matrixScene = new ScrollMagic.Scene({
-        triggerElement: '#cta-matrix',
-        triggerHook: 0,
-        duration: 620
-      })
-      const walletScene = new ScrollMagic.Scene({
-        triggerElement: '#cta-wallet .cta-front',
-        triggerHook: 0,
-        duration: 100
-      })
-
-        scene.setPin(boxy)
-          .addTo(boxyScrollController).on('start', function () {
-            console.log('Scene start');
-          }).on('end', function () {
-            console.log('Scene end');
-        });
-
-      // frameScene.setTween(framesTimeline)
-      //   .addTo(boxyScrollController);
-
-      // elevatorScene.setTween(doorsTimeline)
-      //   .addTo(boxyScrollController);
-
-      elevatorPinScene.setPin(elevatorFrame, {
-        pushFollowers: false
-      })
-      .addTo(boxyScrollController);
-
-      elevatorPinScene2.setPin(elevatorDoors, {
-        pushFollowers: false
-      })
-      .addTo(boxyScrollController);
-
-      matrixScene/*.setTween(shakeWalletTween)*/
-        .on('end', function (event) {
-          console.log('end');
-          if (event.scrollDirection === 'FORWARD') {
-              cube.classList.add('flattened');
-          }
-          if (event.scrollDirection === 'REVERSE') {
-              cube.classList.remove('flattened');
-          }
-        })
-        .addTo(boxyScrollController);
-
-      walletScene.on('end', function (event) {
-        console.log('wallet end');
-        if (event.scrollDirection === 'FORWARD') {
-            cube.classList.add('flattened');
+      // if framesTop is negative and within the height of the frames, fade color in/out
+      if(framesTop < 0 && !mainSides[0].classList.contains('box-img')) {
+        for (var i = 0; i < mainSides.length; ++i) {
+           mainSides[i].classList.add('box-img')
         }
-        if (event.scrollDirection === 'REVERSE') {
-            cube.classList.remove('flattened');
+      }
+
+      // Wallet
+
+      const card = document.getElementById('cta-card')
+      const viewportCard = card.getBoundingClientRect()
+      const cardTop = viewportCard.top
+
+      const wallet = document.getElementById('cta-wallet')
+      const viewportWallet = wallet.getBoundingClientRect()
+      const walletBottom = viewportWallet.bottom
+      const walletHeight = viewportWallet.height
+
+      if (cardTop < 0) {
+        for (var i = 0; i < cube.length; ++i) {
+          cube[i].classList.add('flattened')
         }
-      }).addTo(boxyScrollController);
-    // }
+      }
+
+      if (walletBottom < 0) {
+        for (var i = 0; i < cube.length; ++i) {
+          cube[i].classList.remove('flattened')
+        }
+      }
+
+
+      /* tag with id=imgElevator */
+      const imgElevator = document.getElementById('imgElevator')
+      /* get dimenstion and locations of imgElevator in the viewport (or screen) */
+      const viewportImgElevator = imgElevator.getBoundingClientRect()
+      /* get the top location of imgElevator in the viewport */
+      const imgElevatorTop = viewportImgElevator.top
+      /* get the height of imgElevator */
+      const heightElevator = viewportImgElevator.height
+      /* element with id=letBoxyCard */
+      const letBoxyCard = document.getElementById('letBoxyCard')
+      const letBoxyCardPortOffset = letBoxyCard.getBoundingClientRect()
+      const currentLetBoxyCardTop = letBoxyCardPortOffset.top
+      /* Close the door if "imgElevator" reaches at elevatorTopDefault=80 from the top of the window */
+      if (imgElevatorTop <= elevatorTopDefault && !this.state.showElevatorDoor) {
+        this.setState({ showElevatorDoor: true })
+      } else if (imgElevatorTop > elevatorTopDefault && this.state.showElevatorDoor) {
+        this.setState({ showElevatorDoor: false })
+      }
+      /* if "letBoxyCard" reaches the bottom of "imgElevator", move the elevator to top */
+      if (currentLetBoxyCardTop <= heightElevator + elevatorTopDefault) {
+        /* start updating stickyOffset of the elevator */
+        this.setState({ stickyOffset: this.state.stickyOffset - delta })
+        if (this.state.showElevatorDoor) {
+          /* Open the door if it's closed */
+          this.setState({ showElevatorDoor: false })
+        }
+      } else {
+        /* Else move the "imgElevator" to the original sticky location */
+        this.setState({ stickyOffset: elevatorTopDefault })
+      }
+
+      if (cubeTop < 80) {
+        const rotationAngleNew = this.state.rotationAngle + (0.2 * delta)
+        this.setState({ rotationAngle: rotationAngleNew })
+      }
+
+
+
+      /* Find boxesImg */
+      const boxesImg = document.getElementById('boxesImg')
+      /* get dimenstion and locations of boxesImg in the viewport (or screen) */
+      const viewportImgBoxesImg = boxesImg.getBoundingClientRect()
+      /* get the top location of boxesImg in the viewport */
+      const boxesImgTop = viewportImgBoxesImg.top
+      console.log(boxesImgTop);
+      /* get the height of boxesImg */
+      const heightBoxesImg = viewportImgBoxesImg.height
+      console.log(heightBoxesImg);
+      if (boxesImgTop <= (windowHeight / 2) - 80 - (heightBoxesImg * 0.13)) {
+        console.log('here');
+        this.setState({ cubeOffset: this.state.cubeOffset - delta })
+      } else {
+        this.setState({ cubeOffset: 0 })
+      }
+    }
   }
   renderMain() {
     return (
@@ -317,26 +307,34 @@ export default class MeteorLandingPage extends Component {
           </a>
         </div>
 
-        <div id="cta-boxybox">
-          <div id="boxybox-main">
-            <div className="square">
-              <div id="boxybox-fg">
-                <div className="cube-container">
-                  <div id="cube" className="">
-                    <div className="front"><span><i>1</i></span></div>
-                    <div className="front-inside"><span><i>5</i></span></div>
-                    <div className="back"><span><i>2</i></span></div>
-                    <div className="back-inside"><span><i>6</i></span></div>
-                    <div className="right"><span><i>3</i></span></div>
-                    <div className="right-inside"><span><i>7</i></span></div>
-                    <div className="left"><span><i>4</i></span></div>
-                    <div className="left-inside"><span><i>8</i></span></div>
+        <Grid container style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', position: 'relative', alignItems: 'center', width: '100%', zIndex: 50, padding: 0, margin: 0 }}>
+          <StickyDiv offsetTop={this.state.cubeOffset}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-center', position: 'relative', width: '100%' }}>
+              <div id='cubeCont' className="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', marginTop: 200 }}>
+                <div className="scene">
+                  <div
+                    className="cube"
+                    style={{
+                      position: 'relative',
+                      width: 120,
+                      height: 120,
+                      transformStyle: 'preserve-3d',
+                      transform: `rotateX(-15deg) rotateY(${rotationAngle}deg)`
+                    }}>
+                    <div className="side front"><span className="main"><i>1</i></span></div>
+                    <div className="side front-inside"><span><i>5</i></span></div>
+                    <div className="side back"><span className="main"><i>2</i></span></div>
+                    <div className="side back-inside"><span><i>6</i></span></div>
+                    <div className="side right"><span className="main"><i>3</i></span></div>
+                    <div className="side right-inside"><span><i>7</i></span></div>
+                    <div className="side left"><span className="main"><i>4</i></span></div>
+                    <div className="side left-inside"><span><i>8</i></span></div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </StickyDiv>
+        </Grid>
 
         <Grid id="cta-frames" container>
           <Grid item xs={12} sm={12} md={3} lg={3} xl={3}></Grid>
@@ -375,7 +373,8 @@ export default class MeteorLandingPage extends Component {
               Enables pictures and text on the inside of your card to establish & form your brand identity
             </div>
           </Grid>
-          <Grid container>
+
+          <Grid container id="cta-card">
             <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
               <div style={{ fontFamily: 'Helevetica+Neue', color: 'black', fontSize: 28, fontWeight: 300, textAlign: 'center', lineHeight: '1', paddingLeft: '40%', justifyContent: 'flex-end', alignItems: 'center', paddingTop: 300 }}>
                 Folds from a 3D box figure to a standard size business card
@@ -391,7 +390,7 @@ export default class MeteorLandingPage extends Component {
               </div>
             </Grid>
 
-            <Grid container style={{ paddingTop: 500 }} id="cta-wallet">
+            <Grid container id="cta-wallet">
               <Grid item xs={12} sm={12} md={3} lg={3} xl={3}></Grid>
               <Grid item xs={12} sm={12} md={6} lg={6} xl={6} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', position: 'relative' }}>
                 <img
@@ -411,7 +410,7 @@ export default class MeteorLandingPage extends Component {
               </Grid>
             </Grid>
 
-            <Grid container style={{ marginTop: '100%' }}>
+            <Grid container style={{ paddingTop: 200 }}>
               <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
                 <div style={{ fontFamily: 'Roboto', fontSize: 42, fontWeight: 700, color: 'black', textAlign: 'center', paddingLeft: '40%', justifyContent: 'flex-start', alignItems: 'center', lineHeight: 1 }}>
                   Skip A Step
