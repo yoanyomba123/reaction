@@ -439,11 +439,8 @@ class Navbar extends NavBar {
   renderBigNav() {
     return (
       <Hidden only={['xs', 'sm']}>
-        <Grid container spacing={24}>
+        <Grid container spacing={24} style={{ position: 'absolute' }}>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-            <img
-              src='images/bg/header-home-bg.png'
-              style={{ position: 'absolute', width: '100%', height: 'auto', zIndex: 1, minHeight: 279, minWidth: 1336, display: 'block', marginLeft: 'auto', marginRight: 'auto', top: 0, left: '50%', transform: 'translate(-50%, 0%)' }}/>
             <Grid container>
               <Grid item xs={12} sm={4} md={4} lg={4} xl={4} style={{ zIndex: 1, padding: '1%' }}>
               </Grid>
@@ -505,7 +502,7 @@ class Navbar extends NavBar {
   renderSmallNav() {
     return (
       <Hidden only={['md','lg','xl']}>
-        <Grid container style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: '3%' }}>
+        <Grid container style={{ position: 'absolute', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: '3%' }}>
           <div style={{backgroundColor: 'rgba(0,0,0,0.6)', paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 100, width: '80%' }}>
             <div style={{ zIndex: 100, backgroundColor: 'black', paddingTop: '3%', paddingBottom: '3%', paddingLeft: '1%', paddingRight: '1%', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
               <img src='images/boxycard-logo.svg' style={{ position: 'relative', width: '75%', height: 'auto', zIndex: 100 }}/>
@@ -534,8 +531,11 @@ class Navbar extends NavBar {
         ])}
         justify='center'
         align='center'
+        position='relative'
       >
-        <img src="images/header-home-bg.png"/>
+        <img
+          src='images/bg/header-home-bg.png'
+          style={{ position: 'relative', width: '100%', height: 'auto', zIndex: 1, minHeight: 279, minWidth: 1336, display: 'block', marginLeft: 'auto', marginRight: 'auto', top: 0, left: '50%', transform: 'translate(-50%, 0%)' }}/>
         <Drawer
           docked={false}
           width={250}

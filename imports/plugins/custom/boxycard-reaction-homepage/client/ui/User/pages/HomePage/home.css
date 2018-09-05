@@ -1,0 +1,241 @@
+#cta-action {
+  position: relative;
+  left: 50%;
+  height: 350px;
+  margin-left: -45px;
+}
+
+#cta-action #action-block {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 70px;
+  height: 70px;
+  cursor: default;
+}
+
+#cta-action i, #action-string, #action-square {
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  -ms-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+#action-string, #action-square {
+  background-color: #73BED8;
+}
+
+#cta-action i {
+  position: absolute;
+  bottom: 0;
+  display: block;
+  width: 70px;
+  height: 70px;
+  line-height: 70px;
+  font-size: 1.25rem;
+  color: #fff;
+}
+
+#action-string {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  display: block;
+  width: 1px;
+  height: 9999px;
+}
+
+#action-square {
+  display: block;
+  width: 70px;
+  height: 70px;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+#cta-action:hover i {
+  -webkit-transform: scale(1.5, 1.5);
+  -moz-transform: scale(1.5, 1.5);
+  -ms-transform: scale(1.5, 1.5);
+  -o-transform: scale(1.5, 1.5);
+  transform: scale(1.5, 1.5);
+}
+
+#cta-action:hover #action-string, #action-square {
+  background-color: #0EA6DB;
+}
+
+#cta-boxybox {
+  position: relative;
+  height: 120px;
+  top: 100px;
+}
+
+#cta-boxybox .square {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+#boxybox-main {
+  position: relative;
+  width: 100%;
+}
+
+#boxybox-main.fix {
+  position: fixed;
+  top: 50%;
+}
+
+#boxybox-fg {
+  -webkit-transition: opacity 0.25s;
+  -moz-transition: opacity 0.25s;
+  -ms-transition: opacity 0.25s;
+  -o-transition: opacity 0.25s;
+  transition: opacity 0.25s;
+}
+
+#cta-frames {
+  margin-top: 300px;
+}
+
+#cta-frames .cta-text.black {
+  bottom: 600px;
+  left: -50px;
+  width: 575px;
+}
+
+#cta-frames .cta-text.right {
+  bottom: 160px;
+  right: -140px;
+  width: 250px;
+}
+
+
+/*#cta-matrix {
+  width: 900px;
+  height: 1200px;
+}
+#cta-matrix .cta-text {
+  top: 500px;
+  width: 270px;
+}
+
+#cta-matrix .cta-text:nth-child(3) {
+  top: 1000px;
+}
+
+#cta-matrix .cta-text:nth-child(4) {
+  top: 1300px;
+  right: -20px;
+}*/
+
+
+#cta-wallet {
+  margin-bottom: 500px;
+  margin-top: 400px;
+}
+
+#cta-wallet .cta-text {
+  width: 400px;
+  min-height: 300px;
+  right: -170px;
+  bottom: 0;
+}
+
+#cta-tunnel {
+  margin-bottom: -150px;
+}
+
+#cta-elevator-pitch {
+  position: relative;
+  width: 1100px;
+}
+#cta-elevator-pitch .cta-text {
+  width: 300px;
+}
+#cta-elevator-pitch .cta-text:nth-child(n+1) {
+  top: 80px;
+}
+
+#cta-elevator-pitch .cta-text:nth-child(n+2) {
+  top: 800px;
+}
+
+#cta-elevator-pitch .cta-text:nth-child(n+3) {
+  top: 1600px;
+}
+
+#cta-elevator-frame {
+  width: 300px;
+}
+
+#cta-elevator-doors {
+  width: 300px;
+  margin-top: -530px;
+}
+
+#cta-elevator-doors img {
+  height: 530px;
+}
+
+#elevator-doors {
+  width: 236px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+}
+
+#elevator-doors > div {
+  float: left;
+  width: 50%;
+}
+
+#elevator-doors > div img {
+  width: 100%;
+}
+
+#door-left,
+#door-right {
+  position: relative;
+}
+
+#cta-lobby .cta-back {
+  position: static;
+}
+
+#cta-lobby .cta-text {
+  margin-top: -80px;
+}
+
+#cta-lobby .cta-text.right {
+  width: 200px;
+}
+
+.boxy-bg {
+  width: 600px;
+  margin-left: -300px;
+}
+
+.lobby-button {
+  position: absolute;
+  bottom: 27px;
+  width: 100%;
+  margin-left: -30px;
+}
+
+.btn-boxy {
+  padding: 16px 24px;
+  border: 3px solid #352D24;
+}
+
+.btn-boxy:hover {
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
+.btn-boxy:hover span {
+  font-size: 28px;
+}

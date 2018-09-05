@@ -18,8 +18,8 @@ import Ripples from 'react-ripples'
 import { Motion, spring } from 'react-motion'
 import { Redirect } from 'react-router-dom'
 import Typekit from 'react-typekit';
-
 import './cube.css'
+import './home.css'
 
 const scroll = Scroll.animateScroll;
 
@@ -67,6 +67,10 @@ export default class MeteorLandingPage extends Component {
   handleScroll(e) {
     if (this._isMounted) {
       const windowHeight = window.innerHeight
+      const cube = document.querySelectorAll('.cube')
+      const cubeCont = document.getElementById('cubeCont')
+      const cubeOffset = cubeCont.getBoundingClientRect()
+      const cubeTop = cubeOffset.top
       let isScrollingUp = false;
       if (this.state.scrollY > window.pageYOffset) {
         isScrollingUp = true
@@ -78,6 +82,46 @@ export default class MeteorLandingPage extends Component {
         scrollY: window.pageYOffset,
         isScrollingUp,
       })
+
+      // frames
+
+      const frames = document.getElementById('cta-frames')
+      const viewportFrames = frames.getBoundingClientRect()
+      const framesTop = viewportFrames.top
+      const heightFrames = viewportFrames.height
+      const mainSides = document.querySelectorAll('.cube .side');
+
+      // if framesTop is negative and within the height of the frames, fade color in/out
+      if(framesTop < 0 && !mainSides[0].classList.contains('box-img')) {
+        for (var i = 0; i < mainSides.length; ++i) {
+           mainSides[i].classList.add('box-img')
+        }
+      }
+
+      // Wallet
+
+      const card = document.getElementById('cta-card')
+      const viewportCard = card.getBoundingClientRect()
+      const cardTop = viewportCard.top
+
+      const wallet = document.getElementById('cta-wallet')
+      const viewportWallet = wallet.getBoundingClientRect()
+      const walletBottom = viewportWallet.bottom
+      const walletHeight = viewportWallet.height
+
+      if (cardTop < 0) {
+        for (var i = 0; i < cube.length; ++i) {
+          cube[i].classList.add('flattened')
+        }
+      }
+
+      if (walletBottom < 0) {
+        for (var i = 0; i < cube.length; ++i) {
+          cube[i].classList.remove('flattened')
+        }
+      }
+
+
       /* tag with id=imgElevator */
       const imgElevator = document.getElementById('imgElevator')
       /* get dimenstion and locations of imgElevator in the viewport (or screen) */
@@ -108,13 +152,14 @@ export default class MeteorLandingPage extends Component {
         /* Else move the "imgElevator" to the original sticky location */
         this.setState({ stickyOffset: elevatorTopDefault })
       }
-      const cubeCont = document.getElementById('cubeCont')
-      const cubeOffset = cubeCont.getBoundingClientRect()
-      const cubeTop = cubeOffset.top
+
       if (cubeTop < 80) {
         const rotationAngleNew = this.state.rotationAngle + (0.2 * delta)
         this.setState({ rotationAngle: rotationAngleNew })
       }
+
+
+
       /* Find boxesImg */
       const boxesImg = document.getElementById('boxesImg')
       /* get dimenstion and locations of boxesImg in the viewport (or screen) */
@@ -163,11 +208,11 @@ export default class MeteorLandingPage extends Component {
     const windowHeight = window.innerHeight
     return (
       <div style={{ backgroundColor: '#eee', width: '100%' }}>
-        <Grid container style={{ paddingTop: 250 }}>
+        <Grid container style={{ paddingTop: 250, position: 'relative' }}>
           <img
             src='images/bg/boxy-bg.svg'
-            style={{ position: 'absolute', width: '40%', height: 'auto', zIndex: 0, display: 'block', marginLeft: 'auto', marginRight: 'auto', top: 0, left: '50%', transform: 'translate(-50%, 0%)' }}/>
-          <Grid item xs={12} sm={12} md={3} lg={4} xl={4} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-end', width: '100%', paddingTop: 26 }}>
+            style={{ position: 'absolute', width: '50%', height: 'auto', display: 'block', marginLeft: 'auto', marginRight: 'auto', top: 0, left: '50%', transform: 'translate(-50%, 0%)', zIndex: 0 }}/>
+          <Grid item xs={12} sm={12} md={3} lg={4} xl={4} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-end', width: '100%', paddingTop: 26, zIndex: 10 }}>
             <div style={{ fontFamily: 'futura-pt', fontSize: 43, fontWeight: 500, color: 'black', paddingRight: 5 }}>
               Hey there{name}.
             </div>
@@ -176,7 +221,7 @@ export default class MeteorLandingPage extends Component {
                 src='images/graphics/cards-with-benefits.png'
                 style={{ width: '100%', height: 'auto' }}/>
             </div>
-            <div style ={{ fontFamily: 'Helvetica Neue', color: '#999999', width: '60%', paddingRight: 5, textAlign: 'right', fontSize: 16, paddingTop: -1.5 }}>
+            <div  id="cta-matrix">
               <div>Museum-Quality Prints</div>
               <div>Eight Faces Of Space</div>
               <div>Fits With The Rest In Your Wallet</div>
@@ -232,7 +277,7 @@ export default class MeteorLandingPage extends Component {
             </div>
           </Grid>
 
-          <Grid item xs={12} sm={3} md={3} lg={4} xl={4} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', width: '100%', paddingTop: 55 }}>
+          <Grid item xs={12} sm={3} md={3} lg={4} xl={4} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', width: '100%', paddingTop: 55, zIndex: 10 }}>
             <div style ={{ fontFamily: 'Helevetica+Neue', color: 'black', fontSize: 14, paddingLeft: 20, width: '60%' }}>
               We are Boxy Card. The solution to the problem you didn’t realize you had. Our patent filed business cards bring a unique way to skip a step in your elevator pitch.
             </div>
@@ -253,31 +298,45 @@ export default class MeteorLandingPage extends Component {
             </div>
           </Grid>
         </Grid>
+
+        <div id="cta-action">
+          <a id="action-block">
+            <i className="boxy-click-down"></i>
+            <span id="action-string"></span>
+            <span id="action-square"></span>
+          </a>
+        </div>
+
         <Grid container style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', position: 'relative', alignItems: 'center', width: '100%', zIndex: 50, padding: 0, margin: 0 }}>
           <StickyDiv offsetTop={this.state.cubeOffset}>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-center', position: 'relative', width: '100%' }}>
-              <div id='cubeCont' className="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', marginTop: (windowHeight / 4) - 80 }}>
+              <div id='cubeCont' className="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', marginTop: 200 }}>
                 <div className="scene">
                   <div
                     className="cube"
                     style={{
                       position: 'relative',
-                      width: 100,
-                      height: 100,
+                      width: 120,
+                      height: 120,
                       transformStyle: 'preserve-3d',
                       transform: `rotateX(-15deg) rotateY(${rotationAngle}deg)`
                     }}>
-                    <div className="side left"></div>
-                    <div className="side right"></div>
-                    <div className="side front"></div>
-                    <div className="side back"></div>
+                    <div className="side front"><span className="main"><i>1</i></span></div>
+                    <div className="side front-inside"><span><i>5</i></span></div>
+                    <div className="side back"><span className="main"><i>2</i></span></div>
+                    <div className="side back-inside"><span><i>6</i></span></div>
+                    <div className="side right"><span className="main"><i>3</i></span></div>
+                    <div className="side right-inside"><span><i>7</i></span></div>
+                    <div className="side left"><span className="main"><i>4</i></span></div>
+                    <div className="side left-inside"><span><i>8</i></span></div>
                   </div>
                 </div>
               </div>
             </div>
           </StickyDiv>
         </Grid>
-        <Grid container style={{ paddingTop: 500 }}>
+
+        <Grid id="cta-frames" container>
           <Grid item xs={12} sm={12} md={3} lg={3} xl={3}></Grid>
           <Grid item xs={12} sm={12} md={6} lg={6} xl={6} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', position: 'relative' }}>
             <div style={{ paddingRight: '47%', zIndex: 50 }}>
@@ -286,6 +345,7 @@ export default class MeteorLandingPage extends Component {
               </div>
             </div>
             <img
+              className="cta-front"
               src='images/graphics/frames2-fg.png'
               style={{ width: '110%', height: 'auto', zIndex: 100, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}/>
             <img
@@ -313,7 +373,8 @@ export default class MeteorLandingPage extends Component {
               Enables pictures and text on the inside of your card to establish & form your brand identity
             </div>
           </Grid>
-          <Grid container>
+
+          <Grid container id="cta-card">
             <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
               <div style={{ fontFamily: 'Helevetica+Neue', color: 'black', fontSize: 28, fontWeight: 300, textAlign: 'center', lineHeight: '1', paddingLeft: '40%', justifyContent: 'flex-end', alignItems: 'center', paddingTop: 300 }}>
                 Folds from a 3D box figure to a standard size business card
@@ -329,13 +390,14 @@ export default class MeteorLandingPage extends Component {
               </div>
             </Grid>
 
-            <Grid container style={{ paddingTop: 500 }}>
+            <Grid container id="cta-wallet">
               <Grid item xs={12} sm={12} md={3} lg={3} xl={3}></Grid>
               <Grid item xs={12} sm={12} md={6} lg={6} xl={6} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', position: 'relative' }}>
                 <img
                   src='images/graphics/wallet-bg.png'
                   style={{ width: '118%', height: 'auto', zIndex: 10 }}/>
                 <img
+                  className="cta-front"
                   src='images/graphics/wallet-fg.png'
                   style={{ zIndex: 100, width: '118%', height: 'auto', position: 'absolute', top: 1.8 }}/>
               </Grid>
@@ -348,7 +410,7 @@ export default class MeteorLandingPage extends Component {
               </Grid>
             </Grid>
 
-            <Grid container style={{ marginTop: '100%' }}>
+            <Grid container style={{ paddingTop: 200 }}>
               <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
                 <div style={{ fontFamily: 'Roboto', fontSize: 42, fontWeight: 700, color: 'black', textAlign: 'center', paddingLeft: '40%', justifyContent: 'flex-start', alignItems: 'center', lineHeight: 1 }}>
                   Skip A Step
@@ -362,7 +424,7 @@ export default class MeteorLandingPage extends Component {
               </Grid>
 
 
-              <Grid id='elevator' item xs={12} sm={12} md={6} lg={6} xl={6} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '100%', position: 'relative', zIndex: 1 }} onClick={() => {
+              <Grid id="cta-elevator-frame" item xs={12} sm={12} md={6} lg={6} xl={6} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '100%', position: 'relative', zIndex: 1 }} onClick={() => {
                 this.setState({ showElevatorDoor: !this.state.showElevatorDoor })
                 console.log('click')
               }}>
@@ -421,7 +483,7 @@ export default class MeteorLandingPage extends Component {
                   </div>
                 </StickyDiv>
               </Grid>
-              <Grid id='elevatorDoor' item xs={12} sm={12} md={12} lg={12} xl={12} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '100%', position: 'relative', zIndex: 100, marginTop: "-29.3%" }}>
+              <Grid id='cta-elevator-doors' item xs={12} sm={12} md={12} lg={12} xl={12} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '100%', position: 'relative', zIndex: 100, marginTop: "-29.3%" }}>
                 <div style={{ width: '50%', position: 'absolute', top: 0 }}>
                   <StickyDiv offsetTop={this.state.stickyOffset} style={{ zIndex: 0, width: '50%' }}>
                     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', zIndex: 110 }}>
@@ -494,7 +556,7 @@ export default class MeteorLandingPage extends Component {
                 </div>
               </Grid>
             </Grid>
-            <Grid container style={{ paddingTop: 600 }}>
+            <Grid id="cta-lobby"  container style={{ paddingTop: 600 }}>
               <Grid item xs={12} sm={12} md={4} lg={4} xl={4} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-start', width: '100%' }}>
                 <div style={{ fontFamily: 'Roboto', fontSize: 42, fontWeight: 700, color: 'black', lineHeight: 1, paddingLeft: '40%' }}>
                   Stack Them!
