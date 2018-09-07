@@ -164,7 +164,7 @@ export default class Inspiration extends Component {
       <div style={{ backgroundColor: '#eee' }}>
         <Grid container style={{ paddingTop: 30 }}>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', width: '100%', paddingLeft: '30%' }}>
-            <h1 style={{ fontFamily: 'futura-pt', fontSize: 42, fontWeight: 500, color: 'black', paddingRight: '5%' }}>
+            <h1 style={{ fontFamily: 'Futura', fontSize: 42, fontWeight: 500, color: 'black', paddingRight: '5%' }}>
             GET INSPIRED.
             </h1>
             <div>   </div>
