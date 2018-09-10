@@ -1,0 +1,12 @@
+.dropdown-menu.pull-right {
+  top: 50px;
+}
+
+.accounts .btn {
+  padding: 0;
+}
+
+.cart-icon {
+  background-color: transparent;
+  color: #000;
+}

@@ -1,3 +1,4 @@
-import NavbarNew from "./NavbarNew"
+import BoxyMainDropdown from "./BoxyMainDropdown";
+import NavbarNew from "./NavbarNew";
 
-export default NavbarNew
+export default NavbarNew;
