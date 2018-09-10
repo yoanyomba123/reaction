@@ -11,31 +11,11 @@ import globalStyles from "../../../../config/globalStyles";
 import colors from "../../../../config/colors";
 import styles from "./styles";
 import "./styles.css";
-import { updateAlert } from "../../../Actions";
-import Scroll from "react-scroll";
-
-import StickyDiv from 'react-stickydiv';
-import ReactPlayer from 'react-player'
 import ContainerDimensions from 'react-container-dimensions'
 import Button from 'material-ui/Button';
-import Ripples from 'react-ripples'
 import Divider from 'material-ui/Divider';
 
-const scroll = Scroll.animateScroll;
-
 class LandingPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
-  componentDidMount() {
-    scroll.scrollTo(0, {
-      duration: 0,
-      delay: 0,
-      smooth: true,
-    });
-  }
 
   renderLink(link, text, pathname) {
     return (
