@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Components } from "@reactioncommerce/reaction-components";
 import { Meteor } from "meteor/meteor";
 import { render } from "react-dom";
 import { createContainer } from "react-meteor-data";
@@ -8,6 +9,7 @@ import { connect } from "react-redux";
 import globalStyles from "../../../../config/globalStyles";
 import { combineStyles, isNumber } from "../../../../config/helpers";
 import styles from "./styles";
+import "./index.css";
 import MdSearch from "react-icons/lib/md/search";
 import FaClose from 'react-icons/lib/fa/close'
 import FaShoppingCart from "react-icons/lib/fa/shopping-cart";
@@ -52,30 +54,6 @@ class Navbar extends NavBar {
     this.setSideBarVisible = this.setSideBarVisible.bind(this);
     this.handleError = this.handleError.bind(this);
     this.handleOnKeyDownJoin = this.handleOnKeyDownJoin.bind(this);
-    this._isMounted = false;
-    this.handleScroll = this.handleScroll.bind(this);
-  }
-  componentWillMount() {
-    this._isMounted = true;
-  }
-  componentDidMount() {
-    window.addEventListener("scroll", this.handleScroll);
-  }
-  componentWillUnmount() {
-    this._isMounted = false;
-    window.removeEventListener("scroll", this.handleScroll);
-  }
-  handleScroll(e) {
-    if (this._isMounted) {
-      let isScrollingUp = false;
-      if (this.state.scrollY > window.pageYOffset) {
-        isScrollingUp = true;
-      }
-      this.setState({
-        scrollY: window.pageYOffset,
-        isScrollingUp: isScrollingUp,
-      });
-    }
   }
 
   handleError(alertMessage) {
@@ -106,38 +84,6 @@ class Navbar extends NavBar {
     doUpdateLoginModalVisible(!loginModalVisible);
   }
 
-  renderLeft() {
-    return (
-      <Hidden only={['xs']}>
-        <Grid
-          item
-          sm={3}
-          md={3}
-          lg={3}
-          xl={3}
-          style={combineStyles([
-            globalStyles.noMarginPadding,
-            globalStyles.center,
-            styles.contSearch,
-          ])}
-        >
-          <Link to="/">
-            <p
-              style={combineStyles([
-                globalStyles.textBig,
-                globalStyles.textCenter,
-                globalStyles.textBlack,
-                globalStyles.textBold6,
-                { paddingLeft: 8 },
-              ])}
-            >
-              {appName}
-            </p>
-          </Link>
-        </Grid>
-      </Hidden>
-    );
-  }
   renderMessage() {
     return (
       <Grid
@@ -159,90 +105,7 @@ class Navbar extends NavBar {
       </Grid>
     );
   }
-  renderRight() {
-    const { cartItemsCount, userId } = this.props;
-    return (
-      <Grid
-        item
-        sm={8}
-        md={6}
-        lg={4}
-        style={combineStyles([
-          styles.contMenus,
-          globalStyles.center,
-          { zIndex: 100, justifyContent: "flex-end", paddingRight: 20 },
-        ])}
-      >
-        {userId
-          ? <div style={styles.contMenuItem}>
-              <Link className="menu" to="/shop/orders" style={styles.textMenu}>
-                Orders
-              </Link>
-            </div>
-          : null}
-        <div style={styles.contMenuItem}>
-          {userId
-            ? <a
-                className="menu"
-                href=""
-                style={styles.textMenu}
-                onClick={event => {
-                  event.preventDefault();
-                  Meteor.logout();
-                }}
-              >
-                Logout
-              </a>
-            : <div
-                onClick={() => {
-                  this.setState({ signUp: false });
-                  this.setModalVisible();
-                }}
-              >
-                <p className="menu" style={styles.textMenu}>
-                  Log In
-                </p>
-              </div>}
-        </div>
-        <div style={styles.contMenuItem}>
-          {!userId ?
-            <div
-              onClick={() => {
-                this.setState({ signUp: true });
-                this.setModalVisible();
-              }}
-            >
-              <p className="menu" style={styles.textMenu}>
-                Register
-              </p>
-            </div>
-            :
-            null
-          }
-        </div>
-        { userId ?
-          <Link to="/shop/cart/">
-            <Badge badgeContent={0} color="primary">
-              <FaShoppingCart size={22} style={styles.iconCart} />
-            </Badge>
-          </Link>
-          :
-          <div
-            style={styles.contMenuItem}
-            onClick={() => {
-              if (userId) {
-                this.props.history.push("/shop/cart/");
-              } else {
-                this.setModalVisible();
-              }
-            }}
-          >
-            <FaShoppingCart size={22} style={styles.iconCart} />
-          </div>
-        }
-      </Grid>
-    );
-  }
+
   renderCartMobile() {
     const { userId } = this.props;
     return (
@@ -358,35 +221,11 @@ class Navbar extends NavBar {
           globalStyles.center,
         ])}
       >
-        <div
-          onClick={() => {
-            this.setSideBarVisible();
-          }}
-        >
-          <IconButton
-            disableRipple={true}
-            style={globalStyles.center}
-          >
-            <MdMenu size={26} />
-          </IconButton>
-        </div>
+        {this.renderHamburgerButton()}
       </Grid>
     );
   }
-  renderBigScreen() {
-    return (
-      <Hidden only={['xs']}>
-        <Grid
-          container
-          style={combineStyles([globalStyles.noMarginPadding])}
-          justify={'space-between'}
-        >
-          {this.renderLeft()}
-          {this.renderRight()}
-        </Grid>
-      </Hidden>
-    )
-  }
+
   renderSmallScreen() {
     return (
       <Hidden only={['sm', 'md', 'lg', 'xl']}>
@@ -430,7 +269,7 @@ class Navbar extends NavBar {
               </div>
             </Link>
           </Grid>
-          {this.renderCartMobile()}
+          {this.props.visibility.cartContainer && this.renderCartContainerAndPanel()}
         </Grid>
       </Hidden>
     )
@@ -454,16 +293,12 @@ class Navbar extends NavBar {
 
               <Grid item xs={12} sm={4} md={4} lg={4} xl={4} style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', flexDirection: 'row', zIndex: 1 }}>
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', flexDirection: 'row', zIndex: 1, width: '100%' }}>
-                  <div style={{ backgroundColor: 'black', padding: '3%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 5, width: '90%', maxWidth: 253 }}>
-                    <div style={{ zIndex: 1 }}>
-                      <a href='/myaccount' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>MY ACCOUNT</a>
-                    </div>
+                  <div style={{ backgroundColor: 'black', padding: '3%', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', borderRadius: 5, width: '90%', maxWidth: 200 }}>
                     <div style={{ zIndex: 1 }}>
                       <a href='/cart' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>CART</a>
                     </div>
-                    <div style={{ zIndex: 1 }}>
-                      <a href='/login' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>LOGIN</a>
-                    </div>
+
+                    <Components.BoxyMainDropdown />
                   </div>
                 </div>
               </Grid>
