@@ -58,100 +58,6 @@ export default class LandingPage extends Component {
       </Grid>
     )
   }
-  renderBigNav() {
-    return (
-      <Hidden only={['xs', 'sm']}>
-        <Grid container spacing={24}>
-          <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-            <img
-              src='images/bg/header-bg.png'
-              style={{ position: 'absolute', width: '100%', height: 'auto', zIndex: 1, display: 'block', marginLeft: 'auto', marginRight: 'auto', top: 0, left: '50%', transform: 'translate(-50%, 0%)' }}/>
-            <Grid container>
-              <Grid item xs={12} sm={4} md={4} lg={4} xl={4} style={{ zIndex: 1, padding: '1%' }}>
-              </Grid>
-              <Grid item xs={12} sm={4} md={4} lg={4} xl={4} style={{ zIndex: 1, padding: '1%', display: 'flex', justifyContent: 'center', alignItems: 'flex', flexDirection: 'row' }}>
-                <div style={{ backgroundColor: 'rgba(0,0,0,0.6)', paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '1.8%', marginBottom: '3%', width: '80%' }}>
-                  <div style={{ backgroundColor: 'black', paddingTop: '3%', paddingBottom: '2%', paddingLeft: '1%', paddingRight: '1%', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
-                    <img src='images/boxycard-logo.svg' style={{ position: 'relative', width: '88%', height: 'auto', zIndex: 100 }}/>
-                  </div>
-                </div>
-              </Grid>
-
-              <Grid item xs={12} sm={4} md={4} lg={4} xl={4} style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', flexDirection: 'row', zIndex: 1 }}>
-                <StickyDiv>
-                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', flexDirection: 'row', zIndex: 1 }}>
-                    <div style={{ backgroundColor: 'black', padding: '1%', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: 5, width: '90%', maxWidth: 253 }}>
-                      <div style={{ zIndex: 1, padding: '2%' }}>
-                        <a href='/myaccount' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>MY ACCOUNT</a>
-                      </div>
-                      <div style={{ zIndex: 1, padding: '2%' }}>
-                        <a href='/cart' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>CART</a>
-                      </div>
-                      <div style={{ zIndex: 1, padding: '2%' }}>
-                        <a href='/login' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>LOGIN</a>
-                      </div>
-                    </div>
-                  </div>
-                </StickyDiv>
-              </Grid>
-            </Grid>
-
-            <Grid container style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-              <StickyDiv>
-                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                  <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: 'black', borderRadius: 5, width: '37%', minWidth: 460, zIndex: 100 }}>
-                    <div style={{ zIndex: 1, padding: '2%' }}>
-                      <a href='/' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>HOME</a>
-                    </div>
-                    <div style={{ zIndex: 1, padding: '2%' }}>
-                      <a href='/about'style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>ABOUT</a>
-                    </div>
-                    <div style={{ zIndex: 1, padding: '2%' }}>
-                      <a href='/templates' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>TEMPLATES</a>
-                    </div>
-                    <div style={{ zIndex: 1, padding: '2%' }}>
-                      <a href='/inspiration' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>INSPIRATION</a>
-                    </div>
-                    <div style={{ zIndex: 1, padding: '2%' }}>
-                      <a href='/faqs' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>FAQS</a>
-                    </div>
-                    <div style={{ zIndex: 1, padding: '2%' }}>
-                      <a href='/contact' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>CONTACT</a>
-                    </div>
-                  </div>
-                </div>
-              </StickyDiv>
-            </Grid>
-
-          </Grid>
-        </Grid>
-      </Hidden>
-    );
-  }
-  renderSmallNav() {
-    return (
-      <Hidden only={['md','lg','xl']}>
-        <Grid container style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: '3%'}}>
-          <div style={{backgroundColor: 'rgba(0,0,0,0.6)', paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 100, width: '80%' }}>
-            <div style={{ zIndex: 100, backgroundColor: 'black', paddingTop: '3%', paddingBottom: '3%', paddingLeft: '1%', paddingRight: '1%', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
-              <img src='images/boxycard-logo.svg' style={{ position: 'relative', width: '75%', height: 'auto', zIndex: 100 }}/>
-            </div>
-          </div>
-          <Grid item xs={12} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-            <img
-              src='images/bg/header-bg.png'
-              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: 'auto', zIndex: 2, display: 'block', marginLeft: 'auto', marginRight: 'auto', top: 0, left: '50%', transform: 'translate(-50%, 0%)' }}/>
-          </Grid>
-        </Grid>
-      </Hidden>
-
-    )
-  }
-  renderSmallMain() {
-    return(
-      <div></div>
-    )
-  }
 
   renderBigMain() {
     const name = ', Andrea'
@@ -192,7 +98,7 @@ export default class LandingPage extends Component {
                   src='images/graphics/slogan2.svg '
                   style={{ width: '70%' }}/>
               </div>
-              <div style={{ fontFamily: 'Roboto', fontSize: 13, fontWeight: 500, color: '#00A7D6' }}>
+              <div style={{ fontFamily: 'Futura', fontSize: 13, fontWeight: 500, color: '#00A7D6' }}>
                 Create a customized card to go with that new job title of yours.
               </div>
             </Grid>
@@ -224,7 +130,7 @@ export default class LandingPage extends Component {
           <Grid item xs={12} sm={12} md={3} lg={3} xl={3}></Grid>
           <Grid item xs={12} sm={12} md={6} lg={6} xl={6} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', position: 'relative' }}>
             <div style={{ paddingRight: '47%', zIndex: 20 }}>
-              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'black', width: '142%', height: '11%', padding: 10, color: 'white', fontSize: '280%', fontWeight: 300, fontFamily: 'Roboto' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'black', width: '142%', height: '11%', padding: 10, color: 'white', fontSize: '280%', fontWeight: 300, fontFamily: 'Futura' }}>
                 Museum-Quality Prints
               </div>
             </div>
@@ -243,7 +149,7 @@ export default class LandingPage extends Component {
         </Grid>
         <Grid container>
           <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
-            <div style={{ fontFamily: 'Roboto', fontSize: 42, fontWeight: 700, color: 'black', paddingLeft: '40%', justifyContent: 'flex-end', alignItems: 'center', paddingTop: 500 }}>
+            <div style={{ fontFamily: 'Futura', fontSize: 42, fontWeight: 700, color: 'black', paddingLeft: '40%', justifyContent: 'flex-end', alignItems: 'center', paddingTop: 500 }}>
               Eight Faces
               <p style={{ margin: 0, marginTop: 1 }}>
                 Of Space</p>
@@ -267,7 +173,7 @@ export default class LandingPage extends Component {
             <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
             </Grid>
             <Grid item xs={12} sm={12} md={4} lg={4} xl={4} style={{ width: '100%', height: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', paddingTop: 550 }}>
-              <div style={{ fontFamily: 'Roboto', fontSize: 42, fontWeight: 700, color: 'black', paddingRight: '30%', textAlign: 'center', lineHeight: '1' }}>
+              <div style={{ fontFamily: 'Futura', fontSize: 42, fontWeight: 700, color: 'black', paddingRight: '30%', textAlign: 'center', lineHeight: '1' }}>
                 3.5 x 2 inches
               </div>
             </Grid>
@@ -283,7 +189,7 @@ export default class LandingPage extends Component {
                   style={{ zIndex: 15, width: '118%', height: 'auto', position: 'absolute', top: 1.8 }}/>
               </Grid>
               <Grid item xs={12} sm={12} md={3} lg={3} xl={3} style={{ width: '100%', height: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                <div style={{ fontFamily: 'Roboto', fontSize: 42, fontWeight: 700, color: 'black', paddingRight: '20%', justifyContent: 'center', alignItems: 'center', paddingTop: 100, marginLeft: -100 }}>
+                <div style={{ fontFamily: 'Futura', fontSize: 42, fontWeight: 700, color: 'black', paddingRight: '20%', justifyContent: 'center', alignItems: 'center', paddingTop: 100, marginLeft: -100 }}>
                   Fits With The Rest
                   <p style={{ margin: 0, marginTop: 1 }}>
                     In Your Wallet</p>
@@ -293,7 +199,7 @@ export default class LandingPage extends Component {
 
             <Grid container style={{ paddingTop: 400 }}>
               <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
-                <div style={{ fontFamily: 'Roboto', fontSize: 42, fontWeight: 700, color: 'black', textAlign: 'center', paddingLeft: 150, justifyContent: 'flex-start', alignItems: 'center', paddingTop: 200, lineHeight: 1, marginRight: -100 }}>
+                <div style={{ fontFamily: 'Futura', fontSize: 42, fontWeight: 700, color: 'black', textAlign: 'center', paddingLeft: 150, justifyContent: 'flex-start', alignItems: 'center', paddingTop: 200, lineHeight: 1, marginRight: -100 }}>
                   Skip A Step
                   <p style={{ margin: 0, marginTop: 1 }}>
                     In Your</p>
@@ -330,7 +236,7 @@ export default class LandingPage extends Component {
 
               <Grid container style={{ paddingTop: 400 }}>
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                  <div style={{ fontFamily: 'Roboto', fontSize: 42, fontWeight: 700, color: 'black', textAlign: 'center', paddingRight: '45%', justifyContent: 'flex-start', alignItems: 'center', paddingTop: 200, lineHeight: 1 }}>
+                  <div style={{ fontFamily: 'Futura', fontSize: 42, fontWeight: 700, color: 'black', textAlign: 'center', paddingRight: '45%', justifyContent: 'flex-start', alignItems: 'center', paddingTop: 200, lineHeight: 1 }}>
                     {'"'}Let Boxy Card
                     <p style={{ margin: 0, marginTop: 1 }}>
                       Speak For You{'"'}</p>
@@ -344,7 +250,7 @@ export default class LandingPage extends Component {
 
               <Grid container style={{ paddingTop: 500 }}>
                 <Grid item xs={12} sm={12} md={4} lg={4} xl={4} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-start', width: '100%' }}>
-                  <div style={{ fontFamily: 'Roboto', fontSize: 42, fontWeight: 700, color: 'black', lineHeight: 1, paddingLeft: '40%' }}>
+                  <div style={{ fontFamily: 'Futura', fontSize: 42, fontWeight: 700, color: 'black', lineHeight: 1, paddingLeft: '40%' }}>
                     Stack Them!
                   </div>
                 </Grid>

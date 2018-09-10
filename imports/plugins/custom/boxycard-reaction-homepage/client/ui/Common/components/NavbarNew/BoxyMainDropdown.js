@@ -24,7 +24,7 @@ class BoxyMainDropdown extends MainDropdown {
     return (
       <div className="accounts-dropdown">
         <div className="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000">
-          <a href='#' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>LOGIN</a>
+          <a href='#' style={{ fontFamily: 'Futura', color: 'white', letterSpacing: 1, fontSize: 13 }}>LOGIN</a>
         </div>
         <div
           className="accounts-dialog accounts-layout dropdown-menu pull-right"

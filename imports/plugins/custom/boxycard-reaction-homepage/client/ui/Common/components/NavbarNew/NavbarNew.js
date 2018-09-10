@@ -295,7 +295,7 @@ class Navbar extends NavBar {
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', flexDirection: 'row', zIndex: 1, width: '100%' }}>
                   <div style={{ backgroundColor: 'black', padding: '3%', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', borderRadius: 5, width: '90%', maxWidth: 200 }}>
                     <div style={{ zIndex: 1 }}>
-                      <a href='/cart' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>CART</a>
+                      <a href='/cart' style={{ fontFamily: 'Futura', color: 'white', letterSpacing: 1, fontSize: 13 }}>CART</a>
                     </div>
 
                     <Components.BoxyMainDropdown />
@@ -308,22 +308,22 @@ class Navbar extends NavBar {
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'black', borderRadius: 5, width: '37%', minWidth: 460, zIndex: 100, padding: '3%' }}>
                   <div style={{ zIndex: 1 }}>
-                    <a href='/' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>HOME</a>
+                    <a href='/' style={{ fontFamily: 'Futura', color: 'white', letterSpacing: 1, fontSize: 13 }}>HOME</a>
                   </div>
                   <div style={{ zIndex: 1 }}>
-                    <a href='/about'style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>ABOUT</a>
+                    <a href='/about'style={{ fontFamily: 'Futura', color: 'white', letterSpacing: 1, fontSize: 13 }}>ABOUT</a>
                   </div>
                   <div style={{ zIndex: 1 }}>
-                    <a href='/templates' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>TEMPLATES</a>
+                    <a href='/templates' style={{ fontFamily: 'Futura', color: 'white', letterSpacing: 1, fontSize: 13 }}>TEMPLATES</a>
                   </div>
                   <div style={{ zIndex: 1 }}>
-                    <a href='/inspiration' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>INSPIRATION</a>
+                    <a href='/inspiration' style={{ fontFamily: 'Futura', color: 'white', letterSpacing: 1, fontSize: 13 }}>INSPIRATION</a>
                   </div>
                   <div style={{ zIndex: 1 }}>
-                    <a href='/faqs' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>FAQS</a>
+                    <a href='/faqs' style={{ fontFamily: 'Futura', color: 'white', letterSpacing: 1, fontSize: 13 }}>FAQS</a>
                   </div>
                   <div style={{ zIndex: 1 }}>
-                    <a href='/contact' style={{ fontFamily: 'Roboto', color: 'white', letterSpacing: 1, fontSize: 13 }}>CONTACT</a>
+                    <a href='/contact' style={{ fontFamily: 'Futura', color: 'white', letterSpacing: 1, fontSize: 13 }}>CONTACT</a>
                   </div>
                 </div>
               </div>
