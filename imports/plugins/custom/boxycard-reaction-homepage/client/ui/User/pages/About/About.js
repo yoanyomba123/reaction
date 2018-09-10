@@ -159,7 +159,7 @@ export default class LandingPage extends Component {
       <div style={{ backgroundColor: '#eee' }}>
         <Grid container style={{ paddingTop: 90 }}>
           <Grid item xs={12} sm={12} md={8} lg={8} xl={8} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', marginRight: 100 }}>
-            <div style={{ fontFamily: 'futura-pt', fontSize: 42, fontWeight: 500, color: 'black', paddingRight: 5, paddingLeft: 110 }}>
+            <div style={{ fontFamily: 'Futura', fontSize: 42, fontWeight: 500, color: 'black', paddingRight: 5, paddingLeft: 110 }}>
             It's Hip To Be Square.
             </div>
             <div></div>

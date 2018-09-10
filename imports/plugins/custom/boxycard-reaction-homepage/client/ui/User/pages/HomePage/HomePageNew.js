@@ -223,7 +223,7 @@ export default class MeteorLandingPage extends Component {
             src='images/bg/boxy-bg.svg'
             style={{ position: 'absolute', width: '50%', height: 'auto', display: 'block', marginLeft: 'auto', marginRight: 'auto', top: 0, left: '50%', transform: 'translate(-50%, 0%)', zIndex: 0 }}/>
           <Grid item xs={12} sm={12} md={3} lg={4} xl={4} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-end', width: '100%', paddingTop: 26, zIndex: 10 }}>
-            <div style={{ fontFamily: 'futura-pt', fontSize: 43, fontWeight: 500, color: 'black', paddingRight: 5 }}>
+            <div style={{ fontFamily: 'Futura', fontSize: 43, fontWeight: 500, color: 'black', paddingRight: 5 }}>
               Hey there{name}.
             </div>
             <div style={{ width: '60%', paddingRight: 5, marginTop: 14, marginBottom: 0 }}>
@@ -282,20 +282,20 @@ export default class MeteorLandingPage extends Component {
                 src='images/graphics/slogan2.svg '
                 style={{ width: '70%' }}/>
             </div>
-            <div style={{ fontFamily: 'Roboto', fontSize: 13, fontWeight: 500, color: '#00A7D6' }}>
+            <div style={{ fontFamily: 'Futura', fontSize: 13, fontWeight: 500, color: '#00A7D6' }}>
               Create a customized card to go with that new job title of yours.
             </div>
           </Grid>
 
           <Grid item xs={12} sm={3} md={3} lg={4} xl={4} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', width: '100%', paddingTop: 55, zIndex: 10 }}>
-            <div style ={{ fontFamily: 'Helevetica+Neue', color: 'black', fontSize: 14, paddingLeft: 20, width: '60%' }}>
+            <div style ={{ fontFamily: 'Futura', color: 'black', fontSize: 14, paddingLeft: 20, width: '60%' }}>
               We are Boxy Card. The solution to the problem you didn’t realize you had. Our patent filed business cards bring a unique way to skip a step in your elevator pitch.
             </div>
             <p style={{ margin: 0, marginTop:14, paddingLeft: 20 }}>
               So, stop practicing in the mirror,
             </p>
-            <div style={{ fontWeight: 700, fontFamily: 'Helevetica+Neue', color: 'black', fontSize: 16, width: '60%', paddingLeft: 20 }}>
-              <span style={{ fontFamily: 'Helevetica+Neue', color: 'black', fontSize: 14, width: '60%', fontWeight: 'normal', paddingRight: 1 }}>and </span>
+            <div style={{ fontWeight: 700, fontFamily: 'Futura', color: 'black', fontSize: 16, width: '60%', paddingLeft: 20 }}>
+              <span style={{ fontFamily: 'Futura', color: 'black', fontSize: 14, width: '60%', fontWeight: 'normal', paddingRight: 1 }}>and </span>
                  LET BOXY SPEAK FOR YOU.
             </div>
             <p style={{ marginTop: 4 }}></p>
@@ -350,7 +350,7 @@ export default class MeteorLandingPage extends Component {
           <Grid item xs={12} sm={12} md={3} lg={3} xl={3}></Grid>
           <Grid item xs={12} sm={12} md={6} lg={6} xl={6} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', position: 'relative' }}>
             <div style={{ paddingRight: '47%', zIndex: 50 }}>
-              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'black', width: '142%', height: '11%', padding: 10, color: 'white', fontSize: '280%', fontWeight: 300, fontFamily: 'Roboto' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'black', width: '142%', height: '11%', padding: 10, color: 'white', fontSize: '280%', fontWeight: 300, fontFamily: 'Futura' }}>
                 Museum-Quality Prints
               </div>
             </div>
@@ -363,14 +363,14 @@ export default class MeteorLandingPage extends Component {
               style={{ zIndex: 1, width: '107%', height: 'auto', position: 'absolute', paddingTop: '9.9%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}/>
           </Grid>
           <Grid item xs={12} sm={12} md={3} lg={3} xl={3} style={{ width: '100%', height: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-            <div style={{ fontFamily: 'Helevetica+Neue', color: 'black', fontSize: 28, fontWeight: 300, paddingRight: 120, textAlign: 'center', lineHeight:'1' }}>
+            <div style={{ fontFamily: 'Futura', color: 'black', fontSize: 28, fontWeight: 300, paddingRight: 120, textAlign: 'center', lineHeight:'1' }}>
               High quality, double-sided business cards, printed in full color at no extra cost
             </div>
           </Grid>
         </Grid>
         <Grid container>
           <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
-            <div style={{ fontFamily: 'Roboto', fontSize: 42, fontWeight: 700, color: 'black', paddingLeft: '40%', justifyContent: 'flex-end', alignItems: 'center', paddingTop: 500 }}>
+            <div style={{ fontFamily: 'Futura', fontSize: 42, fontWeight: 700, color: 'black', paddingLeft: '40%', justifyContent: 'flex-end', alignItems: 'center', paddingTop: 500 }}>
               Eight Faces
               <p style={{ margin: 0, marginTop: 1 }}>
                 Of Space</p>
@@ -379,14 +379,14 @@ export default class MeteorLandingPage extends Component {
           <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
           </Grid>
           <Grid item xs={12} sm={12} md={4} lg={4} xl={4} style={{ width: '100%', height: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', paddingTop: 500 }}>
-            <div style={{ fontFamily: 'Helevetica+Neue', color: 'black', fontSize: 28, fontWeight: 300, paddingRight: 160, textAlign: 'center', lineHeight: '1' }}>
+            <div style={{ fontFamily: 'Futura', color: 'black', fontSize: 28, fontWeight: 300, paddingRight: 160, textAlign: 'center', lineHeight: '1' }}>
               Enables pictures and text on the inside of your card to establish & form your brand identity
             </div>
           </Grid>
 
           <Grid container id="cta-card">
             <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
-              <div style={{ fontFamily: 'Helevetica+Neue', color: 'black', fontSize: 28, fontWeight: 300, textAlign: 'center', lineHeight: '1', paddingLeft: '40%', justifyContent: 'flex-end', alignItems: 'center', paddingTop: 300 }}>
+              <div style={{ fontFamily: 'Futura', color: 'black', fontSize: 28, fontWeight: 300, textAlign: 'center', lineHeight: '1', paddingLeft: '40%', justifyContent: 'flex-end', alignItems: 'center', paddingTop: 300 }}>
                 Folds from a 3D box figure to a standard size business card
                 <p style={{ margin: 0, marginTop: 84 }}>
                   As the patent-pending holder of our 3D business cards, we are proud to be the industry leader.</p>
@@ -395,7 +395,7 @@ export default class MeteorLandingPage extends Component {
             <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
             </Grid>
             <Grid item xs={12} sm={12} md={4} lg={4} xl={4} style={{ width: '100%', height: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', paddingTop: 400 }}>
-              <div style={{ fontFamily: 'Roboto', fontSize: 42, fontWeight: 700, color: 'black', paddingRight: '30%', textAlign: 'center', lineHeight:'1' }}>
+              <div style={{ fontFamily: 'Futura', fontSize: 42, fontWeight: 700, color: 'black', paddingRight: '30%', textAlign: 'center', lineHeight:'1' }}>
                 3.5 x 2 inches
               </div>
             </Grid>
@@ -412,7 +412,7 @@ export default class MeteorLandingPage extends Component {
                   style={{ zIndex: 100, width: '118%', height: 'auto', position: 'absolute', top: 1.8 }}/>
               </Grid>
               <Grid item xs={12} sm={12} md={3} lg={3} xl={3} style={{ width: '100%', height: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                <div style={{ fontFamily: 'Roboto', fontSize: 42, fontWeight: 700, color: 'black', paddingRight: '20%', justifyContent: 'center', alignItems: 'center', paddingTop: 100, marginLeft: -100 }}>
+                <div style={{ fontFamily: 'Futura', fontSize: 42, fontWeight: 700, color: 'black', paddingRight: '20%', justifyContent: 'center', alignItems: 'center', paddingTop: 100, marginLeft: -100 }}>
                   Fits With The Rest
                   <p style={{ margin: 0, marginTop: 1 }}>
                     In Your Wallet</p>
@@ -422,7 +422,7 @@ export default class MeteorLandingPage extends Component {
 
             <Grid container style={{ paddingTop: 200 }}>
               <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
-                <div style={{ fontFamily: 'Roboto', fontSize: 42, fontWeight: 700, color: 'black', textAlign: 'center', paddingLeft: '40%', justifyContent: 'flex-start', alignItems: 'center', lineHeight: 1 }}>
+                <div style={{ fontFamily: 'Futura', fontSize: 42, fontWeight: 700, color: 'black', textAlign: 'center', paddingLeft: '40%', justifyContent: 'flex-start', alignItems: 'center', lineHeight: 1 }}>
                   Skip A Step
                   <p style={{ margin: 0, marginTop: 1 }}>
                     In Your
@@ -550,13 +550,13 @@ export default class MeteorLandingPage extends Component {
             <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
             </Grid>
             <Grid item xs={12} sm={12} md={4} lg={4} xl={4} style={{ width: '100%', height: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', paddingTop: 500 }}>
-              <div style={{ fontFamily: 'Helevetica+Neue', color: 'black', fontSize: 28, fontWeight: 300, paddingRight: 200, textAlign: 'center', lineHeight: 1 }}>
+              <div style={{ fontFamily: 'Futura', color: 'black', fontSize: 28, fontWeight: 300, paddingRight: 200, textAlign: 'center', lineHeight: 1 }}>
               The ultimate conversation starter in business card form
               </div>
             </Grid>
             <Grid container style={{ paddingTop: 400 }}>
               <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                <div style={{ fontFamily: 'Roboto', fontSize: 42, fontWeight: 700, color: 'black', textAlign: 'center', paddingRight: '45%', justifyContent: 'flex-start', alignItems: 'center', paddingTop: 200, lineHeight: 1 }}>
+                <div style={{ fontFamily: 'Futura', fontSize: 42, fontWeight: 700, color: 'black', textAlign: 'center', paddingRight: '45%', justifyContent: 'flex-start', alignItems: 'center', paddingTop: 200, lineHeight: 1 }}>
                   <div id="letBoxyCard">
                     {'"'}Let Boxy Card
                   </div>
@@ -568,13 +568,13 @@ export default class MeteorLandingPage extends Component {
             </Grid>
             <Grid id="cta-lobby"  container style={{ paddingTop: 600 }}>
               <Grid item xs={12} sm={12} md={4} lg={4} xl={4} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-start', width: '100%' }}>
-                <div style={{ fontFamily: 'Roboto', fontSize: 42, fontWeight: 700, color: 'black', lineHeight: 1, paddingLeft: '40%' }}>
+                <div style={{ fontFamily: 'Futura', fontSize: 42, fontWeight: 700, color: 'black', lineHeight: 1, paddingLeft: '40%' }}>
                   Stack Them!
                 </div>
               </Grid>
               <Grid item xs={12} sm={12} md={4} lg={4} xl={4} ></Grid>
               <Grid item xs={12} sm={12} md={4} lg={4} xl={4} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'flex-start' }}>
-                <div style={{ fontFamily: 'Helevetica+Neue', color: 'black', fontSize: 28, fontWeight: 300, paddingRight: '40%', textAlign: 'center', lineHeight: 1 }}>
+                <div style={{ fontFamily: 'Futura', color: 'black', fontSize: 28, fontWeight: 300, paddingRight: '40%', textAlign: 'center', lineHeight: 1 }}>
                   Each Boxy Card stands upright on its own on any flat surface
                 </div>
               </Grid>

@@ -229,7 +229,7 @@ class LandingPage extends Component {
             src='images/bg/boxy-bg.svg'
             style={{ position: 'absolute', width: '40%', height: 'auto', zIndex: 0, display: 'block', marginLeft: 'auto', marginRight: 'auto', top: 0, left: '50%', transform: 'translate(-50%, 0%)' }}/>
           <Grid item xs={12} sm={12} md={3} lg={4} xl={4} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-end', width: '100%', paddingTop: 26 }}>
-            <div style={{ fontFamily: 'futura-pt', fontSize: 43, fontWeight: 500, color: 'black', paddingRight: 5 }}>
+            <div style={{ fontFamily: 'Futura', fontSize: 43, fontWeight: 500, color: 'black', paddingRight: 5 }}>
               Hey there{name}.
             </div>
             <div style={{ width: '60%', paddingRight: 5, marginTop: 14, marginBottom: 0 }}>
@@ -354,7 +354,7 @@ class LandingPage extends Component {
               style={{ zIndex: 1, width: '107%', height: 'auto', position: 'absolute', paddingTop: '9.9%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}/>
           </Grid>
           <Grid item xs={12} sm={12} md={3} lg={3} xl={3} style={{ width: '100%', height: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-            <div style={{ fontFamily: 'aktiv-grotesk-std', color: 'black', fontSize: 28, fontWeight: 300, paddingRight: 120, textAlign: 'center', lineHeight:'1' }}>
+            <div style={{ fontFamily: 'Antique Olive', color: 'black', fontSize: 28, fontWeight: 300, paddingRight: 120, textAlign: 'center', lineHeight:'1' }}>
               High quality, double-sided business cards, printed in full color at no extra cost
             </div>
           </Grid>
@@ -370,13 +370,13 @@ class LandingPage extends Component {
           <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
           </Grid>
           <Grid item xs={12} sm={12} md={4} lg={4} xl={4} style={{ width: '100%', height: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', paddingTop: 500 }}>
-            <div style={{ fontFamily: 'aktiv-grotesk-std', color: 'black', fontSize: 28, fontWeight: 300, paddingRight: 160, textAlign: 'center', lineHeight:'1' }}>
+            <div style={{ fontFamily: 'Antique Olive', color: 'black', fontSize: 28, fontWeight: 300, paddingRight: 160, textAlign: 'center', lineHeight:'1' }}>
               Enables pictures and text on the inside of your card to establish & form your brand identity
             </div>
           </Grid>
           <Grid container>
             <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
-              <div style={{ fontFamily: 'aktiv-grotesk-std', color: 'black', fontSize: 28, fontWeight: 300, textAlign: 'center', lineHeight:'1', paddingLeft: '40%', justifyContent: 'flex-end', alignItems: 'center', paddingTop: 300 }}>
+              <div style={{ fontFamily: 'Antique Olive', color: 'black', fontSize: 28, fontWeight: 300, textAlign: 'center', lineHeight:'1', paddingLeft: '40%', justifyContent: 'flex-end', alignItems: 'center', paddingTop: 300 }}>
                 Folds from a 3D box figure to a standard size business card
                 <p style={{ margin: 0, marginTop: 84 }}>
                   As the patent-pending holder of our 3D business cards, we are proud to be the industry leader.</p>
@@ -540,7 +540,7 @@ class LandingPage extends Component {
               <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
               </Grid>
               <Grid item xs={12} sm={12} md={4} lg={4} xl={4} style={{ width: '100%', height: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', paddingTop: 500 }}>
-                <div style={{ fontFamily: 'aktiv-grotesk-std', color: 'black', fontSize: 28, fontWeight: 300, paddingRight: 200, textAlign: 'center', lineHeight: 1 }}>
+                <div style={{ fontFamily: 'Antique Olive', color: 'black', fontSize: 28, fontWeight: 300, paddingRight: 200, textAlign: 'center', lineHeight: 1 }}>
                 The ultimate conversation starter in business card form
                 </div>
               </Grid>
@@ -564,7 +564,7 @@ class LandingPage extends Component {
                 </Grid>
                 <Grid item xs={12} sm={12} md={4} lg={4} xl={4} ></Grid>
                 <Grid item xs={12} sm={12} md={4} lg={4} xl={4} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'flex-start' }}>
-                  <div style={{ fontFamily: 'aktiv-grotesk-std', color: 'black', fontSize: 28, fontWeight: 300, paddingRight: '40%', textAlign: 'center', lineHeight: 1 }}>
+                  <div style={{ fontFamily: 'Antique Olive', color: 'black', fontSize: 28, fontWeight: 300, paddingRight: '40%', textAlign: 'center', lineHeight: 1 }}>
                     Each Boxy Card stands upright on its own on any flat surface
                   </div>
                 </Grid>
