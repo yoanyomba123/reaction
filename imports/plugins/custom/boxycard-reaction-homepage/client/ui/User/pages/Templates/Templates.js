@@ -10,66 +10,13 @@ import { combineStyles } from "../../../../config/helpers";
 import globalStyles from "../../../../config/globalStyles";
 import colors from "../../../../config/colors";
 import styles from "./styles";
-import { updateAlert } from "../../../Actions";
-import Scroll from "react-scroll";
-
-import StickyDiv from 'react-stickydiv';
-import ReactPlayer from 'react-player'
+import "./styles.css";
 import ContainerDimensions from 'react-container-dimensions'
 import Button from 'material-ui/Button';
-import Ripples from 'react-ripples'
 import Divider from 'material-ui/Divider';
 
-const scroll = Scroll.animateScroll;
-
 class LandingPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
-  componentWillMount() {
-    this._isMounted = true
-  }
-  componentDidMount() {
-    scroll.scrollTo(0, {
-      duration: 0,
-      delay: 0,
-      smooth: true,
-    });
-  }
-  componentWillUnmount() {
-    this._isMounted = false
-  }
-  renderMain() {
-    return (
-      <Grid container style={globalStyles.noMarginPadding}>
-        <Grid
-          item
-          xs={12}
-          sm={6}
-          md={4}
-          lg={3}
-          style={combineStyles([
-            styles.contAnswer,
-            { paddingTop: 15, paddingBottom: 15 },
-          ])}
-        >
-          <div style={{ height: 1000 }} onClick={() => {
-            this.props.doUpdateAlert("hi hi")
-          }}>
 
-          </div>
-        </Grid>
-      </Grid>
-    )
-  }
-
-  renderSmallMain() {
-    return (
-      <div></div>
-    )
-  }
   renderLink(link, text, pathname) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
@@ -94,7 +41,7 @@ class LandingPage extends Component {
      const pathname= 'http://www.google.com'
     return (
       <Grid container>
-        <Grid item xs={12} sm={12} md={3} lg={3} xl={3} style={{ display: 'flex', flexDirection: 'column', fontFamily: 'Futura', fontSize: 23, color: 'white', backgroundColor: '#3B3B3B', textAlign: 'left', width: '100%', paddingLeft: '2%', paddingTop: '2%' }}>
+        <Grid item xs={12} sm={12} md={3} lg={3} xl={3} id="template-categories">
           <div style={{ paddingLeft: 15 }}>
             CATEGORIES
           </div>
@@ -119,7 +66,7 @@ class LandingPage extends Component {
           {this.renderLink('/templates/education-childcare', 'Education / Childcare', pathname)}
         </Grid>
 
-        <Grid item xs={12} sm={12} md={4} lg={4} xl={4} style={{ width: '100%', height: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
+        <Grid item xs={12} sm={12} md={9} lg={9} xl={9} id="template-section">
           <div style={{ fontFamily: 'Helevetica+Neue', color: '#3b3b3b', fontSize: 28, paddingRight: 160, textAlign: 'center', lineHeight: '1' }}>
             Enables pictures and text on the inside of your card to establish & form your brand identity
           </div>
@@ -132,8 +79,7 @@ class LandingPage extends Component {
     const history = this.props.history
     console.log(history);
     return (
-      <div>
-        {this.renderSmallMain()}
+      <div id="templates-page">
         {this.renderBigMain()}
       </div>
     )

@@ -1,0 +1,26 @@
+#templates-page {
+  margin-top: 50px;
+}
+
+#template-categories {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Futura';
+  font-size: 23px;
+  color: white;
+  background-color: #3B3B3B;
+  text-align: left;
+  width: 100%;
+  padding-left: 2%;
+  padding-top: 150px;
+}
+
+#template-section {
+  padding-top: 150px;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
