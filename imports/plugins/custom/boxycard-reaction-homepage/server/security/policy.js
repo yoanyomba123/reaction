@@ -7,3 +7,5 @@ BrowserPolicy.content.allowOriginForAll('https://q.stripe.com/');
 BrowserPolicy.content.allowOriginForAll('https://youtube.com/');
 BrowserPolicy.content.allowOriginForAll('https://*.typekit.net/');
 BrowserPolicy.content.allowOriginForAll('https://*.googleapis.com/');
+BrowserPolicy.content.allowOriginForAll('https://fonts.googleapis.com/');
+BrowserPolicy.content.allowOriginForAll('https://fonts.gstatic.com/');
