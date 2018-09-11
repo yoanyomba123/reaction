@@ -245,24 +245,7 @@ export default class MeteorLandingPage extends Component {
               <ContainerDimensions>
                 { ({ width }) => {
                   return (
-                    <ReactPlayer
-                      width={width}
-                      height={0.58 * width}
-                      url='https://www.youtube.com/watch?v=mdVua-_7Ghc&t=151s'
-                      config={{
-                        youtube: {
-                          playerVars: {
-                            showinfo: 0,
-                            controls: 0,
-                          },
-                        },
-                        facebook: {
-                          appId: '12345'
-                        },
-                        vimeo: {
-                        },
-                      }}
-                    />
+                    <iframe width={width} height="300px" src="https://www.youtube.com/embed/DXUAyRRkI6k" allow="autoplay; encrypted-media" allowFullScreen={true}></iframe>
                   )
                 }}
               </ContainerDimensions>
