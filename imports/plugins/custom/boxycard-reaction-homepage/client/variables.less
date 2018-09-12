@@ -1,4 +1,84 @@
 @import "{}/imports/plugins/included/default-theme/client/styles/main.less";
 
 @font-family-sans-serif: 'MyriadPro', 'Futura', sans-serif;
+//// GLOBAL
 
+// normalize
+@body-px: 16px;
+@normalize: 0.625;
+@root-px: @body-px * @normalize;
+
+// sizes
+@third: (1/3) * 100%;
+
+// fonts
+@font-body: "aktiv-grotesk-std", Calibri, Arial, sans-serif;
+@font-heading: "futura-pt", Helvetica Neue, Arial, sans-serif;
+@font-callout: "aktiv-grotesk-std", Helvetica Neue, Arial, sans-serif;
+
+// brands
+@brand-color: #0ea6db;
+@brand-padding-vertical-small: 30px;
+@brand-padding-vertical-medium: 60px;
+@brand-padding-horizontal-small: 5%;
+@brand-padding-horizontal-medium: 60px;
+@brand-border-dark: 5px solid #000;
+@brand-border-light: 5px solid #fff;
+
+// colors
+@tsl-blue: #01A6ED;
+@lime-btn: #57AA29;
+@grey-bg-extralight: #f9f9f9;
+@grey-bg-light: rgba(0,0,0,0.03);
+@grey-text-medium: #888;
+@grey-text-dark: #333;
+@pink-medium: #f57786;
+@drawer-bg: #444;
+
+
+
+//// BLOCKS
+
+// nav
+@mobile-nav-offset: 20px;
+@mobile-padding: 16px;
+@trigger-close-height: (@mobile-padding * 4);
+@trigger-size: (@mobile-padding * 3);
+@top-list-height: (@mobile-padding * 1.5);
+@top-list-height-medium: (@mobile-padding * 2.25);
+
+// header
+@logo-border: 10px;
+@logo-padding: 10px;
+@logo-image-height-medium: 36px;
+@logo-container-height-medium: @logo-image-height-medium + (@logo-padding * 2) + (@logo-border * 2);
+
+@logo-image-height-large: 42px;
+@logo-container-height-large: @logo-image-height-large + (@logo-padding * 2) + (@logo-border * 2);
+
+@nav-container-top-medium: 151px;
+@header-height-medium: @nav-container-top-medium;
+
+@nav-container-top-large: 151px;
+@header-height-large: @nav-container-top-large;
+
+@header-height-shrink-medium: 20px;
+
+@top-list-height-shrink-medium: (@mobile-padding * 1.75);
+
+
+
+//// VIEWS
+
+// home
+@cta-hint-width: 200px;
+@cta-action-size: 70px;
+@cube-full: 120px;
+@cube-half: @cube-full/2;
+
+//about
+@steps-table-title-height: 50px;
+@steps-table-title-height-large: 60px;
+
+// inspiration
+@inspiration-padding: 4px;

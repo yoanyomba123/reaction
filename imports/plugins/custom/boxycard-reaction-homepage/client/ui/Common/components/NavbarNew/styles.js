@@ -53,7 +53,9 @@ const styles = {
   contGridMenu: {
     flexDirection: "row",
     padding: 0,
-    height: navHeight,
+    position: "absolute",
+    zIndex: 100,
+    top: 75
   },
   icon: {
     color: "#000"

@@ -4,9 +4,7 @@ import { render } from 'react-dom';
 import Grid from 'material-ui/Grid';
 import Hidden from 'material-ui/Hidden';
 import { Link } from 'react-router-dom'
-import globalStyles from "../../../../config/globalStyles"
-import { combineStyles } from "../../../../config/helpers"
-import styles from "./styles"
+import "./styles.less"
 import { appName } from "../../../../config/globalConsts"
 
 const helpMenus = [
@@ -52,7 +50,7 @@ const menus = [
 ]
 
 const BoxycardFooter = () => (
-  <Grid container spacing={24} style={styles.contFooter}>
+  <Grid container spacing={24} id="footer">
     <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{ display: 'block' }}>
       <Grid container style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
@@ -74,10 +72,8 @@ const BoxycardFooter = () => (
           </div>
         </div>
       </Grid>
-      <Grid item xs={12} style={globalStyles.noMarginPadding}>
-        <div style={combineStyles([globalStyles.widthFull, styles.contCopyright])}>
-          <p style={combineStyles([globalStyles.textCenter, globalStyles.textSmall])}>Copyright @ {appName} {(new Date).getFullYear()}</p>
-        </div>
+      <Grid item xs={12} id="copyright">
+        <p>Copyright @ {appName} {(new Date).getFullYear()}</p>
       </Grid>
     </Grid>
   </Grid>
