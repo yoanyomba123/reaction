@@ -286,7 +286,7 @@ class Navbar extends NavBar {
               <Grid item xs={12} sm={4} md={4} lg={4} xl={4} style={{ zIndex: 1, paddingTop: 5, display: 'flex', justifyContent: 'center', alignItems: 'flex', flexDirection: 'row' }}>
                 <div style={{ backgroundColor: 'rgba(0,0,0,0.6)', paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, display: 'flex', justifyContent: 'center', alignItems: 'center',  marginBottom: '3%', width: '80%' }}>
                   <div style={{ backgroundColor: 'black', padding: '3% 1%', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
-                    <img src='images/boxycard-logo.svg' style={{ position: 'relative', width: '88%', height: 'auto', zIndex: 100 }}/>
+                    <img src='/images/boxycard-logo.svg' style={{ position: 'relative', width: '88%', height: 'auto', zIndex: 100 }}/>
                   </div>
                 </div>
               </Grid>
@@ -336,11 +336,11 @@ class Navbar extends NavBar {
   }
 
   headerImgBg() {
-    let imgSrc = "images/bg/header-home-bg.png";
+    let imgSrc = "/images/bg/header-home-bg.png";
     let imgStyles = { position: 'absolute', width: '100%', zIndex: 1, minHeight: 250, maxWidth: 1280 };
 
     if(window.location.pathname != "/") {
-      imgSrc = "images/bg/header-bg.png";
+      imgSrc = "/images/bg/header-bg.png";
       imgStyles = { position: 'relative', width: '100%', zIndex: 1, minHeight: 150, maxWidth: 1280 };
     }
 
@@ -357,7 +357,7 @@ class Navbar extends NavBar {
         <Grid container style={{ position: 'absolute', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: '3%' }}>
           <div style={{backgroundColor: 'rgba(0,0,0,0.6)', paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 100, width: '80%' }}>
             <div style={{ zIndex: 100, backgroundColor: 'black', paddingTop: '3%', paddingBottom: '3%', paddingLeft: '1%', paddingRight: '1%', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%' }}>
-              <img src='images/boxycard-logo.svg' style={{ position: 'relative', width: '75%', height: 'auto', zIndex: 100 }}/>
+              <img src='/images/boxycard-logo.svg' style={{ position: 'relative', width: '75%', height: 'auto', zIndex: 100 }}/>
             </div>
           </div>
         </Grid>
