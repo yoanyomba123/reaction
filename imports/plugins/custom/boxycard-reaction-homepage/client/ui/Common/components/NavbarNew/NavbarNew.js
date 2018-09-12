@@ -281,9 +281,9 @@ class Navbar extends NavBar {
         <Grid container spacing={24} style={{ position: 'absolute' }}>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
             <Grid container>
-              <Grid item xs={12} sm={4} md={4} lg={4} xl={4} style={{ zIndex: 1, padding: '1%' }}>
+              <Grid item xs={12} sm={4} md={4} lg={4} xl={4} style={{ zIndex: 1 }}>
               </Grid>
-              <Grid item xs={12} sm={4} md={4} lg={4} xl={4} style={{ zIndex: 1, padding: '1%', display: 'flex', justifyContent: 'center', alignItems: 'flex', flexDirection: 'row' }}>
+              <Grid item xs={12} sm={4} md={4} lg={4} xl={4} style={{ zIndex: 1, paddingTop: 5, display: 'flex', justifyContent: 'center', alignItems: 'flex', flexDirection: 'row' }}>
                 <div style={{ backgroundColor: 'rgba(0,0,0,0.6)', paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, display: 'flex', justifyContent: 'center', alignItems: 'center',  marginBottom: '3%', width: '80%' }}>
                   <div style={{ backgroundColor: 'black', padding: '3% 1%', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
                     <img src='images/boxycard-logo.svg' style={{ position: 'relative', width: '88%', height: 'auto', zIndex: 100 }}/>
@@ -334,6 +334,23 @@ class Navbar extends NavBar {
       </Hidden>
     );
   }
+
+  headerImgBg() {
+    let imgSrc = "images/bg/header-home-bg.png";
+    let imgStyles = { position: 'absolute', width: '100%', zIndex: 1, minHeight: 250, maxWidth: 1280 };
+
+    if(window.location.pathname != "/") {
+      imgSrc = "images/bg/header-bg.png";
+      imgStyles = { position: 'relative', width: '100%', zIndex: 1, minHeight: 150, maxWidth: 1280 };
+    }
+
+    return (
+      <img
+        src={imgSrc}
+        style={imgStyles} />
+    );
+  }
+
   renderSmallNav() {
     return (
       <Hidden only={['md','lg','xl']}>
@@ -343,11 +360,6 @@ class Navbar extends NavBar {
               <img src='images/boxycard-logo.svg' style={{ position: 'relative', width: '75%', height: 'auto', zIndex: 100 }}/>
             </div>
           </div>
-          <Grid item xs={12} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-            <img
-              src='images/bg/header-home-bg.png'
-              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: 'auto', zIndex: 2, minHeight: 279, minWidth: 1336, display: 'block', marginLeft: 'auto', marginRight: 'auto', top: 0, left: '50%', transform: 'translate(-50%, 0%)' }}/>
-          </Grid>
         </Grid>
       </Hidden>
 
@@ -356,21 +368,8 @@ class Navbar extends NavBar {
 
   render() {
     return (
-      <Grid
-        container
-        style={combineStyles([
-          globalStyles.noMargin,
-          globalStyles.noPadding,
-          styles.row,
-          styles.cont,
-        ])}
-        justify='center'
-        align='center'
-        position='relative'
-      >
-        <img
-          src='images/bg/header-home-bg.png'
-          style={{ position: 'relative', width: '100%', height: 'auto', zIndex: 1, minHeight: 279, minWidth: 1336, display: 'block', marginLeft: 'auto', marginRight: 'auto', top: 0, left: '50%', transform: 'translate(-50%, 0%)' }}/>
+      <Grid container>
+        {this.headerImgBg()}
         <Drawer
           docked={false}
           width={250}
