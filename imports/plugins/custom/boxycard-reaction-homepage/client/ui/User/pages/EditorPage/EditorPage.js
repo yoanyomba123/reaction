@@ -39,6 +39,7 @@ import MdCreate from 'react-icons/lib/md/create';
 // Local imports
 import globalStyles from '../../../../config/globalStyles';
 import styles from "./styles"
+import "./styles.less"
 import { combineStyles } from '../../../../config/helpers';
 import { updateAlert } from '../../../Actions';
 import Box from './Box/Box';
