@@ -129,6 +129,7 @@ export default class EditorPage extends Component {
 
     this.handleImageUpload = this.handleImageUpload.bind(this);
     this.changeView = this.changeView.bind(this);
+    this.onAddToCartSuccess.bind(this);
   }
 
   /**
@@ -707,12 +708,12 @@ export default class EditorPage extends Component {
   }
 
 
-
-  onAddToCartSuccess=()=>{
+  onAddToCartSuccess(){
     Meteor.call("boxycard/letsboxy");
     Router.go('/cart/checkout');
 
   }
+
 
   handleLetsPrint=()=>{
     const productId = "BCTMZ6HTxFSppJESk";
@@ -756,7 +757,7 @@ export default class EditorPage extends Component {
             return;
           }
 
-          onAddToCartSuccess();
+          this.onAddToCartSuccess();
         });
       } else {
         Meteor.call("cart/createCart", items, (error, result) => {
@@ -785,7 +786,7 @@ export default class EditorPage extends Component {
             if (token) {
               storeAnonymousCart({ _id: createdCart._id, shopId: shop && shop._id, token });
             }
-            onAddToCartSuccess();
+            this.onAddToCartSuccess();
           }
         });
       }
