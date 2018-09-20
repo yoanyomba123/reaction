@@ -3,12 +3,11 @@ import './Box.css';
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-/* global THREE */
+import * as THREE from "three";
 
-// const OrbitControls = require('three-orbit-controls')(THREE);
-// onst MTLLoader = require('three-mtl-loader');
-
-// require('three-obj-loader')(THREE);
+const OrbitControls = require('three-orbit-controls')(THREE);
+const MTLLoader = require('three-mtl-loader');
+const OBJLoader = require('three-obj-loader')(THREE);
 
 let scene, camera, renderer, controls, cardCopyOutside,
 canvasOutside, ctxOutside, cardCopyInside, canvasInside,
@@ -60,7 +59,7 @@ export default class Box extends PureComponent {
     camera.position.set(5, 5, 8);
     camera.translateY(1);
 
-    controls = new THREE.OrbitControls(camera, renderer.domElement);
+    const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableZoom = false;
     controls.addEventListener('change', () => renderer.render(scene, camera));
 
@@ -119,7 +118,7 @@ export default class Box extends PureComponent {
     const onProgress = () => {};
     const onError = () => {};
 
-    const mtlLoader = new THREE.MTLLoader();
+    const mtlLoader = new MTLLoader();
     const randomNumber = Math.random();
     mtlLoader.load(`/images/assets/3d/box.mtl?rnd=${randomNumber}`, (materials) => {
       materials.preload();
