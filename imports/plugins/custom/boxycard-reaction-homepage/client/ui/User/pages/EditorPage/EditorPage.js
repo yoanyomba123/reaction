@@ -46,7 +46,6 @@ import Box from './Box/Box';
 import BleedingEdge from './BleedingEdge/BleedingEdge';
 import ZoomableZone from './ZoomableZone/ZoomableZone';
 import ImagesModal from './ImagesModal/ImagesModal';
-import AnimatedItems from '../../components/AnimatedItems/AnimatedItems';
 import Loading from './Loading/Loading';
 import { Dropdown, ColorPicker, IconSwitch, Range, SvgIcon } from '../../components';
 //import colors from "../../../../config/colors"
