@@ -12,7 +12,14 @@ import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 import { fabric } from 'fabric';
 import jsPDF from 'jspdf';
+import { Reaction, i18next, Logger } from "/client/api";
 import FileReaderInput from 'react-file-reader-input';
+import { getAnonymousCartsReactive, storeAnonymousCart } from "/imports/plugins/core/cart/client/util/anonymousCarts";
+import getCart from "/imports/plugins/core/cart/client/util/getCart";
+import { Catalog, ReactionProduct } from "/lib/api";
+import { Shops, Products } from "/lib/collections";
+import { Router } from "/client/modules/router";
+
 //MaterialUI
 import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
 import { FormControlLabel, FormGroup, FormControl } from 'material-ui/Form';
@@ -699,6 +706,10 @@ export default class EditorPage extends Component {
     pdf.save('MyBoxyCard.pdf');
   }
 
+
+
+
+
   changeColor() {
     if (this.state.color === 'blue') {
       this.setState({ color: 'red' });
@@ -1312,7 +1323,7 @@ export default class EditorPage extends Component {
           ])}
         >
           <Button
-            onClick={this.downloadPdf.bind(this)}
+            onClick={this.props.handleLetsPrint}
             color="primary"
             //raised
             variant="raised"
