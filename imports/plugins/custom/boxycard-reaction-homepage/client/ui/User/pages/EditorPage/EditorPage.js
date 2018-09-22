@@ -17,7 +17,7 @@ import FileReaderInput from 'react-file-reader-input';
 import { getAnonymousCartsReactive, storeAnonymousCart } from "/imports/plugins/core/cart/client/util/anonymousCarts";
 import getCart from "/imports/plugins/core/cart/client/util/getCart";
 import { Catalog, ReactionProduct } from "/lib/api";
-import { Shops, Tags,Products } from "/lib/collections";
+import { Shops, Products } from "/lib/collections";
 import { Router } from "/client/modules/router";
 
 //MaterialUI
@@ -129,7 +129,6 @@ export default class EditorPage extends Component {
 
     this.handleImageUpload = this.handleImageUpload.bind(this);
     this.changeView = this.changeView.bind(this);
-    this.onAddToCartSuccess.bind(this);
   }
 
   /**
@@ -708,93 +707,8 @@ export default class EditorPage extends Component {
   }
 
 
-  onAddToCartSuccess(){
-    Meteor.call("boxycard/letsboxy");
-    Router.go('/cart/checkout');
-
-  }
 
 
-  handleLetsPrint=()=>{
-    const productId = "BCTMZ6HTxFSppJESk";
-
-    let currentVariantId="CJoRBm9vRrorc9mxZ";
-
-
-    ReactionProduct.setProduct(productId,currentVariantId);
-    const currentProduct = Products.findOne(productId);
-
-
-    let quantity=1;
-
-    if (productId) {
-      const shop = Shops.findOne(Reaction.getPrimaryShopId());
-      const shopCurrency = (shop && shop.currency) || "USD";
-
-      const items = [{
-        price: {
-          amount: 12.99,
-          currencyCode: shopCurrency
-        },
-        productConfiguration: {
-          productId,
-          productVariantId: currentVariantId
-        },
-        quantity: quantity || 1
-      }];
-
-      const { cart } = getCart();
-      if (cart) {
-        const storedCarts = getAnonymousCartsReactive();
-        let token = null;
-        if (storedCarts && storedCarts.length) {
-          token = storedCarts[0].token; // eslint-disable-line prefer-destructuring
-        }
-        Meteor.call("cart/addToCart", cart._id, token, items, (error) => {
-          if (error) {
-            Logger.error(error);
-            Alerts.toast(error.message, "error");
-            return;
-          }
-
-          this.onAddToCartSuccess();
-        });
-      } else {
-        Meteor.call("cart/createCart", items, (error, result) => {
-          if (error) {
-            Logger.error(error);
-            Alerts.toast(error.message, "error");
-            return;
-          }
-
-          const {
-            cart: createdCart,
-            incorrectPriceFailures,
-            minOrderQuantityFailures,
-            token
-          } = result;
-
-          if (incorrectPriceFailures.length) {
-            Logger.info("incorrectPriceFailures", incorrectPriceFailures);
-            Alerts.toast("Prices have changed. Please refresh the page.", "error");
-          } else if (minOrderQuantityFailures.length) {
-            Logger.info("minOrderQuantityFailures", minOrderQuantityFailures);
-            Alerts.toast(`You must order at least ${minOrderQuantityFailures[0].minOrderQuantity} of this item`, "error");
-          }
-
-          if (createdCart) {
-            if (token) {
-              storeAnonymousCart({ _id: createdCart._id, shopId: shop && shop._id, token });
-            }
-            this.onAddToCartSuccess();
-          }
-        });
-      }
-    }
-
-
-
-  }
 
   changeColor() {
     if (this.state.color === 'blue') {
@@ -1409,7 +1323,7 @@ export default class EditorPage extends Component {
           ])}
         >
           <Button
-            onClick={this.handleLetsPrint.bind(this)}
+            onClick={this.props.handleLetsPrint}
             color="primary"
             //raised
             variant="raised"

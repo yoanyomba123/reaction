@@ -1,120 +1,225 @@
 [{
-  "_id": "BCTMZ6HTxFSppJESk",
-  "shopId": "J8Bhq3uTtdgwZx3rz",
-  "ancestors": [],
-  "createdAt": {
-    "$date": "2014-04-03T13:46:52.411-0700"
-  },
-  "description": "Boxycard",
-  "handle": "boxycard",
-  "hashtags": [
-    "rpjCvTBGjhBi2xdro",
-    "cseCBSSrJ3t8HQSNP"
-  ],
-  "price.range": "12.99 - 19.99",
-  "price.min": 12.99,
-  "price.max": 19.99,
-  "isVisible": true,
-  "isLowQuantity": false,
-  "isSoldOut": false,
-  "isBackorder": false,
-  "metafields": [{
-    "key": "Material",
-    "value": "Cotton"
-  }, {
-    "key": "Quality",
-    "value": "Excellent"
-  }],
-  "pageTitle": "This is a basic product. You can do a lot with it.",
-  "type": "simple",
-  "title": "Basic Reaction Product",
-  "updatedAt": {
-    "$date": "2014-06-01T12:17:13.949-0700"
-  },
-  "vendor": "Example Manufacturer"
-}, {
-  "_id": "6qiqPwBkeJdtdQc4G",
-  "ancestors": [
-    "BCTMZ6HTxFSppJESk"
-  ],
-  "title": "Basic Example Variant",
-  "price": 19.99,
-  "inventoryManagement": true,
-  "inventoryPolicy": true,
-  "inventoryQuantity": 15,
-  "isVisible": true,
-  "updatedAt": {
-    "$date": "2014-04-03T13:46:52.411-0700"
-  },
-  "createdAt": {
-    "$date": "2014-04-03T13:46:52.411-0700"
-  },
-  "weight": 35,
-  "metafields": [{
-    "key": null,
-    "value": null
-  }],
-  "shopId": "J8Bhq3uTtdgwZx3rz",
-  "taxable": true,
-  "type": "variant"
-}, {
-  "_id": "SMr4rhDFnYvFMtDTX",
-  "ancestors": [
-    "BCTMZ6HTxFSppJESk",
-    "6qiqPwBkeJdtdQc4G"
-  ],
-  "title": "Option 1 - Red Dwarf",
-  "optionTitle": "Red",
-  "price": 19.99,
-  "inventoryManagement": true,
-  "inventoryPolicy": true,
-  "inventoryQuantity": 19,
-  "isVisible": true,
-  "updatedAt": {
-    "$date": "2014-04-03T13:46:52.411-0700"
-  },
-  "createdAt": {
-    "$date": "2014-04-03T13:46:52.411-0700"
-  },
-  "weight": 25,
-  "length": 10,
-  "height": 3,
-  "width": 10,
-  "metafields": [{
-    "key": null,
-    "value": null
-  }],
-  "shopId": "J8Bhq3uTtdgwZx3rz",
-  "taxable": true,
-  "type": "variant"
-}, {
-  "_id": "CJoRBm9vRrorc9mxZ",
-  "ancestors": [
-    "BCTMZ6HTxFSppJESk",
-    "6qiqPwBkeJdtdQc4G"
-  ],
-  "title": "Option 2 - Green Tomato",
-  "optionTitle": "Green",
-  "price": 12.99,
-  "inventoryManagement": true,
-  "inventoryPolicy": true,
-  "inventoryQuantity": 42,
-  "isVisible": true,
-  "updatedAt": {
-    "$date": "2014-04-03T13:46:52.411-0700"
-  },
-  "createdAt": {
-    "$date": "2014-04-03T13:46:52.411-0700"
-  },
-  "weight": 25,
-  "length": 10,
-  "height": 3,
-  "width": 10,
-  "metafields": [{
-    "key": null,
-    "value": null
-  }],
-  "shopId": "J8Bhq3uTtdgwZx3rz",
-  "taxable": true,
-  "type": "variant"
+	"_id": "6qiqPwBkeJdtdQc4G",
+	"title": "Basic Example Variant",
+	"ancestors": [
+		"BCTMZ6HTxFSppJESk"
+	],
+	"compareAtPrice": 0,
+	"createdAt": {
+		"$date": "2014-04-03T20:46:52.411Z"
+	},
+	"height": 0,
+	"inventoryManagement": false,
+	"inventoryPolicy": false,
+	"inventoryQuantity": 0,
+	"isDeleted": false,
+	"isVisible": true,
+	"length": 0,
+	"lowInventoryWarningThreshold": 0,
+	"metafields": [
+		{
+			"key": null,
+			"value": null
+		}
+	],
+	"optionTitle": "Untitled Option",
+	"price": 19.99,
+	"shopId": "J8Bhq3uTtdgwZx3rz",
+	"taxCode": "0000",
+	"taxable": true,
+	"type": "variant",
+	"updatedAt": {
+		"$date": "2014-04-03T20:46:52.411Z"
+	},
+	"weight": 35,
+	"width": 0,
+	"workflow": {
+		"status": "new"
+	}
+},
+{
+	"_id": "BCTMZ6HTxFSppJESk",
+	"title": "Boxycard Base Product",
+	"ancestors": [],
+	"createdAt": {
+		"$date": "2018-09-22T18:26:27.724Z"
+	},
+	"description": "Boxycard",
+	"handle": "boxycard-base-product",
+	"hashtags": [
+		"rpjCvTBGjhBi2xdro",
+		"WR9jFb8HgSyidTDwe"
+	],
+	"isBackorder": false,
+	"isDeleted": false,
+	"isLowQuantity": false,
+	"isSoldOut": false,
+	"isVisible": true,
+	"metafields": [
+		{
+			"key": "Material",
+			"value": "Cotton"
+		},
+		{
+			"key": "Quality",
+			"value": "Excellent"
+		}
+	],
+	"pageTitle": "The boxycard base product",
+	"price": {
+		"range": "19.99",
+		"min": 19.99,
+		"max": 19.99
+	},
+	"requiresShipping": true,
+	"shopId": "J8Bhq3uTtdgwZx3rz",
+	"template": "productDetailSimple",
+	"type": "simple",
+	"updatedAt": {
+		"$date": "2018-09-22T18:47:50.632Z"
+	},
+	"vendor": "Boxycard",
+	"workflow": {
+		"status": "new"
+	},
+	"currentProductHash": "c9a2d5246c7265f3519317b04d6ab5f0eeef261e",
+	"publishedProductHash": "44392a1445c8a79e75c8b480d32efd1d3b18b787",
+	"originCountry": "US"
+},
+{
+	"_id": "CJoRBm9vRrorc9mxZ",
+	"title": "Option 2 - Green Tomato",
+	"ancestors": [
+		"BCTMZ6HTxFSppJESk",
+		"6qiqPwBkeJdtdQc4G"
+	],
+	"compareAtPrice": 0,
+	"createdAt": {
+		"$date": "2014-04-03T20:46:52.411Z"
+	},
+	"height": 3,
+	"inventoryManagement": true,
+	"inventoryPolicy": true,
+	"inventoryQuantity": 42,
+	"isDeleted": true,
+	"isVisible": true,
+	"length": 10,
+	"lowInventoryWarningThreshold": 0,
+	"metafields": [
+		{
+			"key": null,
+			"value": null
+		}
+	],
+	"optionTitle": "Green",
+	"price": 12.99,
+	"shopId": "J8Bhq3uTtdgwZx3rz",
+	"taxCode": "0000",
+	"taxable": true,
+	"type": "variant",
+	"updatedAt": {
+		"$date": "2014-04-03T20:46:52.411Z"
+	},
+	"weight": 25,
+	"width": 10,
+	"workflow": {
+		"status": "new"
+	}
+},
+{
+	"_id": "SMr4rhDFnYvFMtDTX",
+	"title": "Option 1 - Red Dwarf",
+	"ancestors": [
+		"BCTMZ6HTxFSppJESk",
+		"6qiqPwBkeJdtdQc4G"
+	],
+	"compareAtPrice": 0,
+	"createdAt": {
+		"$date": "2014-04-03T20:46:52.411Z"
+	},
+	"height": 3,
+	"inventoryManagement": true,
+	"inventoryPolicy": true,
+	"inventoryQuantity": 19,
+	"isDeleted": true,
+	"isVisible": true,
+	"length": 10,
+	"lowInventoryWarningThreshold": 0,
+	"metafields": [
+		{
+			"key": null,
+			"value": null
+		}
+	],
+	"optionTitle": "Red",
+	"price": 19.99,
+	"shopId": "J8Bhq3uTtdgwZx3rz",
+	"taxCode": "0000",
+	"taxable": true,
+	"type": "variant",
+	"updatedAt": {
+		"$date": "2014-04-03T20:46:52.411Z"
+	},
+	"weight": 25,
+	"width": 10,
+	"workflow": {
+		"status": "new"
+	}
+},
+{
+	"_id": "SwGvcctJjvG9QsqWN",
+	"ancestors": [
+		"BCTMZ6HTxFSppJESk",
+		"6qiqPwBkeJdtdQc4G"
+	],
+	"taxCode": "0000",
+	"shopId": "J8Bhq3uTtdgwZx3rz",
+	"type": "variant",
+	"title": "Custom paper",
+	"price": 2.99,
+	"lowInventoryWarningThreshold": 0,
+	"isDeleted": false,
+	"compareAtPrice": 2.99,
+	"weight": 0,
+	"length": 0,
+	"width": 0,
+	"height": 0,
+	"inventoryManagement": true,
+	"inventoryPolicy": false,
+	"isVisible": false,
+	"inventoryQuantity": 10000,
+	"taxable": true,
+	"optionTitle": "Custom Paper",
+	"workflow": {
+		"status": "new"
+	}
+},
+{
+	"_id": "Ta6kKdaguHbExZn6b",
+	"ancestors": [
+		"BCTMZ6HTxFSppJESk",
+		"6qiqPwBkeJdtdQc4G"
+	],
+	"taxCode": "0000",
+	"shopId": "J8Bhq3uTtdgwZx3rz",
+	"type": "variant",
+	"title": "Basic Example Variant - Untitled option",
+	"price": 0,
+	"lowInventoryWarningThreshold": 0,
+	"isDeleted": true,
+	"compareAtPrice": 0,
+	"weight": 0,
+	"length": 0,
+	"width": 0,
+	"height": 0,
+	"inventoryManagement": true,
+	"inventoryPolicy": false,
+	"isVisible": false,
+	"inventoryQuantity": 0,
+	"taxable": true,
+	"optionTitle": "Untitled Option",
+	"workflow": {
+		"status": "new"
+	}
 }]
+
