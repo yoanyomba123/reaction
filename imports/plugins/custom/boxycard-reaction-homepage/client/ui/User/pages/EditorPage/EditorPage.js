@@ -46,13 +46,13 @@ import MdCreate from 'react-icons/lib/md/create';
 // Local imports
 import globalStyles from '../../../../config/globalStyles';
 import styles from "./styles"
+import "./styles.less"
 import { combineStyles } from '../../../../config/helpers';
 import { updateAlert } from '../../../Actions';
 import Box from './Box/Box';
 import BleedingEdge from './BleedingEdge/BleedingEdge';
 import ZoomableZone from './ZoomableZone/ZoomableZone';
 import ImagesModal from './ImagesModal/ImagesModal';
-import AnimatedItems from '../../components/AnimatedItems/AnimatedItems';
 import Loading from './Loading/Loading';
 import { Dropdown, ColorPicker, IconSwitch, Range, SvgIcon } from '../../components';
 //import colors from "../../../../config/colors"
