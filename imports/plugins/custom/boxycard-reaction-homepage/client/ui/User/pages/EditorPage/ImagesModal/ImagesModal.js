@@ -38,7 +38,6 @@ class ImagesModal extends Component {
 
   componentWillReceiveProps(newProps) {
     if (this.props.open !== newProps.open) {
-      debugger
       this.setState({
         open: newProps.open
       });
@@ -52,14 +51,12 @@ class ImagesModal extends Component {
   }
 
   handleOnClick (imgName) {
-    debugger
     this.props.onClick(imgName);
 
     this.handleOnClose();
   }
 
   renderImage(imgName) {
-    debugger
     return (
       <div
         className='image-modal-item'
