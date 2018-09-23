@@ -1,42 +1,62 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
-import { composeWithTracker } from "@reactioncommerce/reaction-components";
+import {composeWithTracker} from "@reactioncommerce/reaction-components";
 import EditorPage from './EditorPage'
-import { Reaction } from "/client/api";
+import {Reaction} from "/client/api";
 import {Meteor} from "meteor/meteor";
-import { Shops, Tags,Products } from "/lib/collections";
+import {Shops, Tags, Products} from "/lib/collections";
 import getCart from "../../../../../../../core/cart/client/util/getCart";
 import {Logger} from "../../../../../../../../../client/api";
 import {getAnonymousCartsReactive, storeAnonymousCart} from "../../../../../../../core/cart/client/util/anonymousCarts";
 import {ReactionProduct} from "../../../../../../../../../lib/api";
 import {Router} from "../../../../../../../../../client/modules/router";
+import CheckoutModal from "./CheckoutModal"
+import Blaze from "meteor/gadicc:blaze-react-component";
 
-class EditorPageContainer extends Component{
+class EditorPageContainer extends Component {
 
-  onAddToCartSuccess(){
+  constructor(props) {
+    super(props);
+
+    this.toggleModal.bind(this);
+    this.state = { showModal: false };
+  }
+
+
+  toggleModal = () => {
+    console.log("Modal toggled");
+    this.setState({
+      showModal: !this.state.showModal
+    });
+  }
+
+  onAddToCartSuccess() {
     Meteor.call("boxycard/letsboxy");
-    Router.go('/cart/checkout');
-
+    console.log("Calling toggle modal!")
+    this.toggleModal();
   }
 
 
 
-  handleLetsPrint=()=>{
+
+
+
+  handleLetsPrint = () => {
 
 
     console.log(`Products ${JSON.stringify(this.props.products)}`);
 
     const productId = "BCTMZ6HTxFSppJESk";
 
-    let currentVariantId="CJoRBm9vRrorc9mxZ";
+    let currentVariantId = "CJoRBm9vRrorc9mxZ";
 
 
-    ReactionProduct.setProduct(productId,currentVariantId);
+    ReactionProduct.setProduct(productId, currentVariantId);
     const currentProduct = Products.findOne(productId);
 
 
-    let quantity=1;
+    let quantity = 1;
 
     if (productId) {
       const shop = Shops.findOne(Reaction.getPrimaryShopId());
@@ -54,7 +74,7 @@ class EditorPageContainer extends Component{
         quantity: quantity || 1
       }];
 
-      const { cart } = getCart();
+      const {cart} = getCart();
       if (cart) {
         const storedCarts = getAnonymousCartsReactive();
         let token = null;
@@ -95,7 +115,7 @@ class EditorPageContainer extends Component{
 
           if (createdCart) {
             if (token) {
-              storeAnonymousCart({ _id: createdCart._id, shopId: shop && shop._id, token });
+              storeAnonymousCart({_id: createdCart._id, shopId: shop && shop._id, token});
             }
             this.onAddToCartSuccess();
           }
@@ -104,17 +124,43 @@ class EditorPageContainer extends Component{
     }
 
 
-
   }
 
-  render(){
-    return(
+  render() {
+    return (
+      <div>
+
+
       <EditorPage products={this.props.products}
                   handleLetsPrint={this.handleLetsPrint.bind(this)}
       />
-    )
-  }
+        <button
+          className="btn show-modal"
+          onClick={() =>
+            this.setState({
+              showModal: !showModal
+            })
+          }
+        >
+          Show Modal
+        </button>
 
+        <CheckoutModal
+          header="Boxycard Checkout"
+          open={this.state.showModal}
+          onClose={() =>
+            this.setState({
+              showModal: false
+            })
+          }
+        >
+          <h1>Some Content</h1>
+          <Blaze template="cartCheckout" />
+        </CheckoutModal>
+
+      </div>
+   )
+  }
 
 
 }
@@ -124,17 +170,15 @@ EditorPageContainer.propTypes = {
   products: PropTypes.arrayOf(PropTypes.object)
 };
 
-/*
- * Customized version of imports/plugins/included/product-variant/containers/productsContainer.js
- * It subscribes to featured products only for landing page section "Products we love"
- */
+
 function composer(props, onData) {
-  const queryParams = Object.assign({},  Reaction.Router.current().queryParams );
+  const queryParams = Object.assign({}, Reaction.Router.current().queryParams);
 
   if (Meteor.subscribe("Products").ready()) {
     const products = Products.find().fetch();
-    onData(null, { products });
+    onData(null, {products});
   }
 
 }
+
 export default composeWithTracker(composer)(EditorPageContainer);
