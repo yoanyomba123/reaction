@@ -146,7 +146,7 @@ class EditorPageContainer extends Component {
         </button>
 
         <CheckoutModal
-          header="Boxycard Modal"
+          header="Boxycard Checkout"
           open={this.state.showModal}
           onClose={() =>
             this.setState({
