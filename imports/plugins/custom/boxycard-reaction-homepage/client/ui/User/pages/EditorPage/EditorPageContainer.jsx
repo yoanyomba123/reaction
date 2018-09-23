@@ -12,21 +12,15 @@ import {getAnonymousCartsReactive, storeAnonymousCart} from "../../../../../../.
 import {ReactionProduct} from "../../../../../../../../../lib/api";
 import {Router} from "../../../../../../../../../client/modules/router";
 import CheckoutModal from "./CheckoutModal"
+import Blaze from "meteor/gadicc:blaze-react-component";
 
 class EditorPageContainer extends Component {
-
-
-
-
-
-
-
 
   constructor(props) {
     super(props);
 
     this.toggleModal.bind(this);
-    this.state = { showModal: true };
+    this.state = { showModal: false };
   }
 
 
@@ -152,7 +146,7 @@ class EditorPageContainer extends Component {
         </button>
 
         <CheckoutModal
-          header="My Modal"
+          header="Boxycard Modal"
           open={this.state.showModal}
           onClose={() =>
             this.setState({
@@ -161,6 +155,7 @@ class EditorPageContainer extends Component {
           }
         >
           <h1>Some Content</h1>
+          <Blaze template="cartCheckout" />
         </CheckoutModal>
 
       </div>
@@ -175,10 +170,7 @@ EditorPageContainer.propTypes = {
   products: PropTypes.arrayOf(PropTypes.object)
 };
 
-/*
- * Customized version of imports/plugins/included/product-variant/containers/productsContainer.js
- * It subscribes to featured products only for landing page section "Products we love"
- */
+
 function composer(props, onData) {
   const queryParams = Object.assign({}, Reaction.Router.current().queryParams);
 
