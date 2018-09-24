@@ -37,39 +37,30 @@ class EditorPageContainer extends Component {
     this.toggleModal();
   }
 
-
-
-
-
-
   handleLetsPrint = () => {
 
 
-    console.log(`Products ${JSON.stringify(this.props.products)}`);
 
-    const productId = "BCTMZ6HTxFSppJESk";
-
-    let currentVariantId = "CJoRBm9vRrorc9mxZ";
-
-
-    ReactionProduct.setProduct(productId, currentVariantId);
-    const currentProduct = Products.findOne(productId);
-
-
+    const currentProduct = this.props.products.shift();
+    let productId=currentProduct._id;
     let quantity = 1;
+    ReactionProduct.setProduct(productId);
+    const topVariants = ReactionProduct.getTopVariants(currentProduct._id);
+    const currentVariant=topVariants.shift();
 
     if (productId) {
       const shop = Shops.findOne(Reaction.getPrimaryShopId());
       const shopCurrency = (shop && shop.currency) || "USD";
+      console.log(`Current Product ${currentProduct._id} currentVariant${currentVariant._id}`);
 
       const items = [{
         price: {
-          amount: 12.99,
+          amount: currentVariant.price,
           currencyCode: shopCurrency
         },
         productConfiguration: {
           productId,
-          productVariantId: currentVariantId
+          productVariantId: currentVariant._id
         },
         quantity: quantity || 1
       }];
