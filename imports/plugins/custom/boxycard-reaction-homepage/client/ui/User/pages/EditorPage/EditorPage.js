@@ -2403,8 +2403,22 @@ export default class EditorPage extends Component {
           </div>
           <div className="buttonsBottom">
             <div className="pull-right">
-              <button id="bt_hide_safearea">Show/Hide safe area</button>
-              <button id="bt_hide_cropmarks">Show/Hide crop &amp; fold marks</button>
+              <div style={combineStyles([globalStyles.center, styles.modeButtons])}>
+                <Button
+                  onClick={this.handleOnToggleEditorMode.bind(this, true)}
+                  style={combineStyles([globalStyles.noMarginPadding, { backgroundColor: isEditorMode ? '#45aada' : '#fff' }])}>
+                  <div style={combineStyles([styles.modeButton, { color: isEditorMode ? 'white' : '#45aada' }])}>
+                    Editor mode
+                  </div>
+                </Button>
+                <Button
+                  onClick={this.handleOnToggleEditorMode.bind(this, false)}
+                  style={combineStyles([globalStyles.noMarginPadding, { backgroundColor: isEditorMode ? '#fff' : '#45aada' }])}>
+                  <div style={combineStyles([styles.modeButton, { color: isEditorMode ? '#45aada' : 'white' }])}>
+                    Print mode
+                  </div>
+                </Button>
+              </div>
             </div>
           </div>
           <div className="boxy_logo_advisor">
@@ -2419,22 +2433,7 @@ export default class EditorPage extends Component {
               <div className="arrow-down"></div>
             </div>
           </div>
-          <div style={combineStyles([globalStyles.center, styles.modeButtons])}>
-            <Button
-              onClick={this.handleOnToggleEditorMode.bind(this, true)}
-              style={combineStyles([globalStyles.noMarginPadding, { backgroundColor: isEditorMode ? '#45aada' : '#fff' }])}>
-              <div style={combineStyles([styles.modeButton, { color: isEditorMode ? 'white' : '#45aada' }])}>
-                Editor mode
-              </div>
-            </Button>
-            <Button
-              onClick={this.handleOnToggleEditorMode.bind(this, false)}
-              style={combineStyles([globalStyles.noMarginPadding, { backgroundColor: isEditorMode ? '#fff' : '#45aada' }])}>
-              <div style={combineStyles([styles.modeButton, { color: isEditorMode ? '#45aada' : 'white' }])}>
-                Print mode
-              </div>
-            </Button>
-          </div>
+
           <Button onClick={() => {
             this.setState({
               modalExplanationVisible: !this.state.modalExplanationVisible,
@@ -2534,7 +2533,7 @@ export default class EditorPage extends Component {
         {this.renderFormatHeader()}
         <Grid
           container
-          style={combineStyles([globalStyles.noMarginPadding, { minWidth: '1000px' }])}
+          style={combineStyles([globalStyles.noMarginPadding, { minWidth: '1000px', overflow: 'scroll' }])}
         >
           <Grid
             container
@@ -2551,7 +2550,7 @@ export default class EditorPage extends Component {
   }
 
   renderBody() {
-    const windowHeight = window.innerHeight;
+    const windowHeight = window.innerHeight - 60;
 
     return (
       <Grid

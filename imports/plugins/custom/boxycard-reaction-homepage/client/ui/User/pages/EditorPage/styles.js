@@ -25,19 +25,18 @@ export default {
     width: '100%',
     margin: 0
   },
-  editorCrop: { 
-    position: 'absolute', 
-    marginTop: -218, 
-    marginLeft: 17 
+  editorCrop: {
+    position: 'absolute',
+    marginTop: -218,
+    marginLeft: 17
   },
   cropper: {
     height: 205, width: 777
   },
-  modeButtons: { 
-    borderColor: '#45aada', 
-    borderWidth: 1, 
-    borderRadius: 5, 
-    marginTop: 10 
+  modeButtons: {
+    borderColor: '#45aada',
+    borderWidth: 1,
+    borderRadius: 5
   },
   modeButton: { paddingLeft: 15, paddingTop: 5, paddingRight: 15, paddingBottom: 5 },
   editorContainer: { background: '#fff', zIndex: 1, overflow: 'hidden' },
