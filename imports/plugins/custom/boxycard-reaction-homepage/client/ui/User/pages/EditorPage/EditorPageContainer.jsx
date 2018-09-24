@@ -154,10 +154,8 @@ class EditorPageContainer extends Component {
             })
           }
         >
-          <h1>Some Content</h1>
           <Blaze template="cartCheckout" />
         </CheckoutModal>
-
       </div>
    )
   }
