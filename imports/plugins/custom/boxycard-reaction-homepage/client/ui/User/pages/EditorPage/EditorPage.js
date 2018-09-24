@@ -2574,7 +2574,7 @@ export default class EditorPage extends Component {
 
   render() {
     return (
-      <Grid container style={styles.mainContainer}>
+      <Grid container style={styles.mainContainer} id="editor-page">
         {this.renderEditorNav()}
         {this.renderBody()}
       </Grid>
