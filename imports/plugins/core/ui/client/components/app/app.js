@@ -5,12 +5,13 @@ import classnames from "classnames";
 import ToolbarContainer from "/imports/plugins/core/dashboard/client/containers/toolbarContainer";
 import Toolbar from "/imports/plugins/core/dashboard/client/components/toolbar";
 import { ActionViewContainer, PackageListContainer } from "/imports/plugins/core/dashboard/client/containers";
-import { ActionView, ShortcutBar } from "/imports/plugins/core/dashboard/client/components";
+import { ActionView, ShortcutBar, PackageList } from "/imports/plugins/core/dashboard/client/components";
 import { Reaction } from "/client/api";
 
 const ConnectedToolbarComponent = ToolbarContainer(Toolbar);
 const ConnectedAdminViewComponent = ActionViewContainer(ActionView);
 const ConnectedShortcutBarContainer = PackageListContainer(ShortcutBar);
+const ConnectedPackageBarContainer = PackageListContainer(PackageList);
 
 const styles = {
   customerApp: {
@@ -20,7 +21,15 @@ const styles = {
     width: "100%",
     height: "100vh",
     display: "flex",
-    overflow: "hidden"
+    overflow: "hidden",
+    backgroundColor: "white"
+  },
+  primaryView: {
+    flex: "0 0 auto",
+    width: 320,
+    height: "100vh",
+    backgroundColor: "white",
+    borderRight: "1ps solid #e6e6e6"
   },
   adminContentContainer: {
     flex: "1 1 auto",
@@ -90,18 +99,18 @@ class App extends Component {
         onKeyDown={this.handleKeyDown}
         role="presentation"
       >
+        <div style={styles.primaryView}>
+          <ConnectedPackageBarContainer />
+        </div>
         <div className={pageClassName} id="reactionAppContainer" style={styles.adminContentContainer}>
-          <div className="reaction-toolbar">
-            <ConnectedToolbarComponent handleViewContextChange={this.handleViewContextChange} data={routeData} />
-          </div>
           <div style={styles.scrollableContainer}>
             <Switch>
               {this.props.children}
             </Switch>
           </div>
         </div>
-        {this.props.hasDashboardAccess && <ConnectedAdminViewComponent />}
-        {this.props.hasDashboardAccess && <ConnectedShortcutBarContainer />}
+        {/* {this.props.hasDashboardAccess && <ConnectedAdminViewComponent />} */}
+        {/* {this.props.hasDashboardAccess && <ConnectedShortcutBarContainer />} */}
       </div>
     );
   }
