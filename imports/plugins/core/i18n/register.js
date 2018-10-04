@@ -17,7 +17,9 @@ Reaction.registerPackage({
     container: "utilities"
   }, {
     provides: ["settings"],
+    route: "/dashboard/i18n/settings",
     template: "i18nSettings",
+    workflow: "coreAdminWorkflow",
     label: "Localization and i18n",
     icon: "fa fa-language",
     container: "reaction-i18n"

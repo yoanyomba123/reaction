@@ -27,7 +27,9 @@ Reaction.registerPackage({
       icon: "fa fa-columns",
       name: "templates/settings",
       provides: ["settings"],
+      route: "/dashboard/templates/settings",
       template: "templateSettings",
+      workflow: "coreAdminWorkflow",
       meta: {
         actionView: {
           dashboardSize: "md"

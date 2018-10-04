@@ -39,6 +39,7 @@ Reaction.registerPackage({
     priority: 1,
     container: "dashboard",
     template: "orders",
+    workflow: "coreAdminWorkflow",
     audience: ["seller"]
   }, {
     route: "/dashboard/pdf/orders/:id",

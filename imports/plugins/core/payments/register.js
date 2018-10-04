@@ -32,7 +32,9 @@ Reaction.registerPackage({
       icon: "fa fa-credit-card",
       name: "payment/settings",
       provides: ["settings"],
-      template: "paymentSettings"
+      route: "/dashboard/payment/settings",
+      template: "paymentSettings",
+      workflow: "coreAdminWorkflow"
     }
   ]
 });

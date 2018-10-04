@@ -39,11 +39,13 @@ Reaction.registerPackage({
     },
     {
       provides: ["settings"],
+      route: "/dashboard/shipping",
       name: "settings/shipping",
       label: "Shipping",
       description: "Configure shipping",
       icon: "fa fa-truck",
-      template: "shippingSettings"
+      template: "shippingSettings",
+      workflow: "coreAdminWorkflow"
     }
   ]
 });

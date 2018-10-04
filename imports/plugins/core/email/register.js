@@ -14,6 +14,7 @@ Reaction.registerPackage({
     icon: "fa fa-envelope-o",
     name: "email/settings",
     provides: ["settings"],
+    route: "/dashboard/email/settings",
     workflow: "coreEmailWorkflow",
     template: "emailSettings",
     meta: {

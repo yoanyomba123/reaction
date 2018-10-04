@@ -47,11 +47,12 @@ Reaction.registerPackage({
     container: "accounts",
     workflow: "coreAccountsWorkflow",
     template: "accountsSettings",
+    workflow: "coreAdminWorkflow",
     showForShopTypes: ["primary"]
   }, {
     route: "/dashboard/accounts",
     name: "dashboard/accounts",
-    workflow: "coreAccountsWorkflow",
+    workflow: "coreAdminWorkflow",
     provides: ["shortcut"],
     label: "Accounts",
     icon: "fa fa-users",

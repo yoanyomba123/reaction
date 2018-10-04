@@ -33,7 +33,9 @@ Reaction.registerPackage({
       icon: "fa fa-university",
       name: "taxes/settings",
       provides: ["settings"],
-      template: "taxSettings"
+      route: "/dashboard/taxes/settings",
+      template: "taxSettings",
+      workflow: "coreAdminWorkflow"
     },
     {
       label: "Custom Rates",
