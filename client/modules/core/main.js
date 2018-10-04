@@ -772,7 +772,11 @@ export default {
    */
   showActionView(viewData) {
     Session.set("admin/showActionView", true);
-    this.setActionView(viewData);
+    if (viewData && viewData.route) {
+      Router.go(viewData.route);
+    } else {
+      this.setActionView(viewData);
+    }
   },
 
   /**
@@ -834,8 +838,12 @@ export default {
     const actionViewStack = Session.get("admin/actionView");
 
     if (viewData) {
-      actionViewStack.push(viewData);
-      Session.set("admin/actionView", actionViewStack);
+      if (viewData && viewData.route) {
+        Router.go(viewData.route);
+      } else {
+        actionViewStack.push(viewData);
+        Session.set("admin/actionView", actionViewStack);
+      }
     } else {
       const registryItem = this.getRegistryForCurrentRoute("settings");
 
