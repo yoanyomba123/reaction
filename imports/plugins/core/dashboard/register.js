@@ -37,6 +37,7 @@ Reaction.registerPackage({
   }, {
     route: "/dashboard/shop/settings",
     template: "shopSettings",
+    workflow: "coreAdminWorkflow",
     name: "shopSettings",
     label: "Shop Settings",
     icon: "fa fa-th",
@@ -57,6 +58,21 @@ Reaction.registerPackage({
     structure: {
       template: "dashboardPackages",
       layoutHeader: "NavBar",
+      layoutFooter: "",
+      notFound: "notFound",
+      dashboardHeader: "dashboardHeader",
+      dashboardControls: "dashboardControls",
+      dashboardHeaderControls: "dashboardHeaderControls",
+      adminControlsFooter: "adminControlsFooter"
+    }
+  }, {
+    layout: "coreAdminLayout",
+    workflow: "coreAdminWorkflow",
+    theme: "default",
+    enabled: true,
+    structure: {
+      template: "dashboardOverview",
+      layoutHeader: "AdminNavBar",
       layoutFooter: "",
       notFound: "notFound",
       dashboardHeader: "dashboardHeader",
