@@ -1,0 +1,7 @@
+<template name="navigationEditor">
+  {{#if hasPermission 'navigation'}}
+    <div>
+      {{> React navigationEditorComponent}}
+    </div>
+  {{/if}}
+</template>
