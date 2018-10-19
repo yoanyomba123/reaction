@@ -1,4 +1,4 @@
-const rules = require("./redirectRules.json");
+import rules from "./redirectRules.json";
 
 /**
  * @name Query.redirectRules

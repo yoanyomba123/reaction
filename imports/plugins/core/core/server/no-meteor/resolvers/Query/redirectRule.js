@@ -1,4 +1,5 @@
-const rules = require("./redirectRules.json");
+import ReactionError from "@reactioncommerce/reaction-error";
+import rules from "./redirectRules.json";
 
 /**
  * @name Query.redirectRule
@@ -12,5 +13,7 @@ const rules = require("./redirectRules.json");
  * @return {Promise<Object>} RedirectRule
  */
 export default async function redirectRule(_, { from }) {
-  return rules.find((rule) => from === rule.from);
+  const rule = rules.find((rule) => from === rule.from);
+  if (!rule) throw new ReactionError("not-found", "Redirect rule not found");
+  return rule;
 }
