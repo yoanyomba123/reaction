@@ -1,4 +1,4 @@
-type Redirect {
+type RedirectRule {
   "Path to redirect from."
   from: String!
 
@@ -10,7 +10,7 @@ type Redirect {
 }
 
 extend type Query {
-  redirect(from: String!): Redirect!
+  redirectRule(from: String!): RedirectRule!
 
-  redirects: [Redirect]!
+  redirectRules: [RedirectRule]!
 }
