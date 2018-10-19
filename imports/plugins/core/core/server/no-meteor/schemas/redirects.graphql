@@ -1,0 +1,16 @@
+type Redirect {
+  "Path to redirect from."
+  from: String!
+
+  "Status code of the redirect."
+  status: Int!
+
+  "Path to redirect to."
+  to: String!
+}
+
+extend type Query {
+  redirect(from: String!): Redirect!
+
+  redirects: [Redirect]!
+}
