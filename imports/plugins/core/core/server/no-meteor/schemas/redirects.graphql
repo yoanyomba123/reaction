@@ -1,20 +1,25 @@
-type RedirectRule {
-  "Whether the rule in enabled."
+type RedirectRule implements Node {
+  "The rule ID"
+  _id: ID!
+
+  "Whether the rule in enabled"
   enabled: Boolean!
 
-  "Path to redirect from."
+  "Path to redirect from"
   from: String!
 
-  "Status code of the redirect."
+  "Status code of the redirect"
   status: Int!
 
-  "Path to redirect to."
+  "Path to redirect to"
   to: String!
 }
 
 extend type Query {
-  redirectRule(from: String!): RedirectRule!
+  "Returns a rule by ID"
+  redirectRule(id: ID!): RedirectRule
 
+  "Returns a list of rules matching specified query"
   redirectRules(
     from: String
     to: String

@@ -19,7 +19,6 @@ export const RedirectRule = new SimpleSchema({
   },
   from: {
     type: String,
-    unique: true,
     index: 1,
     label: "Redirect from"
   },

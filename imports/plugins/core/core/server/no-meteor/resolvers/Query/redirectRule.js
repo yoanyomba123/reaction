@@ -5,10 +5,11 @@
  * @summary get a specific redirect rule
  * @param {Object} _ - unused
  * @param {Object} params - an object of all arguments that were sent by the client
- * @param {String} params.from - path to redirect from
+ * @param {String} params._id - id of a redirect rule
  * @param {Object} context - an object containing the per-request state
  * @return {Promise<Object>} RedirectRule
  */
-export default async function redirectRule(_, { from }, context) {
-  return context.collections.RedirectRules.findOne({ from });
+export default async function redirectRule(_, { id }, context) {
+  // TODO: this does not work?
+  return context.collections.RedirectRules.findOne({ _id: id });
 }
