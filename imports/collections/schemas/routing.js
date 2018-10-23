@@ -32,6 +32,13 @@ export const RedirectRule = new SimpleSchema({
     optional: true,
     defaultValue: 301,
     label: "Status"
+  },
+  enabled: {
+    type: Boolean,
+    index: 1,
+    optional: true,
+    defaultValue: true,
+    label: "Is enabled"
   }
 });
 

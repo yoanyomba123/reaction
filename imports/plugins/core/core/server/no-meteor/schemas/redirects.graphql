@@ -1,4 +1,7 @@
 type RedirectRule {
+  "Whether the rule in enabled."
+  enabled: Boolean!
+
   "Path to redirect from."
   from: String!
 
