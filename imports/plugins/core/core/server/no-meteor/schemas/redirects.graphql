@@ -15,5 +15,10 @@ type RedirectRule {
 extend type Query {
   redirectRule(from: String!): RedirectRule!
 
-  redirectRules: [RedirectRule]!
+  redirectRules(
+    from: String
+    to: String
+    status: Int
+    enabled: Boolean
+  ): [RedirectRule]!
 }
