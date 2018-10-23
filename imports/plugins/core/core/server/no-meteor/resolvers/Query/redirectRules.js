@@ -1,5 +1,3 @@
-import rules from "./redirectRules.json";
-
 /**
  * @name Query.redirectRules
  * @method
@@ -10,6 +8,6 @@ import rules from "./redirectRules.json";
  * @param {Object} context - an object containing the per-request state
  * @return {Promise<Array<Object>>} array of RedirectRules
  */
-export default async function redirectRules() {
-  return rules;
+export default async function redirectRules(_, params, context) {
+  return context.collections.RedirectRules.find({}).toArray();
 }
