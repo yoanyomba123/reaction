@@ -4,7 +4,7 @@ import currency from "./currency.graphql";
 import email from "./email.graphql";
 import metafield from "./metafield.graphql";
 import node from "./node.graphql";
-import redirects from "./redirects.graphql";
+import routing from "./routing.graphql";
 import shop from "./shop.graphql";
 import tag from "./tag.graphql";
 
@@ -15,7 +15,7 @@ export default [
   email,
   metafield,
   node,
-  redirects,
+  routing,
   shop,
   tag
 ];
