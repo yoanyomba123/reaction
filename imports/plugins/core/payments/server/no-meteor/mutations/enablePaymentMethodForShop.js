@@ -16,7 +16,6 @@ const paramsSchema = new SimpleSchema({
  * @param {String} input.isEnabled - Whether to enable or disable specified payment method
  * @param {String} input.paymentMethodName - The name of the payment method to enable or disable
  * @param {String} input.shopId - The id of the shop to enable payment method on
- * @param {String} [input.clientMutationId] - An optional string identifying the mutation call
  * @return {Promise<Array<Object>>} Array<PaymentMethod>
  */
 export default async function enablePaymentMethodForShop(context, input = {}) {

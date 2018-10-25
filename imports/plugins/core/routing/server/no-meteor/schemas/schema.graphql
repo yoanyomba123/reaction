@@ -27,6 +27,34 @@ enum RedirectType {
   rewrite
 }
 
+input AddRedirectRuleInput {
+  "An optional string identifying the mutation call, which will be returned in the response payload"
+  clientMutationId: String
+
+  "Whether the rule in enabled"
+  enabled: Boolean!
+
+  "Path to redirect from"
+  from: String!
+
+  "Status code of the redirect"
+  status: Int!
+
+  "Path to redirect to"
+  to: String!
+
+  "Type of redirect"
+  type: RedirectType!
+}
+
+type AddRedirectRulePayload {
+  "The same string you sent with the mutation params, for matching mutation calls with their responses"
+  clientMutationId: String
+
+  "The newly-created redirect rule"
+  redirectRule: RedirectRule!
+}
+
 extend type Query {
   "Returns a rule by ID"
   redirectRule(id: ID!): RedirectRule
@@ -38,4 +66,9 @@ extend type Query {
     status: Int
     enabled: Boolean
   ): [RedirectRule]!
+}
+
+extend type Mutation {
+  "Adds a new redirect rule"
+  addRedirectRule(input: AddRedirectRuleInput!): AddRedirectRulePayload!
 }
