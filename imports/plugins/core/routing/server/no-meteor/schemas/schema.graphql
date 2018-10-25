@@ -1,3 +1,4 @@
+"Definition of a routing redirect rule"
 type RedirectRule implements Node {
   "The rule ID"
   _id: ID!
@@ -13,6 +14,17 @@ type RedirectRule implements Node {
 
   "Path to redirect to"
   to: String!
+
+  "Type of redirect"
+  type: RedirectType!
+}
+
+enum RedirectType {
+  "Visibly redirect a route"
+  redirect
+
+  "Silently redirect a route"
+  rewrite
 }
 
 extend type Query {

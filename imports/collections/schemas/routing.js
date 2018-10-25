@@ -17,6 +17,12 @@ export const RedirectRule = new SimpleSchema({
     optional: true,
     label: "Redirect rule ID"
   },
+  type: {
+    type: String,
+    index: 1,
+    allowedValues: [ "redirect", "rewrite" ],
+    label: "Type of redirect"
+  },
   from: {
     type: String,
     index: 1,
