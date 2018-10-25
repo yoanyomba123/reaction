@@ -61,8 +61,10 @@ extend type Query {
 
   "Returns a list of rules matching specified query"
   redirectRules(
+    id: ID
     from: String
     to: String
+    type: RedirectType
     status: Int
     enabled: Boolean
   ): [RedirectRule]!
