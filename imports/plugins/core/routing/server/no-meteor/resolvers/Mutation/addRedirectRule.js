@@ -6,7 +6,7 @@ import { RedirectRule as schema } from "/imports/collections/schemas";
  * @name Mutation.addRedirectRule
  * @method
  * @memberof Routes/GraphQL
- * @summary get list of redirect rules
+ * @summary Add a redirect rule
  * @param {Object} _ - unused
  * @param {Object} args.input - AddRedirectRuleInput
  * @param {String} args.from - path to redirect from
@@ -34,7 +34,9 @@ export default async function addRedirectRule(parentResult, { input }, context) 
   schema.validate(redirectRule);
   const { result } = await RedirectRules.insertOne(redirectRule);
 
-  if (result.ok !== 1) throw new ReactionError("server-error", "Unable to create rule");
+  if (result.ok !== 1) {
+    throw new ReactionError("server-error", "Unable to create rule");
+  }
 
   return {
     clientMutationId,

@@ -55,10 +55,38 @@ type AddRedirectRulePayload {
   redirectRule: RedirectRule!
 }
 
-extend type Query {
-  "Returns a rule by ID"
-  redirectRule(id: ID!): RedirectRule
+input UpdateRedirectRuleInput {
+  "An optional string identifying the mutation call, which will be returned in the response payload"
+  clientMutationId: String
 
+  "ID of rule to modify"
+  id: ID!
+
+  "Whether the rule in enabled"
+  enabled: Boolean!
+
+  "Path to redirect from"
+  from: String!
+
+  "Status code of the redirect"
+  status: Int!
+
+  "Path to redirect to"
+  to: String!
+
+  "Type of redirect"
+  type: RedirectType!
+}
+
+type UpdateRedirectRulePayload {
+  "The same string you sent with the mutation params, for matching mutation calls with their responses"
+  clientMutationId: String
+
+  "The newly-created redirect rule"
+  redirectRule: RedirectRule!
+}
+
+extend type Query {
   "Returns a list of rules matching specified query"
   redirectRules(
     id: ID
@@ -73,4 +101,7 @@ extend type Query {
 extend type Mutation {
   "Adds a new redirect rule"
   addRedirectRule(input: AddRedirectRuleInput!): AddRedirectRulePayload!
+
+  "Updates an existing redirect rule"
+  updateRedirectRule(input: UpdateRedirectRuleInput!): UpdateRedirectRulePayload!
 }
