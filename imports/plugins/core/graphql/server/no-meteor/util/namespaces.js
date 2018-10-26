@@ -15,6 +15,7 @@ export default {
   OrderItem: "reaction/orderItem",
   Payment: "reaction/payment",
   Product: "reaction/product",
+  RedirectRule: "reaction/redirectRule",
   Role: "reaction/role",
   Shop: "reaction/shop",
   Tag: "reaction/tag"
