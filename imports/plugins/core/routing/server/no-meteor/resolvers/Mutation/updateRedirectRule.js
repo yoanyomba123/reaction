@@ -1,6 +1,7 @@
 import ReactionError from "@reactioncommerce/reaction-error";
 import SimpleSchema from "simpl-schema";
 import { RedirectRule as schema } from "/imports/collections/schemas";
+import { decodeRedirectRuleOpaqueId } from "@reactioncommerce/reaction-graphql-xforms/routing";
 
 const paramsSchema = new SimpleSchema({
   from: String,
@@ -30,6 +31,7 @@ const paramsSchema = new SimpleSchema({
 export default async function updateRedirectRule(parentResult, { input }, context) {
   const { RedirectRules } = context.collections;
   const { clientMutationId } = input;
+  const ruleId = decodeRedirectRuleOpaqueId(input.id);
 
   const params = {
     from: input.from,
@@ -41,7 +43,7 @@ export default async function updateRedirectRule(parentResult, { input }, contex
   paramsSchema.validate(params);
 
   const { result } = await RedirectRules.updateOne(
-    { _id: input.id },
+    { _id: ruleId },
     { $set: params }
   );
 
@@ -49,7 +51,7 @@ export default async function updateRedirectRule(parentResult, { input }, contex
     throw new ReactionError("not-found", "Redirect rule not found");
   }
 
-  const redirectRule = await RedirectRules.findOne({ _id: input.id });
+  const redirectRule = await RedirectRules.findOne({ _id: ruleId });
 
   return {
     clientMutationId,
