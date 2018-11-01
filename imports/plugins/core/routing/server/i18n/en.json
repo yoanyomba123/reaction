@@ -1,0 +1,30 @@
+[
+  {
+    "i18n": "en",
+    "ns": "reaction-routing",
+    "translation": {
+      "reaction-routing": {
+        "admin": {
+          "routing": {
+            "headers": {
+              "from": "From",
+              "to": "To",
+              "status": "Status",
+              "enabled": "Enabled",
+              "tableText": {
+                "noDataMessage": "No results found",
+                "previousText": "Previous",
+                "nextText": "Next",
+                "loadingText": "Loading...",
+                "noDataText": "No results found",
+                "pageText": "Page",
+                "ofText": "of",
+                "rowsText": "rows"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+]
