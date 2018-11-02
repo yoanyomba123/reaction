@@ -121,9 +121,9 @@ class RoutingSettings extends Component {
   renderForm() {
     const { selectedRoute } = this.state;
     const fromInputId = `from_${this.uniqueInstanceIdentifier}`;
-    const toInputId = `from_${this.uniqueInstanceIdentifier}`;
-    const statusInputId = `from_${this.uniqueInstanceIdentifier}`;
+    const toInputId = `to_${this.uniqueInstanceIdentifier}`;
     const enableInputId = `enabled_${this.uniqueInstanceIdentifier}`;
+    const statusInputId = `status_${this.uniqueInstanceIdentifier}`;
 
 
     let title = "Create a new redirect";
