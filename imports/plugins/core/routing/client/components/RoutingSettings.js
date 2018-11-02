@@ -62,7 +62,7 @@ class RoutingSettings extends Component {
 
   async handleSubmit(data, mutation) {
     const input = {
-      id: data._id || null,
+      id: data._id,
       to: data.to,
       from: data.from,
       status: data.status,
