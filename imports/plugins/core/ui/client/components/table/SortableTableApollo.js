@@ -93,8 +93,7 @@ class SortableTableApollo extends Component {
         className: "sortable-table-row",
         props: {
           data: {
-            _id: rowInfo.original._id,
-            type: rowInfo.original.type
+            ...rowInfo.original
           }
         }
       });
