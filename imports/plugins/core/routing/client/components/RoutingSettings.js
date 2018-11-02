@@ -71,6 +71,9 @@ class RoutingSettings extends Component {
     };
 
     const result = await mutation({
+      refetchQueries: [{
+        query: redirectRuleQuery
+      }],
       variables: {
         input
       }
@@ -83,6 +86,9 @@ class RoutingSettings extends Component {
 
   async handleRemove(id, mutation) {
     return mutation({
+      refetchQueries: [{
+        query: redirectRuleQuery
+      }],
       variables: {
         input: {
           id
