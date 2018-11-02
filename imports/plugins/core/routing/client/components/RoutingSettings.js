@@ -5,6 +5,7 @@ import { uniqueId } from "lodash";
 import styled from "styled-components";
 import { Form } from "reacto-form";
 import Button from "@reactioncommerce/components/Button/v1";
+import Checkbox from "@reactioncommerce/components/Checkbox/v1";
 import ErrorsBlock from "@reactioncommerce/components/ErrorsBlock/v1";
 import Field from "@reactioncommerce/components/Field/v1";
 import Select from "@reactioncommerce/components/Select/v1";
@@ -122,6 +123,7 @@ class RoutingSettings extends Component {
     const fromInputId = `from_${this.uniqueInstanceIdentifier}`;
     const toInputId = `from_${this.uniqueInstanceIdentifier}`;
     const statusInputId = `from_${this.uniqueInstanceIdentifier}`;
+    const enableInputId = `enabled_${this.uniqueInstanceIdentifier}`;
 
 
     let title = "Create a new redirect";
@@ -180,6 +182,17 @@ class RoutingSettings extends Component {
                   />
                   <ErrorsBlock names={["status"]} />
                 </StatusSelectField>
+
+                <PaddedField
+                  name="enabled"
+                  labelFor={enableInputId}
+                >
+                  <Checkbox
+                    id={enableInputId}
+                    name="enabled"
+                    label="Enabled"
+                  />
+                </PaddedField>
               </Form>
               <FormActions>
                 {isNew &&
