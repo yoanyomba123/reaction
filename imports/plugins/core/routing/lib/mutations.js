@@ -32,7 +32,7 @@ export const updateRedirectRuleMutation = gql`
 
 export const removeRedirectRuleMutation = gql`
   mutation removeRedirectRuleMutation($input: RemoveRedirectRuleInput!) {
-    updateRedirectRule(input: $input) {
+    removeRedirectRule(input: $input) {
       wasRemoved
     }
   }
