@@ -93,15 +93,23 @@ class RoutingSettings extends Component {
     return result;
   }
 
-  async handleRemove(id, mutation) {
-    return mutation({
-      refetchQueries: [{
-        query: redirectRuleQuery
-      }],
-      variables: {
-        input: {
-          id
-        }
+  handleRemove(id, mutation) {
+    Alerts.alert({
+      title: i18next.t("admin.routing.form.deleteConfirm"),
+      type: "warning",
+      showCancelButton: true
+    }, (isConfirm) => {
+      if (isConfirm) {
+        mutation({
+          refetchQueries: [{
+            query: redirectRuleQuery
+          }],
+          variables: {
+            input: {
+              id
+            }
+          }
+        });
       }
     });
   }
