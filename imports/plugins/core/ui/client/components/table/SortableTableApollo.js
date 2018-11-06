@@ -194,20 +194,35 @@ class SortableTableApollo extends Component {
    * @param {String} action Bulk action name
    * @returns {undefined} No return value
    */
-  handleBulkActionsSelect = async (action) => {
+  handleBulkActionsSelect = (action) => {
     this.setState({ selectedBulkAction: action });
 
-    try {
-      const result = await this.props.onBulkAction(action, [...this.state.selection]);
-      this.props.onBulkActionSuccess(result);
-    } catch (error) {
-      this.props.onBulkActionError(error);
-    }
+    if (action) {
+      const { bulkActions } = this.props;
+      const selection = [...this.state.selection];
+      const option = bulkActions.find((opt) => opt.value === action);
 
-    this.setState({
-      selection: [],
-      selectedBulkAction: null
-    });
+      Alerts.alert({
+        title: `${option.label} ${selection.length} item(s)`,
+        type: "warning",
+        showCancelButton: true
+      }, async (isConfirm) => {
+        if (isConfirm) {
+          try {
+            const result = await this.props.onBulkAction(action, selection);
+            this.props.onBulkActionSuccess(result);
+          } catch (error) {
+            this.props.onBulkActionError(error);
+          }
+        }
+
+        // Reset selection state
+        this.setState({
+          selection: [],
+          selectedBulkAction: null
+        });
+      });
+    }
   }
 
   /**
@@ -223,18 +238,28 @@ class SortableTableApollo extends Component {
     if (Array.isArray(bulkActions) && bulkActions.length) {
       const actions = Array.isArray(selection) && selection.length ? bulkActions : [];
 
+      if (actions.length) {
+        return (
+          <BulkActionsSelect>
+            <Select
+              key="enabled-actions"
+              onChange={this.handleBulkActionsSelect}
+              options={actions}
+              placeholder="Actions"
+              value={selectedBulkAction}
+            />
+          </BulkActionsSelect>
+        );
+      }
+
       return (
         <BulkActionsSelect>
           <Select
-            onChange={this.handleBulkActionsSelect}
-            options={actions}
+            key="disabled-actions"
             placeholder="Actions"
-            isReadOnly={selection.length === 0}
-            value={selectedBulkAction}
+            isReadOnly={true}
           />
         </BulkActionsSelect>
-
-
       );
     }
 
