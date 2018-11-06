@@ -3,8 +3,34 @@ import PropTypes from "prop-types";
 import { Query } from "react-apollo";
 import matchSorter from "match-sorter";
 import ReactTable from "react-table";
+import checkboxHOC from "react-table/lib/hoc/selectTable";
 import { registerComponent } from "@reactioncommerce/reaction-components";
-import { SortableTableFilter, SortableTablePagination } from "./sortableTableComponents";
+import { SortableTablePagination } from "./sortableTableComponents";
+import styled from "styled-components";
+import Select from "@reactioncommerce/components/Select/v1";
+import TextInput from "@reactioncommerce/components/TextInput/v1";
+import { i18next } from "/client/api";
+
+const CheckboxTable = checkboxHOC(ReactTable);
+
+const TableHeader = styled.div`
+  display: flex;
+  margin-bottom: 20px;
+`;
+
+const FilterTextInput = styled.div`
+  display: flex;
+  flex: 1;
+
+  > div {
+    width: 100%;
+  }
+`;
+
+const BulkActionsSelect = styled.div`
+  min-width: 150px;
+  margin-left: 20px;
+`;
 
 /**
  * @file SortableTable is a React Component wrapper around {@link https://react-table.js.org} ReactTable.
@@ -23,6 +49,7 @@ class SortableTableApollo extends Component {
       currentPage: 0,
       filterInput: "",
       maxPages: 0,
+      selection: [],
       query: props.query || {}
     };
   }
@@ -48,14 +75,12 @@ class SortableTableApollo extends Component {
   /**
    * @name handleFilterInput
    * @summary Update state when filter is changed
-   * @param {script} event onChange event when typing in filter field
    * @param {string} value text field input
-   * @param {string} field input field name to watch
    * @return {function} state for field value
    */
-  handleFilterInput = (event, value, field) => {
+  handleFilterInput = (value) => {
     this.setState({
-      [field]: value
+      filterInput: value
     });
   }
 
@@ -146,13 +171,71 @@ class SortableTableApollo extends Component {
     if (numRows !== 0) {
       if (filterType === "both" || filterType === "table") {
         return (
-          <SortableTableFilter
-            onChange={this.handleFilterInput}
-            value={this.state.filterInput}
-            name="filterInput"
-          />
+          <FilterTextInput>
+            <TextInput
+              placeholder={i18next.t("reactionUI.components.sortableTable.filterPlaceholder", { defaultValue: "Filter Data" })}
+              onChanging={this.handleFilterInput}
+              value={this.state.filterInput}
+              name="filterInput"
+            />
+          </FilterTextInput>
+
         );
       }
+    }
+
+    return null;
+  }
+
+  /**
+   * @name handleBulkActionsSelect
+   * @method
+   * @summary Handle bulk action select
+   * @param {String} action Bulk action name
+   * @returns {undefined} No return value
+   */
+  handleBulkActionsSelect = async (action) => {
+    this.setState({ selectedBulkAction: action });
+
+    try {
+      const result = await this.props.onBulkAction(action, [...this.state.selection]);
+      this.props.onBulkActionSuccess(result);
+    } catch (error) {
+      this.props.onBulkActionError(error);
+    }
+
+    this.setState({
+      selection: [],
+      selectedBulkAction: null
+    });
+  }
+
+  /**
+   * @name renderBulkActionsSelect
+   * @method
+   * @summary Renders the bulk action select component
+   * @returns {Node} React node
+   */
+  renderBulkActionsSelect() {
+    const { bulkActions } = this.props;
+    const { selection, selectedBulkAction } = this.state;
+
+    if (Array.isArray(bulkActions) && bulkActions.length) {
+      const actions = Array.isArray(selection) && selection.length ? bulkActions : [];
+
+      return (
+        <BulkActionsSelect>
+          <Select
+            onChange={this.handleBulkActionsSelect}
+            options={actions}
+            placeholder="Actions"
+            isReadOnly={selection.length === 0}
+            value={selectedBulkAction}
+          />
+        </BulkActionsSelect>
+
+
+      );
     }
 
     return null;
@@ -193,9 +276,74 @@ class SortableTableApollo extends Component {
     return displayText;
   }
 
+  /**
+   * @name isRowSelected
+   * @method
+   * @summary Return selected state for a given row key
+   * @param {String} key Row key field value
+   * @returns {Boolean} A boolean value for the selected state of the row
+   */
+  isRowSelected = (key) => (
+    this.state.selection.find((element) => element._id === key) !== undefined
+  )
+
+  /**
+   * @name handleToggleSelection
+   * @method
+   * @summary Return selected state for a given row key
+   * @param {String} key Row key field value
+   * @param {Boolean} shift Shift key was pressed
+   * @param {Object} row Row data
+   * @returns {undefined} No return value
+   */
+  handleToggleSelection = (key, shift, row) => {
+    // update the state
+    this.setState((prevState) => {
+      // start off with the existing state
+      let selection = [...prevState.selection];
+      // let selectedObjects = { ...prevState.selectedObjects }
+
+      const keyIndex = selection.findIndex((element) => element._id === key);
+
+      // check to see if the key exists
+      if (keyIndex >= 0) {
+        // it does exist so we will remove it using destructing
+        selection = [
+          ...selection.slice(0, keyIndex),
+          ...selection.slice(keyIndex + 1)
+        ];
+      } else {
+        // it does not exist so add it
+        selection.push(row);
+      }
+
+      return {
+        selection,
+        selectedBulkAction: selection.length === 0 ? undefined : prevState.selectedBulkAction
+      };
+    });
+  }
+
+  /**
+   * @name handleToggleAll
+   * @method
+   * @summary Toggle selection state for all rows on the current page
+   * @returns {undefined} No return value
+   */
+  handleToggleAll = () => {}
+
   render() {
     const { ...otherProps } = this.props;
     const defaultClassName = "-striped -highlight";
+
+    const checkboxProps = {
+      selectType: "checkbox",
+      selectAll: false,
+      isSelected: this.isRowSelected,
+      toggleSelection: this.handleToggleSelection,
+      toggleAll: this.handleToggleAll
+    };
+
 
     // All available props: https://github.com/tannerlinsley/react-table#props
     return (
@@ -210,8 +358,12 @@ class SortableTableApollo extends Component {
 
           return (
             <div className="rui rui-sortable-table">
-              {this.renderTableFilter(resultCount)}
-              <ReactTable
+              <TableHeader>
+                {this.renderTableFilter(resultCount)}
+                {this.renderBulkActionsSelect()}
+              </TableHeader>
+              <CheckboxTable
+                {...checkboxProps}
                 className={otherProps.tableClassName || defaultClassName}
                 columns={this.renderColumns()}
                 data={this.filterData(result)}
@@ -282,6 +434,10 @@ class SortableTableApollo extends Component {
   * @return {Array} React propTypes
   */
 SortableTableApollo.propTypes = {
+  bulkActions: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired
+  })),
   collection: PropTypes.object,
   columnMetadata: PropTypes.array,
   dataKey: PropTypes.string,
@@ -294,6 +450,9 @@ SortableTableApollo.propTypes = {
   matchingResultsCount: PropTypes.string,
   minRows: PropTypes.number,
   noDataMessage: PropTypes.string,
+  onBulkAction: PropTypes.func,
+  onBulkActionError: PropTypes.func,
+  onBulkActionSuccess: PropTypes.func,
   onRowClick: PropTypes.func,
   publication: PropTypes.string,
   query: PropTypes.object,
@@ -315,7 +474,10 @@ SortableTableApollo.defaultProps = {
   noDataText: "No results found",
   pageText: "Page",
   ofText: "of",
-  rowsText: "rows"
+  rowsText: "rows",
+  onBulkAction() {},
+  onBulkActionError() {},
+  onBulkActionSuccess() {}
   // noDataMessage: <Translation defaultValue="No results found" i18nKey={"reactionUI.components.sortableTable.tableText.noDataMessage"} />,
   // previousText: <Translation defaultValue="Previous" i18nKey={"reactionUI.components.sortableTable.tableText.previousText"} />,
   // nextText: <Translation defaultValue="Next" i18nKey={"reactionUI.components.sortableTable.tableText.nextText"} />,
