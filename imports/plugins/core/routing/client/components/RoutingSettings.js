@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { registerComponent, Components } from "@reactioncommerce/reaction-components";
-import { Mutation } from "react-apollo";
+import { Mutation, withApollo } from "react-apollo";
 import { uniqueId } from "lodash";
 import styled from "styled-components";
 import { Form } from "reacto-form";
@@ -19,6 +19,12 @@ const httpStatusCodes = [
   { value: 302, label: "302" },
   { value: 303, label: "303" },
   { value: 307, label: "307" }
+];
+
+const bulkActions = [
+  { value: "disable", label: "Disable" },
+  { value: "enable", label: "Enable" },
+  { value: "delete", label: "Delete" }
 ];
 
 const Title = styled.h3`
@@ -50,6 +56,7 @@ const StatusSelectField = styled(Field)`
 
 class RoutingSettings extends Component {
   state = {
+    selection: [],
     selectedRoute: null
   }
 
@@ -57,6 +64,7 @@ class RoutingSettings extends Component {
 
   handleRowClick = (row) => {
     this.setState({
+      selection: [],
       selectedRoute: row.props.data
     });
   }
@@ -106,8 +114,57 @@ class RoutingSettings extends Component {
     });
   }
 
+  handleBulkAction = async (action, itemIds) => {
+    const { client } = this.props;
+    let mutation = updateRedirectRuleMutation;
+
+    // Escape early if you don't have a valid action
+    if (!["enable", "disable", "delete"].includes(action)) {
+      return Promise.reject(`Invalid bulk action: ${action}`);
+    }
+
+    // Use the remove mutation for the delete action
+    if (action === "delete") {
+      mutation = removeRedirectRuleMutation;
+    }
+
+    const promises = itemIds.map((item) => {
+      let input = {
+        id: item._id
+      };
+
+      // For enable / disable we need to supply the required fields for
+      // the `UpdateRedirectRuleInput`
+      if (action === "enable" || action === "disable") {
+        input = {
+          ...input,
+          enabled: action === "enable",
+          to: item.to,
+          from: item.from,
+          type: item.type,
+          status: item.status
+        };
+      }
+
+      return client.mutate({
+        mutation,
+        refetchQueries: [{
+          query: redirectRuleQuery
+        }],
+        variables: {
+          input
+        }
+      });
+    });
+
+    return Promise.all(promises);
+  }
+
   reset() {
-    this.setState({ selectedRoute: null });
+    this.setState({
+      selection: [],
+      selectedRoute: null
+    });
   }
 
   handleCancel = () => {
@@ -256,6 +313,7 @@ class RoutingSettings extends Component {
         colStyle = { textAlign: "center" };
         colClassName = "email-log-status";
       }
+
       // https://react-table.js.org/#/story/cell-renderers-custom-components
       const columnMeta = {
         accessor: field,
@@ -272,8 +330,10 @@ class RoutingSettings extends Component {
 
     return (
       <Components.SortableTableApollo
+        bulkActions={bulkActions}
         query={redirectRuleQuery}
         dataKey="redirectRules"
+        onBulkAction={this.handleBulkAction}
         onRowClick={this.handleRowClick}
         showFilter={true}
         rowMetadata={customRowMetaData}
@@ -299,6 +359,8 @@ class RoutingSettings extends Component {
   }
 }
 
-registerComponent("RoutingSettings", RoutingSettings);
+registerComponent("RoutingSettings", RoutingSettings, [
+  withApollo
+]);
 
-export default RoutingSettings;
+export default withApollo(RoutingSettings);
