@@ -6,6 +6,8 @@
       "reaction-routing": {
         "admin": {
           "routing": {
+            "enabled": "Enabled",
+            "disabled": "Disabled",
             "headers": {
               "from": "From",
               "to": "To",
