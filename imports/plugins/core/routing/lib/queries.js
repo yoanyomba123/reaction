@@ -8,6 +8,7 @@ export const redirectRuleQuery = gql`
       from
       to
       enabled
+      type
     }
   }
 `;
