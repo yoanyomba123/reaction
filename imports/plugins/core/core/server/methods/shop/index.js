@@ -11,6 +11,7 @@ import hideHeaderTag from "./hideHeaderTag";
 import locateAddress from "./locateAddress";
 import moveTagToNewParent from "./moveTagToNewParent";
 import removeHeaderTag from "./removeHeaderTag";
+import removeTag from "./removeTag";
 import sortTags from "./sortTags";
 import togglePackage from "./togglePackage";
 import updateBrandAssets from "./updateBrandAssets";
@@ -41,6 +42,7 @@ export default {
   "shop/locateAddress": locateAddress,
   "shop/moveTagToNewParent": moveTagToNewParent,
   "shop/removeHeaderTag": removeHeaderTag,
+  "shop/removeTag": removeTag,
   "shop/sortTags": sortTags,
   "shop/togglePackage": togglePackage,
   "shop/updateBrandAssets": updateBrandAssets,

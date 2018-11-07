@@ -116,19 +116,8 @@ export const TagHelpers = {
   },
 
   removeTag(tag, parentTag) {
-    if (_.isEmpty(parentTag) === false) {
-      Tags.update(parentTag._id, {
-        $pullAll: {
-          relatedTagIds: [tag._id]
-        }
-      });
-    } else if (tag.isTopLevel === true) {
-      Tags.update(tag._id, {
-        $set: {
-          isTopLevel: false
-        }
-      });
-    }
+    const parentTagId = _.isEmpty(parentTag) ? null : parentTag._id;
+    Meteor.call("shop/removeTag", tag._id, parentTagId);
   }
 };
 
