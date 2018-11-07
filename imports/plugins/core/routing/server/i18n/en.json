@@ -8,9 +8,14 @@
           "routing": {
             "enabled": "Enabled",
             "disabled": "Disabled",
+            "form": {
+              "from": "Redirect from",
+              "to": "Redirect to",
+              "status": "Redirect Status"
+            },
             "headers": {
-              "from": "From",
-              "to": "To",
+              "from": "Redirect from",
+              "to": "Redirect to",
               "status": "Status",
               "enabled": "Enabled",
               "tableText": {
