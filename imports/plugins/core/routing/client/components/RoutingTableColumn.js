@@ -3,9 +3,17 @@ import PropTypes from "prop-types";
 import { i18next } from "/client/api";
 import { Components, registerComponent, withMoment } from "@reactioncommerce/reaction-components";
 import styled from "styled-components";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const EnabledLabel = styled.span`
   padding-left: 8px;
+`;
+
+const TooltipLabel = styled.div`
+  word-break: break-all;
+  font-size: 12px;
+  padding: 3px;
+  line-height: 18px
 `;
 
 class RoutingTableColumn extends Component {
@@ -42,6 +50,15 @@ class RoutingTableColumn extends Component {
         <span>{createdDate}</span>
       );
     }
+
+    if (renderColumn === "from" || renderColumn === "to") {
+      return (
+        <Tooltip title={<TooltipLabel>{row.value}</TooltipLabel>}>
+          <span>{row.value}</span>
+        </Tooltip>
+      );
+    }
+
     return (
       <span>{row.value}</span>
     );
