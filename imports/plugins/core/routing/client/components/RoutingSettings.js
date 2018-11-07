@@ -219,7 +219,7 @@ class RoutingSettings extends Component {
                 <PaddedField
                   helpText="The original URL you'd like to forward visitors from."
                   name="fullName"
-                  label={i18next.t("admin.routing.headers.from")}
+                  label={i18next.t("admin.routing.form.from")}
                   labelFor={fromInputId}
                   isRequired
                 >
@@ -257,7 +257,7 @@ class RoutingSettings extends Component {
                   <Checkbox
                     id={enableInputId}
                     name="enabled"
-                    label="Enabled"
+                    label={i18next.t("admin.routing.enabled")}
                   />
                 </PaddedField>
               </Form>
