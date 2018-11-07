@@ -126,6 +126,26 @@ class SortableTableApollo extends Component {
   }
 
   /**
+   * @name handleCellClick
+   * @summary Handle click on table cell
+   * @param {object} rowInfo row data passed in from ReactTable
+   * @param {object} column Column data
+   * @return {function} return onRowClick function prop, or undefined if not supplied
+   */
+  handleCellClick(rowInfo, column) {
+    const { onCellClick } = this.props;
+
+    if (typeof onCellClick === "function") {
+      onCellClick({
+        column,
+        rowData: {
+          ...rowInfo.original
+        }
+      });
+    }
+  }
+
+  /**
    * @name renderColumns
    * @method
    * @summary Absorb columnMetadata information from props, output columns to display
@@ -407,16 +427,27 @@ class SortableTableApollo extends Component {
                 sortable={otherProps.isSortable}
                 PaginationComponent={SortableTablePagination}
                 showPaginationBottom={resultCount !== 0}
-                getTrProps={(state, rowInfo, column, instance) => { // eslint-disable-line no-unused-vars
+                getTrProps={(state, rowInfo, column, instance) => {
                   if (otherProps.getTrProps) {
-                    return otherProps.getTrProps();
+                    return otherProps.getTrProps(state, rowInfo, column, instance);
                   }
 
                   return {
                     onClick: () => { // eslint-disable-line no-unused-vars
-                      this.handleClick(rowInfo);
+                      this.handleClick(rowInfo, column);
                     },
                     className: this.selectedRowsClassName(rowInfo)
+                  };
+                }}
+                getTdProps={(state, rowInfo, column, instance) => {
+                  if (otherProps.getTdProps) {
+                    return otherProps.getTdProps(state, rowInfo, column, instance);
+                  }
+
+                  return {
+                    onClick: () => {
+                      this.handleCellClick(rowInfo, column);
+                    }
                   };
                 }}
                 getTableProps={otherProps.getTableProps}
@@ -478,6 +509,7 @@ SortableTableApollo.propTypes = {
   onBulkAction: PropTypes.func,
   onBulkActionError: PropTypes.func,
   onBulkActionSuccess: PropTypes.func,
+  onCellClick: PropTypes.func,
   onRowClick: PropTypes.func,
   publication: PropTypes.string,
   query: PropTypes.object,
@@ -502,7 +534,8 @@ SortableTableApollo.defaultProps = {
   rowsText: "rows",
   onBulkAction() {},
   onBulkActionError() {},
-  onBulkActionSuccess() {}
+  onBulkActionSuccess() {},
+  onCellClick() {}
   // noDataMessage: <Translation defaultValue="No results found" i18nKey={"reactionUI.components.sortableTable.tableText.noDataMessage"} />,
   // previousText: <Translation defaultValue="Previous" i18nKey={"reactionUI.components.sortableTable.tableText.previousText"} />,
   // nextText: <Translation defaultValue="Next" i18nKey={"reactionUI.components.sortableTable.tableText.nextText"} />,
