@@ -19,6 +19,7 @@ import updateCurrencyConfiguration from "./updateCurrencyConfiguration";
 import updateDefaultParcelSize from "./updateDefaultParcelSize";
 import updateHeaderTags from "./updateHeaderTags";
 import updateLanguageConfiguration from "./updateLanguageConfiguration";
+import updateShopLocalization from "./updateShopLocalization";
 import updateShopExternalServices from "./updateShopExternalServices";
 
 /**
@@ -50,5 +51,6 @@ export default {
   "shop/updateDefaultParcelSize": updateDefaultParcelSize,
   "shop/updateHeaderTags": updateHeaderTags,
   "shop/updateLanguageConfiguration": updateLanguageConfiguration,
+  "shop/updateShopLocalization": updateShopLocalization,
   "shop/updateShopExternalServices": updateShopExternalServices
 };

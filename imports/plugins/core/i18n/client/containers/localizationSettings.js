@@ -2,10 +2,9 @@ import React, { Component } from "react";
 import { compose } from "recompose";
 import { registerComponent, composeWithTracker, withMomentTimezone } from "@reactioncommerce/reaction-components";
 import { Meteor } from "meteor/meteor";
-import { Reaction, i18next } from "/client/api";
+import { i18next } from "/client/api";
 import { Countries } from "/client/collections";
 import { Shops } from "/lib/collections";
-import { convertWeight, convertLength } from "/lib/api";
 import LocalizationSettings from "../components/localizationSettings";
 
 const wrapComponent = (Comp) => (
@@ -25,28 +24,12 @@ const wrapComponent = (Comp) => (
     }
 
     handleSubmit = (doc) => {
-      const shop = Shops.findOne({
-        _id: Reaction.getShopId()
-      }, { defaultParcelSize: 1, baseUOM: 1, baseUOL: 1 });
-      if (shop && shop.defaultParcelSize) {
-        const parcelSize = {
-          weight: convertWeight(shop.baseUOM, doc.baseUOM, shop.defaultParcelSize.weight),
-          height: convertLength(shop.baseUOL, doc.baseUOL, shop.defaultParcelSize.height),
-          length: convertLength(shop.baseUOL, doc.baseUOL, shop.defaultParcelSize.length),
-          width: convertLength(shop.baseUOL, doc.baseUOL, shop.defaultParcelSize.width)
-        };
-        Meteor.call("shop/updateDefaultParcelSize", parcelSize);
-      }
-      Shops.update({
-        _id: doc._id
-      }, {
-        $set: {
-          timezone: doc.timezone,
-          currency: doc.currency,
-          baseUOM: doc.baseUOM,
-          baseUOL: doc.baseUOL,
-          language: doc.language
-        }
+      Meteor.call("shop/updateShopLocalization", doc._id, {
+        timezone: doc.timezone,
+        currency: doc.currency,
+        baseUOM: doc.baseUOM,
+        baseUOL: doc.baseUOL,
+        language: doc.language
       });
     }
 
