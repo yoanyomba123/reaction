@@ -47,11 +47,12 @@ const FormAction = styled.div`
 `;
 
 const PaddedField = styled(Field)`
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 `;
 
 const StatusSelectField = styled(Field)`
   max-width: 140px;
+  margin-bottom: 20px;
 `;
 
 class RoutingSettings extends Component {
