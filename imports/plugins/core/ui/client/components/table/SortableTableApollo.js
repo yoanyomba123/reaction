@@ -413,9 +413,7 @@ class SortableTableApollo extends Component {
     // All available props: https://github.com/tannerlinsley/react-table#props
     return (
       <Query query={otherProps.query} variables={otherProps.variables}>
-        {({ loading, data }) => {
-          if (loading) return null;
-
+        {({ data }) => {
           const result = data[otherProps.dataKey] || [];
           const resultCount = (Array.isArray(result) && result.length) || 0;
 
