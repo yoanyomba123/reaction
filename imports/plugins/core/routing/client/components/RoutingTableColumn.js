@@ -28,6 +28,13 @@ class RoutingTableColumn extends Component {
         </span>
       );
     }
+    if (renderColumn === "edit") {
+      return (
+        <span>
+          <Components.Icon icon="fa fa-pencil" />
+        </span>
+      );
+    }
     if (renderColumn === "updated") {
       const { moment } = this.props;
       const createdDate = (moment && moment(row.value).format("LLL")) || row.value.toLocaleString();
