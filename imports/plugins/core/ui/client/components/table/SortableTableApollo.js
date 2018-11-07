@@ -50,6 +50,7 @@ class SortableTableApollo extends Component {
       filterInput: "",
       maxPages: 0,
       selection: [],
+      selectAll: false,
       query: props.query || {}
     };
   }
@@ -239,6 +240,7 @@ class SortableTableApollo extends Component {
         // Reset selection state
         this.setState({
           selection: [],
+          selectAll: false,
           selectedBulkAction: null
         });
       });
@@ -364,6 +366,7 @@ class SortableTableApollo extends Component {
 
       return {
         selection,
+        selectAll: false,
         selectedBulkAction: selection.length === 0 ? undefined : prevState.selectedBulkAction
       };
     });
@@ -372,10 +375,27 @@ class SortableTableApollo extends Component {
   /**
    * @name handleToggleAll
    * @method
-   * @summary Toggle selection state for all rows on the current page
+   * @summary Toggle selection state for all rows
    * @returns {undefined} No return value
    */
-  handleToggleAll = () => {}
+  handleToggleAll = () => {
+    this.setState((state) => {
+      const selectAll = !state.selectAll;
+      const selection = [];
+
+      if (selectAll) {
+        // Get at the internals of ReactTable
+        const wrappedInstance = this.checkboxTable.getWrappedInstance();
+        // The 'sortedData' property contains the currently accessible records based on the filter and sort
+        const currentRecords = wrappedInstance.getResolvedState().sortedData;
+        // Push all items into the selection array
+        currentRecords.forEach((item) => {
+          selection.push(item._original);
+        });
+      }
+      this.setState({ selectAll, selection });
+    });
+  }
 
   render() {
     const { ...otherProps } = this.props;
@@ -383,7 +403,7 @@ class SortableTableApollo extends Component {
 
     const checkboxProps = {
       selectType: "checkbox",
-      selectAll: false,
+      selectAll: this.state.selectAll,
       isSelected: this.isRowSelected,
       toggleSelection: this.handleToggleSelection,
       toggleAll: this.handleToggleAll
@@ -394,8 +414,6 @@ class SortableTableApollo extends Component {
     return (
       <Query query={otherProps.query} variables={otherProps.variables}>
         {({ loading, data }) => {
-          // No more
-
           if (loading) return null;
 
           const result = data[otherProps.dataKey] || [];
@@ -409,6 +427,7 @@ class SortableTableApollo extends Component {
               </TableHeader>
               <CheckboxTable
                 {...checkboxProps}
+                ref={(ref) => { this.checkboxTable = ref; }}
                 className={otherProps.tableClassName || defaultClassName}
                 columns={this.renderColumns()}
                 data={this.filterData(result)}
