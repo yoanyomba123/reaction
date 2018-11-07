@@ -14,6 +14,7 @@ import removeEmailAddress from "./removeEmailAddress";
 import removeUserPermissions from "./removeUserPermissions";
 import sendResetPasswordEmail from "./sendResetPasswordEmail";
 import sendWelcomeEmail from "./sendWelcomeEmail";
+import setActiveShopId from "./setActiveShopId";
 import setProfileCurrency from "./setProfileCurrency";
 import setUserPermissions from "./setUserPermissions";
 import updateEmailAddress from "./updateEmailAddress";
@@ -50,6 +51,7 @@ export default {
   "accounts/removeUserPermissions": removeUserPermissions,
   "accounts/sendResetPasswordEmail": sendResetPasswordEmail,
   "accounts/sendWelcomeEmail": sendWelcomeEmail,
+  "accounts/setActiveShopId": setActiveShopId,
   "accounts/setProfileCurrency": setProfileCurrency,
   "accounts/setUserPermissions": setUserPermissions,
   "accounts/updateEmailAddress": updateEmailAddress,

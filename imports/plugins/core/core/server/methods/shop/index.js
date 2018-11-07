@@ -10,7 +10,6 @@ import getWorkflow from "./getWorkflow";
 import hideHeaderTag from "./hideHeaderTag";
 import locateAddress from "./locateAddress";
 import removeHeaderTag from "./removeHeaderTag";
-import resetShopId from "./resetShopId";
 import togglePackage from "./togglePackage";
 import updateBrandAssets from "./updateBrandAssets";
 import updateCurrencyConfiguration from "./updateCurrencyConfiguration";
@@ -39,7 +38,6 @@ export default {
   "shop/hideHeaderTag": hideHeaderTag,
   "shop/locateAddress": locateAddress,
   "shop/removeHeaderTag": removeHeaderTag,
-  "shop/resetShopId": resetShopId,
   "shop/togglePackage": togglePackage,
   "shop/updateBrandAssets": updateBrandAssets,
   "shop/updateCurrencyConfiguration": updateCurrencyConfiguration,

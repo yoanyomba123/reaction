@@ -143,7 +143,7 @@ export default function createShop(shopAdminUserId, partialShopData) {
 
   const newShop = Shops.findOne({ _id: newShopId });
 
-  // we should have created new shop, or errored
+  // we should have created new shop, or erred
   Logger.info("Created shop: ", newShopId);
 
   // update user
@@ -151,11 +151,10 @@ export default function createShop(shopAdminUserId, partialShopData) {
   Reaction.createGroups({ shopId: newShopId });
   const ownerGroup = Groups.findOne({ slug: "owner", shopId: newShopId });
   Roles.addUsersToRoles([currentUser, shopUser._id], ownerGroup.permissions, newShopId);
-  // Set the active shopId for this user
-  Reaction.setUserPreferences("reaction", "activeShopId", newShopId, shopUser._id);
   Accounts.update({ _id: shopUser._id }, {
     $set: {
-      shopId: newShopId
+      "shopId": newShopId,
+      "profile.preferences.reaction.activeShopId": newShopId
     },
     $addToSet: {
       groups: ownerGroup._id

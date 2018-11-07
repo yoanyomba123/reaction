@@ -255,7 +255,7 @@ export default {
    * @return {array} Array of shopIds that the user has at least one of the given set of roles for
    */
   getShopsWithRoles(roles, userId = getUserId()) {
-    // Owner permission for a shop superceeds grantable permissions, so we always check for owner permissions as well
+    // Owner permission for a shop supercedes grantable permissions, so we always check for owner permissions as well
     roles.push("owner");
 
     // Reducer that returns a unique list of shopIds that results from calling getGroupsForUser for each role
@@ -514,7 +514,6 @@ export default {
    * @method
    * @memberof Core
    * @summary Get a user's shop ID, as stored in preferences
-   * @todo This should intelligently find the correct default shop Probably whatever the main shop is or marketplace
    * @param {String} userId (probably logged in userId)
    * @return {String} active shop ID
    */
@@ -716,26 +715,6 @@ export default {
   },
 
   /**
-   * @name setUserPreferences
-   * @method
-   * @memberof Core
-   * @summary save user preferences in the Accounts collection
-   * @param {String} packageName
-   * @param {String} preference
-   * @param {String} value
-   * @param {String} userId
-   * @return {Number} setPreferenceResult
-   */
-  setUserPreferences(packageName, preference, value, userId) {
-    const setPreferenceResult = AccountsCollection.update(userId, {
-      $set: {
-        [`profile.preferences.${packageName}.${preference}`]: value
-      }
-    });
-    return setPreferenceResult;
-  },
-
-  /**
    * @name insertPackagesForShop
    * @method
    * @memberof Core
@@ -748,7 +727,7 @@ export default {
   insertPackagesForShop(shopId) {
     const layouts = [];
     if (!shopId) {
-      return [];
+      return;
     }
 
     // Check to see what packages should be enabled
@@ -823,7 +802,7 @@ export default {
    * @method
    * @memberof Core
    * @summary Method that creates default admin user
-   * Settings load precendence:
+   * Settings load precedence:
    *  1. environment variables
    *  2. settings in meteor.settings
    * @returns {String} return userId
@@ -1138,14 +1117,14 @@ export default {
     const col = Collections[collection];
     if (!col) {
       Logger.warn(errMsg);
-      // Return false so we don't pass a check that uses a non-existant schema
+      // Return false so we don't pass a check that uses a non-existent schema
       return false;
     }
 
     const schema = col.simpleSchema(selector);
     if (!schema) {
       Logger.warn(errMsg);
-      // Return false so we don't pass a check that uses a non-existant schema
+      // Return false so we don't pass a check that uses a non-existent schema
       return false;
     }
 

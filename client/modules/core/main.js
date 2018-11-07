@@ -11,7 +11,7 @@ import { Roles } from "meteor/alanning:roles";
 import Logger from "/client/modules/logger";
 import { Countries } from "/client/collections";
 import { localeDep } from "/client/modules/i18n";
-import { Packages, Shops, Accounts } from "/lib/collections";
+import { Packages, Shops } from "/lib/collections";
 import { Router } from "/client/modules/router";
 import { DomainsMixin } from "./domains";
 import { getUserId } from "./helpers/utils";
@@ -136,7 +136,7 @@ export default {
     });
 
     // Listen for active shop change
-    return Tracker.autorun(() => {
+    return Tracker.autorun(() => { // eslint-disable-line consistent-return
       if (this.Subscriptions.MerchantShops.ready()) {
         // if we don't have an active shopId, try to retrieve it from the userPreferences object
         // and set the shop from the storedShopId
@@ -420,51 +420,6 @@ export default {
   },
 
   /**
-   * @name getUserPreferences
-   * @method
-   * @memberof Core/Client
-   */
-  getUserPreferences(packageName, preference, defaultValue) {
-    getDep(`${packageName}.${preference}`).depend();
-    if (Meteor.user()) {
-      const packageSettings = store.get(packageName);
-      // packageSettings[preference] should not be undefined or null.
-      if (packageSettings && typeof packageSettings[preference] !== "undefined" && packageSettings[preference] !== null) {
-        return packageSettings[preference];
-      }
-    }
-
-    return defaultValue || undefined;
-  },
-
-  /**
-   * @name setUserPreferences
-   * @method
-   * @memberof Core/Client
-   */
-  setUserPreferences(packageName, preference, value) {
-    getDep(`${packageName}.${preference}`).changed();
-
-    // User preferences are not stored in Meteor.user().profile
-    // to prevent all autorun() with dependency on Meteor.user() to run again.
-    if (Meteor.userId()) {
-      // "reaction" package settings should be synced to
-      // the Accounts collection.
-      if (packageName === "reaction") {
-        Accounts.update(getUserId(), {
-          $set: {
-            [`profile.preferences.${packageName}.${preference}`]: value
-          }
-        });
-      }
-    }
-
-    const packageSettings = store.get(packageName) || {};
-    packageSettings[preference] = value;
-    return store.set(packageName, packageSettings);
-  },
-
-  /**
    * primaryShopId is the first created shop. In a marketplace setting it's
    * the shop that controls the marketplace and can see all other shops.
    * @name primaryShopId
@@ -542,7 +497,7 @@ export default {
    */
   getCurrentShop() {
     // Give preference to shop chosen by the user
-    const activeShopId = this.getUserPreferences("reaction", "activeShopId");
+    const activeShopId = this.getUserShopId();
     if (activeShopId) return Shops.findOne({ _id: activeShopId });
 
     // If no chosen shop, look up the shop by domain
@@ -552,6 +507,20 @@ export default {
     if (!shop) shop = Shops.findOne({ shopType: "primary" });
 
     return shop;
+  },
+
+  /**
+   * @name getUserShopId
+   * @method
+   * @memberof Core/Client
+   * @summary Get current user's shop ID, as stored in preferences
+   * @return {String} active shop ID
+   */
+  getUserShopId() {
+    const preferences = userPrefs.get(); // reactivity on `profile.preferences` changes only
+    if (!preferences) return null;
+
+    return _.get(preferences, "reaction.activeShopId");
   },
 
   /**
@@ -575,7 +544,7 @@ export default {
    * @returns {String} The current shop ID in state, or activeShopId stored in account preferences for admins
    */
   getShopId() {
-    return this.shopId || this.getUserPreferences("reaction", "activeShopId");
+    return this.shopId || this.getUserShopId();
   },
 
   /**
@@ -605,9 +574,7 @@ export default {
     if (!id || this.shopId === id) { return; }
 
     this.shopId = id;
-    this.setUserPreferences("reaction", "activeShopId", id);
-
-    Meteor.call("shop/resetShopId");
+    Meteor.call("accounts/setActiveShopId", id);
   },
 
   /**
@@ -673,7 +640,7 @@ export default {
         // If slugify/transliteration is loaded & no lang change
         return;
       } else if (latinLangs.indexOf(lang) >= 0) {
-        // If shop's language uses latin based chars, load slugify, else load transliterations's slugify
+        // If shop's language uses latin based chars, load slugify, else load transliteration's slugify
         mod = await import("slugify");
       } else {
         mod = await import("transliteration");
@@ -1173,11 +1140,11 @@ function createCountryCollection(countries) {
       });
     }
   }
-  countryOptions.sort((a, b) => {
-    if (a.label < b.label) {
+  countryOptions.sort((itemA, itemB) => {
+    if (itemA.label < itemB.label) {
       return -1;
     }
-    if (a.label > b.label) {
+    if (itemA.label > itemB.label) {
       return 1;
     }
     return 0;
