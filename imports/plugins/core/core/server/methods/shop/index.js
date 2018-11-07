@@ -9,6 +9,7 @@ import getLocale from "./getLocale";
 import getWorkflow from "./getWorkflow";
 import hideHeaderTag from "./hideHeaderTag";
 import locateAddress from "./locateAddress";
+import moveTagToNewParent from "./moveTagToNewParent";
 import removeHeaderTag from "./removeHeaderTag";
 import togglePackage from "./togglePackage";
 import updateBrandAssets from "./updateBrandAssets";
@@ -37,6 +38,7 @@ export default {
   "shop/getWorkflow": getWorkflow,
   "shop/hideHeaderTag": hideHeaderTag,
   "shop/locateAddress": locateAddress,
+  "shop/moveTagToNewParent": moveTagToNewParent,
   "shop/removeHeaderTag": removeHeaderTag,
   "shop/togglePackage": togglePackage,
   "shop/updateBrandAssets": updateBrandAssets,

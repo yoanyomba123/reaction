@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { Reaction, i18next } from "/client/api";
+import { i18next } from "/client/api";
 import { Tags } from "/lib/collections";
 import { Meteor } from "meteor/meteor";
 import { Session } from "meteor/session";
@@ -102,31 +102,10 @@ export const TagHelpers = {
     });
   },
 
-  /* eslint no-unused-vars: 0 */
-  //
-  //   TODO review toIndex, ofList variable implementation in tags.js moveTagToNewParent
-  //
-  moveTagToNewParent(movedTagId, toListId, toIndex, ofList) {
-    if (movedTagId) {
-      if (toListId) {
-        const result = Tags.update(toListId, {
-          $addToSet: {
-            relatedTagIds: movedTagId
-          }
-        });
-
-        return result;
-      }
-
-      const result = Tags.update(movedTagId, {
-        $set: {
-          isTopLevel: true
-        }
-      });
-
-      return result;
+  moveTagToNewParent(tagId, parentTagId) {
+    if (tagId) {
+      Meteor.call("shop/moveTagToNewParent", tagId, parentTagId);
     }
-    return 0;
   },
 
   sortTags(tagIds, parentTag) {
