@@ -62,11 +62,13 @@ class RoutingSettings extends Component {
 
   uniqueInstanceIdentifier = uniqueId("URLRedirectEditForm");
 
-  handleRowClick = (row) => {
-    this.setState({
-      selection: [],
-      selectedRoute: row.props.data
-    });
+  handleCellClick = ({ column, rowData }) => {
+    if (column.id === "edit") {
+      this.setState({
+        selection: [],
+        selectedRoute: rowData
+      });
+    }
   }
 
   async handleSubmit(data, mutation) {
@@ -301,7 +303,7 @@ class RoutingSettings extends Component {
   }
 
   renderTable() {
-    const filteredFields = ["from", "to", "status", "enabled"];
+    const filteredFields = ["from", "to", "status", "enabled", "edit"];
     const noDataMessage = i18next.t("admin.routing.tableText.noDataMessage");
 
     // helper adds a class to every grid row
@@ -315,17 +317,23 @@ class RoutingSettings extends Component {
       let colWidth;
       let colStyle;
       let colClassName;
+      let headerLabel = i18next.t(`admin.routing.headers.${field}`);
 
       if (field === "status") {
         colWidth = 70;
-        colStyle = { textAlign: "center" };
         colClassName = "email-log-status";
+      }
+
+      if (field === "edit") {
+        colWidth = 44;
+        colStyle = { textAlign: "center", cursor: "pointer" };
+        headerLabel = "";
       }
 
       // https://react-table.js.org/#/story/cell-renderers-custom-components
       const columnMeta = {
         accessor: field,
-        Header: i18next.t(`admin.routing.headers.${field}`),
+        Header: headerLabel,
         Cell: (row) => (
           <Components.RoutingTableColumn row={row} />
         ),
@@ -342,7 +350,7 @@ class RoutingSettings extends Component {
         query={redirectRuleQuery}
         dataKey="redirectRules"
         onBulkAction={this.handleBulkAction}
-        onRowClick={this.handleRowClick}
+        onCellClick={this.handleCellClick}
         showFilter={true}
         rowMetadata={customRowMetaData}
         filteredFields={filteredFields}
