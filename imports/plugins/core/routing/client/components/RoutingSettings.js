@@ -331,6 +331,11 @@ class RoutingSettings extends Component {
         headerLabel = "";
       }
 
+      if (field === "enabled") {
+        colWidth = 110;
+        headerLabel = "";
+      }
+
       // https://react-table.js.org/#/story/cell-renderers-custom-components
       const columnMeta = {
         accessor: field,
