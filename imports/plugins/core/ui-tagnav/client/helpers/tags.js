@@ -110,23 +110,8 @@ export const TagHelpers = {
 
   sortTags(tagIds, parentTag) {
     if (_.isArray(tagIds)) {
-      if (_.isEmpty(parentTag)) {
-        // Top level tags
-        for (const tagId of tagIds) {
-          Tags.update(tagId, {
-            $set: {
-              position: tagIds.indexOf(tagId)
-            }
-          });
-        }
-      } else {
-        // Sub tags
-        Tags.update(parentTag._id, {
-          $set: {
-            relatedTagIds: _.compact(tagIds)
-          }
-        });
-      }
+      const parentTagId = _.isEmpty(parentTag) ? null : parentTag._id;
+      Meteor.call("shop/sortTags", _.compact(tagIds), parentTagId);
     }
   },
 
