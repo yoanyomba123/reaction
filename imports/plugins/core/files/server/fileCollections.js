@@ -2,7 +2,6 @@ import { Meteor } from "meteor/meteor";
 import { MongoInternals } from "meteor/mongo";
 import { WebApp } from "meteor/webapp";
 import { check } from "meteor/check";
-import { Security } from "meteor/ongoworks:security";
 import fetch from "node-fetch";
 import Logger from "@reactioncommerce/logger";
 import {
@@ -10,6 +9,7 @@ import {
   RemoteUrlWorker,
   TempFileStoreWorker
 } from "@reactioncommerce/file-collections";
+import Reaction from "/imports/plugins/core/core/server/Reaction";
 import { AbsoluteUrlMixin } from "/imports/plugins/core/core/server/Reaction/absoluteUrl";
 import { MediaRecords } from "/lib/collections";
 import setUpFileCollections from "./no-meteor/setUpFileCollections";
@@ -50,9 +50,21 @@ WebApp.connectHandlers.use("/assets/uploads", (req, res) => {
  * @see {@link https://github.com/reactioncommerce/reaction-file-collections}
  */
 const Media = new MeteorFileCollection("Media", {
-  allowInsert: (userId, doc) => Security.can(userId).insert(doc).for(MediaRecords).check(),
-  allowUpdate: (userId, id, modifier) => Security.can(userId).update(id, modifier).for(MediaRecords).check(),
-  allowRemove: (userId, id) => Security.can(userId).remove(id).for(MediaRecords).check(),
+  allowInsert: (userId, doc) => {
+    if (!userId) return false;
+
+    if (!doc || !doc.metadata || !doc.metadata.shopId) return false;
+
+    return Reaction.hasPermission(["admin", "owner", "createProduct"], userId, doc.metadata.shopId);
+  },
+  allowRemove: (userId, id) => {
+    if (!userId) return false;
+
+    const doc = MediaRecords.findOne({ _id: id });
+    if (!doc || !doc.metadata || !doc.metadata.shopId) return false;
+
+    return Reaction.hasPermission(["admin", "owner", "createProduct"], userId, doc.metadata.shopId);
+  },
   check,
   collection: MediaRecords,
   DDP: Meteor,

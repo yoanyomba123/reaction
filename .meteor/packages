@@ -55,7 +55,6 @@ bozhao:accounts-instagram
 dispatch:run-as-user
 meteorhacks:ssr
 meteorhacks:subs-manager
-ongoworks:security
 tmeasday:publish-counts
 percolate:migrations
 gadicc:blaze-react-component

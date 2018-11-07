@@ -1,10 +1,10 @@
+import Hooks from "@reactioncommerce/hooks";
 import Logger from "@reactioncommerce/logger";
 import { Shops } from "/lib/collections";
 import Reaction from "../Reaction";
 import startNodeApp from "./startNodeApp";
 import Accounts from "./accounts";
 import "./browser-policy";
-import CollectionSecurity from "./collection-security";
 import { importAllTranslations } from "./i18n";
 import LoadFixtureData from "./load-data";
 import Prerender from "./prerender";
@@ -42,7 +42,12 @@ export default function startup() {
   importAllTranslations();
 
   Prerender();
-  CollectionSecurity();
+
+  // This is here for now for backward compatibility, but as of the writing of this comment,
+  // no core plugins use it. It was previously documented to be the correct place where
+  // plugins should modify core security rules.
+  Hooks.Events.run("afterSecurityInit");
+
   RateLimiters();
 
   startNodeApp()
