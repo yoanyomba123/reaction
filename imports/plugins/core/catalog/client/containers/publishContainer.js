@@ -63,21 +63,26 @@ PublishContainer.propTypes = {
   product: PropTypes.object
 };
 
+/**
+ * @param {Object} props Incoming props
+ * @param {Function} onData Callback
+ * @returns {undefined}
+ */
 function composer(props, onData) {
-  const viewAs = Reaction.getUserPreferences("reaction-dashboard", "viewAs", "administrator");
+  const isPreview = Reaction.isPreview();
 
   if (Array.isArray(props.documentIds) && props.documentIds.length) {
     onData(null, {
       documentIds: props.documentIds,
       documents: props.documents,
-      isPreview: viewAs === "customer"
+      isPreview
     });
 
     return;
   }
 
   onData(null, {
-    isPreview: viewAs === "customer"
+    isPreview
   });
 }
 

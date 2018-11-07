@@ -53,23 +53,12 @@ class App extends Component {
   }
 
   handleViewContextChange = (event, value) => {
-    Reaction.setUserPreferences("reaction-dashboard", "viewAs", value);
-
-    if (Reaction.isPreview() === true) {
-      // Save last action view state
-      const saveActionViewState = Reaction.getActionView();
-      Reaction.setUserPreferences("reaction-dashboard", "savedActionViewState", saveActionViewState);
-
-      // hideActionView during isPreview === true
-      Reaction.hideActionView();
-    }
+    Reaction.setAdminViewAs(value);
   }
 
   handleKeyDown = (event) => {
-    if (event.altKey && event.keyCode === 69) { // Switch edit mode
-      const userWas = Reaction.getUserPreferences("reaction-dashboard", "viewAs", "customer");
-      const userIs = userWas === "customer" ? "administrator" : "customer";
-      this.handleViewContextChange(event, userIs);
+    if (event.altKey && event.keyCode === 69) {
+      Reaction.togglePreviewMode();
     }
   }
 

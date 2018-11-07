@@ -21,7 +21,7 @@ class SocialSettingsContainer extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
     if (isEqual(nextProps.settings, this.props.settings) === false) {
       this.setState({
         settings: nextProps.settings
@@ -31,12 +31,6 @@ class SocialSettingsContainer extends Component {
 
   handleSettingEnable = (event, isChecked, name) => {
     Meteor.call("reaction-social/updateSocialSetting", name, "enabled", isChecked);
-  }
-
-  handleSettingExpand = (event, card, name, isExpanded) => {
-    Reaction.updateUserPreferences("reaction-social", "settingsCards", {
-      [name]: isExpanded
-    });
   }
 
   handleSettingsSave = (settingName, values) => {
@@ -54,7 +48,6 @@ class SocialSettingsContainer extends Component {
     return (
       <SocialSettings
         onSettingEnableChange={this.handleSettingEnable}
-        onSettingExpand={this.handleSettingExpand}
         onSettingsSave={this.handleSettingsSave}
         {...this.props}
         settings={this.state.settings}
@@ -63,9 +56,13 @@ class SocialSettingsContainer extends Component {
   }
 }
 
+/**
+ * @param {Object} props Incoming props
+ * @param {Function} onData Callback
+ * @returns {undefined}
+ */
 function composer(props, onData) {
   const subscription = Reaction.Subscriptions.Packages;
-  const preferences = Reaction.getUserPreferences("reaction-social", "settingsCards", {});
 
   const socialPackage = Packages.findOne({
     name: "reaction-social",
@@ -74,7 +71,6 @@ function composer(props, onData) {
 
   if (subscription.ready()) {
     onData(null, {
-      preferences,
       packageData: socialPackage,
       socialSettings: createSocialSettings(props)
     });

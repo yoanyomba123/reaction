@@ -515,7 +515,6 @@ class VariantForm extends Component {
           i18nKeyTitle="productVariant.taxable"
           name="taxable"
           packageName={"reaction-product-variant"}
-          saveOpenStateToPreferences={true}
           showSwitch={true}
           title="Taxable"
           onSwitchChange={this.handleCheckboxChange}
@@ -542,7 +541,6 @@ class VariantForm extends Component {
           i18nKeyTitle="productVariant.inventoryManagement"
           name="inventoryManagement"
           packageName={"reaction-product-variant"}
-          saveOpenStateToPreferences={true}
           showSwitch={true}
           title="Inventory Tracking"
           onSwitchChange={this.handleCheckboxChange}

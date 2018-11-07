@@ -127,11 +127,16 @@ EditContainer.propTypes = {
   showsVisibilityButton: PropTypes.bool // eslint-disable-line react/boolean-prop-naming
 };
 
+/**
+ * @param {Object} props Incoming props
+ * @param {Function} onData Callback
+ * @returns {undefined}
+ */
 function composer(props, onData) {
   let hasPermission;
-  const viewAs = Reaction.getUserPreferences("reaction-dashboard", "viewAs", "administrator");
+  const isPreview = Reaction.isPreview();
 
-  if (props.disabled === true || viewAs === "customer") {
+  if (props.disabled === true || isPreview) {
     hasPermission = false;
   } else {
     hasPermission = Reaction.hasPermission(props.permissions);

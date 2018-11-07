@@ -347,13 +347,17 @@ const wrapComponent = (Comp) =>
     }
   };
 
+/**
+ * @param {Object} props Incoming props
+ * @param {Function} onData Callback
+ * @returns {undefined}
+ */
 function composer(props, onData) {
   const tagSub = Meteor.subscribe("Tags");
   const shopIdOrSlug = Reaction.Router.getParam("shopSlug");
   const productId = Reaction.Router.getParam("handle");
   const variantId = ReactionProduct.selectedVariantId();
   const revisionType = Reaction.Router.getQueryParam("revision");
-  const viewProductAs = Reaction.getUserPreferences("reaction-dashboard", "viewAs", "administrator");
 
   let productSub;
   if (productId) {
@@ -440,7 +444,7 @@ function composer(props, onData) {
 
       let editable;
 
-      if (viewProductAs === "customer") {
+      if (Reaction.isPreview()) {
         editable = false;
       } else {
         editable = Reaction.hasPermission(["createProduct"]);
@@ -458,7 +462,6 @@ function composer(props, onData) {
         tags,
         media: mediaArray,
         editable,
-        viewAs: viewProductAs,
         hasAdminPermission: Reaction.hasPermission(["createProduct"]),
         storedCart
       });

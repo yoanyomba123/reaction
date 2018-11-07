@@ -1,10 +1,10 @@
 import { Template } from "meteor/templating";
-
 import { Reaction } from "/client/api";
+import { Packages } from "/lib/collections";
 
 Template.stripeConnectMerchantSignup.helpers({
   stripeConnectIsConnected() {
-    const stripe = Reaction.getPackageSettingsWithOptions({
+    const stripe = Packages.findOne({
       shopId: Reaction.getShopId(),
       name: "reaction-marketplace"
     });

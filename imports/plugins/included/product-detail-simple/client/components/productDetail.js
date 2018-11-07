@@ -50,8 +50,7 @@ ProductDetail.propTypes = {
   product: PropTypes.object,
   socialComponent: PropTypes.node,
   tags: PropTypes.arrayOf(PropTypes.object),
-  topVariantComponent: PropTypes.node,
-  viewAs: PropTypes.string
+  topVariantComponent: PropTypes.node
 };
 
 export default ProductDetail;

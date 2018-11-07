@@ -46,48 +46,76 @@ function getAdminShortcutIcons() {
   };
 }
 
+/**
+ * @summary Log out
+ * @returns {undefined}
+ */
+function logOut() {
+  Meteor.logout((error) => {
+    if (error) {
+      Logger.error(error, "Failed to logout.");
+      return;
+    }
+
+    // Resets the app to show the primary shop as the active shop when a user logs out.
+    // When an admin user is switching back and forth between shops, the app will keep the
+    // activeShopId as the last shop visited. If an admin user logs out, the app will stay on that shop
+    // for any new user who uses the same browser, temporarily, until the app is refreshed. This fixes that issue.
+    Reaction.setShopId(Reaction.getPrimaryShopId());
+  });
+}
+
+/**
+ * @summary Create a new product and then route to the page to edit it
+ * @returns {undefined}
+ */
+function createProduct() {
+  Reaction.setAdminViewAs("administrator");
+  Meteor.call("products/createProduct", (error, productId) => {
+    if (error || !productId) {
+      throw new ReactionError("create-product-error", error);
+    }
+
+    const currentTagId = Session.get("currentTag");
+    const currentTag = Tags.findOne({ _id: currentTagId });
+    if (currentTag) {
+      Meteor.call("products/updateProductTags", productId, currentTag.name, currentTagId);
+    }
+    // go to new product
+    Reaction.Router.go("product", {
+      handle: productId
+    });
+  });
+}
+
+/**
+ * @summary Called when dropdown menu option is selected
+ * @param {Object} event Event
+ * @param {String} value The selected option
+ * @returns {undefined}
+ */
 function handleChange(event, value) {
   event.preventDefault();
 
   if (value === "logout") {
-    return Meteor.logout((error) => {
-      if (error) {
-        Logger.error(error, "Failed to logout.");
-      }
-
-      // Resets the app to show the primary shop as the active shop when a user logs out.
-      // When an admin user is switching back and forth between shops, the app will keep the
-      // activeShopId as the last shop visited. If an admin user logs out, the app will stay on that shop
-      // for any new user who uses the same browser, temporarily, until the app is refreshed. This fixes that issue.
-      Reaction.setShopId(Reaction.getPrimaryShopId());
-    });
+    logOut();
+    return;
   }
 
   if (value.name === "createProduct") {
-    Reaction.setUserPreferences("reaction-dashboard", "viewAs", "administrator");
-    Meteor.call("products/createProduct", (error, productId) => {
-      let currentTag;
-      let currentTagId;
+    createProduct();
+    return;
+  }
 
-      if (error) {
-        throw new ReactionError("create-product-error", error);
-      } else if (productId) {
-        currentTagId = Session.get("currentTag");
-        currentTag = Tags.findOne(currentTagId);
-        if (currentTag) {
-          Meteor.call("products/updateProductTags", productId, currentTag.name, currentTagId);
-        }
-        // go to new product
-        Reaction.Router.go("product", {
-          handle: productId
-        });
-      }
-    });
-  } else if (value.name !== "account/profile") {
-    return Reaction.showActionView(value);
-  } else if (value.route || value.name) {
+  if (value.name !== "account/profile") {
+    Reaction.showActionView(value);
+    return;
+  }
+
+  if (value.route || value.name) {
     const route = value.name || value.route;
-    return Reaction.Router.go(route);
+    Reaction.Router.go(route);
+    return;
   }
 }
 

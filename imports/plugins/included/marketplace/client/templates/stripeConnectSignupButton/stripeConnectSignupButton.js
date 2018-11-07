@@ -2,13 +2,13 @@ import { Meteor } from "meteor/meteor";
 import { Template } from "meteor/templating";
 import { Reaction } from "/lib/api";
 import { i18next } from "/client/api";
-import { Shops } from "/lib/collections";
+import { Packages, Shops } from "/lib/collections";
 
 Template.stripeConnectSignupButton.events({
   "click [data-event-action='button-click-stripe-signup']"() {
     const shopId = Reaction.getShopId();
     const primaryShopId = Reaction.getPrimaryShopId();
-    const primaryStripePackage = Reaction.getPackageSettingsWithOptions({
+    const primaryStripePackage = Packages.findOne({
       shopId: primaryShopId,
       name: "reaction-marketplace",
       enabled: true

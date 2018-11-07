@@ -32,7 +32,7 @@ class LocalizationSettings extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
     this.setState({
       currencies: nextProps.currencies,
       languages: nextProps.languages
@@ -170,7 +170,6 @@ class LocalizationSettings extends Component {
           i18nKeyTitle="admin.i18nSettings.shopLocalization"
           name="localization"
           packageName={PACKAGE_NAME}
-          saveOpenStateToPreferences={true}
           showSwitch={false}
           title="Shop Localization"
         >
@@ -209,7 +208,6 @@ class LocalizationSettings extends Component {
           name="languages"
           padded={false}
           packageName={PACKAGE_NAME}
-          saveOpenStateToPreferences={true}
           showSwitch={false}
           title="Languages"
         >
@@ -223,7 +221,6 @@ class LocalizationSettings extends Component {
           padded={false}
           packageName={PACKAGE_NAME}
           name="currencies"
-          saveOpenStateToPreferences={true}
           showSwitch={false}
           title="Currencies"
         >

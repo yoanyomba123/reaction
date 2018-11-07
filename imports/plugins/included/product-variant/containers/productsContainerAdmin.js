@@ -139,8 +139,7 @@ function composer(props, onData) {
   const sort = { createdAt: 1 };
 
   // if we have a "viewAs" preference and the preference is not set to "administrator", then edit mode is false
-  const viewAsPref = Reaction.getUserPreferences("reaction-dashboard", "viewAs");
-  const editMode = !viewAsPref || viewAsPref === "administrator";
+  const editMode = !Reaction.isPreview();
 
   // Now that we have the necessary info, we can subscribe to Products we need
   let productsSubscription = Meteor.subscribe("Products", scrollLimit, queryParams, sort, editMode);

@@ -8,7 +8,7 @@ import { Tags, Shops } from "/lib/collections";
 import { AdminContextProvider } from "/imports/plugins/core/ui/client/providers";
 
 const handleAddProduct = () => {
-  Reaction.setUserPreferences("reaction-dashboard", "viewAs", "administrator");
+  Reaction.setAdminViewAs("administrator");
   Meteor.call("products/createProduct", (error, productId) => {
     if (Meteor.isClient) {
       let currentTag;
