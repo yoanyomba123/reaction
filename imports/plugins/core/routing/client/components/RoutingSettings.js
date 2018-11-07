@@ -340,7 +340,8 @@ class RoutingSettings extends Component {
         ),
         className: colClassName,
         width: colWidth,
-        style: colStyle
+        style: colStyle,
+        headerStyle: { textAlign: "left" }
       };
       customColumnMetadata.push(columnMeta);
     });
