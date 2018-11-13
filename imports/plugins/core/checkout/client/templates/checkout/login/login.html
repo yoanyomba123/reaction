@@ -6,15 +6,9 @@
       <div class="panel-heading">
         {{> checkoutStepBadge}}
 
-        {{#if allowGuestCheckout}}
-          <h3 class="panel-title">
-            <span data-i18n="checkoutLogin.guestOrLogin">Sign in, or checkout as a guest</span>
-          </h3>
-        {{else}}
-          <h3 class="panel-title">
-            <span data-i18n="checkoutLogin.createOrLogin">Create an account, or sign in</span>
-          </h3>
-        {{/if}}
+        <h3 class="panel-title">
+          <span data-i18n="checkoutLogin.guestOrLogin">Sign in, or checkout as a guest</span>
+        </h3>
       </div>
       <div class="panel-body">
         {{> React loginInlineComponent}}

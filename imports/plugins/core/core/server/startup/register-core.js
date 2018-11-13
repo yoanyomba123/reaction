@@ -10,9 +10,6 @@ export default function () {
     icon: "fa fa-th",
     autoEnable: true,
     settings: {
-      public: {
-        allowGuestCheckout: true
-      },
       mail: {
         user: "",
         password: "",

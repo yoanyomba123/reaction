@@ -349,6 +349,11 @@ export const Shop = new SimpleSchema({
     blackbox: true,
     optional: true
   },
+  "isGuestCheckoutAllowed": {
+    type: Boolean,
+    optional: true,
+    label: "Allow guest checkout"
+  },
   "locales": {
     type: Locale
   },

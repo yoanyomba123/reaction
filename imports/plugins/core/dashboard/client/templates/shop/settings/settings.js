@@ -126,17 +126,6 @@ AutoForm.hooks({
   }
 });
 
-AutoForm.hooks({
-  shopEditOptionsForm: {
-    onSuccess() {
-      return Alerts.toast(i18next.t("admin.alerts.shopOptionsSettingsSaved"), "success");
-    },
-    onError(operation, error) {
-      return Alerts.toast(`${i18next.t("admin.alerts.shopOptionsSettingsFailed")} ${error}`, "error");
-    }
-  }
-});
-
 Template.shopSettings.events({
   "change input[name=enabled]": (event) => {
     const settingsKey = event.target.getAttribute("data-key");

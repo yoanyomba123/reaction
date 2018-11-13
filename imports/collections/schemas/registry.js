@@ -243,8 +243,6 @@ registerSchema("PackageConfig", PackageConfig);
  * @property {String} settings.openexchangerates.refreshPeriod default value: `"every 1 hour"`
  * @property {String} settings.google.clientId default value: `null`
  * @property {String} settings.google.apiKey default value: `null`
- * @property {Object} settings.public optional Settings in `public` are published to the client.
- * @property {Boolean} settings.public.allowGuestCheckout allows guest checkout
  * @property {String} settings.cart.cleanupDurationDays default value: `"older than 3 days"`
  */
 export const CorePackageConfig = PackageConfig.clone().extend({
@@ -301,16 +299,6 @@ export const CorePackageConfig = PackageConfig.clone().extend({
   "settings.google.apiKey": {
     type: String,
     label: "Google Api Key"
-  },
-  "settings.public": {
-    type: Object,
-    optional: true,
-    defaultValue: {}
-  },
-  "settings.public.allowGuestCheckout": {
-    type: Boolean,
-    label: "Allow Guest Checkout",
-    defaultValue: true
   },
   "settings.cart": {
     type: Object,

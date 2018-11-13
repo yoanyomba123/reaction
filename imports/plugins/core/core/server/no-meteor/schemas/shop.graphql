@@ -13,11 +13,14 @@ type Shop implements Node {
 
   currency: Currency
 
-  "Returns a list of groups for this shop, as a Relay-compatible connection."
-  groups(after: ConnectionCursor, before: ConnectionCursor, first: ConnectionLimitInt, last: ConnectionLimitInt, sortOrder: SortOrder = asc, sortBy: GroupSortByField = createdAt): GroupConnection
-
   "Returns shop description"
   description: String
+
+  "True if orders placed without an associated account will be accepted"
+  isGuestCheckoutAllowed: Boolean!
+
+  "Returns a list of groups for this shop, as a Relay-compatible connection."
+  groups(after: ConnectionCursor, before: ConnectionCursor, first: ConnectionLimitInt, last: ConnectionLimitInt, sortOrder: SortOrder = asc, sortBy: GroupSortByField = createdAt): GroupConnection
 
   "Returns shop name"
   name: String

@@ -3201,7 +3201,7 @@
   }],
   "addressBook": [{
     "company": "Reaction Commerce",
-    "fullName": "Ongo Works",
+    "fullName": "Reaction Commerce",
     "address1": "2110 Main Street",
     "address2": "Suite 207",
     "city": "Santa Monica",
@@ -3218,5 +3218,6 @@
     "length": 11.25,
     "width": 8.75,
     "height": 6
-  }
+  },
+  "isGuestCheckoutAllowed": true
 }]

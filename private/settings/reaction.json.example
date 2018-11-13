@@ -3,9 +3,6 @@
         "name": "core",
         "enabled": true,
         "settings": {
-            "public": {
-                "allowGuestCheckout": true
-            },
             "openexchangerates": {
                 "appId": "",
                 "refreshPeriod": "every 1 hour"

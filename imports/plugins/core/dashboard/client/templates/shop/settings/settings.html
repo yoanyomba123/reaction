@@ -15,12 +15,6 @@
       </div>
       <div id="general" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="General">
         <div class="panel-body">
-          {{#autoForm collection=Collections.Packages schema=Schemas.CorePackageConfig
-          doc=packageData id="shopEditOptionsForm" type="update" autosave=true}}
-            {{> afFieldInput name='settings.public.allowGuestCheckout'}}
-          {{/autoForm}}
-        </div>
-        <div class="panel-body">
           {{> React ShopBrandMediaManager}}
         </div>
         <div class="panel-body">
@@ -30,6 +24,7 @@
             {{> afQuickField name='emails.0.address' label="Email" placeholder="Primary Contact Email"}}
             {{> afQuickField name='description' placeholder="Description"}}
             {{> afQuickField name='keywords' placeholder="Keywords"}}
+            {{> afQuickField name='isGuestCheckoutAllowed'}}
             {{> shopSettingsSubmitButton}}
           {{/autoForm}}
         </div>

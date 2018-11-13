@@ -723,18 +723,6 @@ export default {
   },
 
   /**
-   * @name allowGuestCheckout
-   * @method
-   * @memberof Core/Client
-   * @returns {Boolean} True if guest checkout is allowed for the current shop
-   */
-  allowGuestCheckout() {
-    const settings = this.getShopSettings();
-    // we can disable in admin, let's check.
-    return !!(settings.public && settings.public.allowGuestCheckout);
-  },
-
-  /**
    * (similar to server/api canInviteToGroup)
    * @name canInviteToGroup
    * @method
