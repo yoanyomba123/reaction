@@ -5,4 +5,6 @@ Object.keys(schemas).forEach((key) => {
   createFactoryForSchema(key, schemas[key]);
 });
 
+export { createFactoryForSchema };
+
 export default Factory;

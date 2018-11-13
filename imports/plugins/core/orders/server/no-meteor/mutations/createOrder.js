@@ -59,7 +59,8 @@ const orderInputSchema = new SimpleSchema({
   "shopId": String
 });
 
-const inputSchema = new SimpleSchema({
+// Exported for unit tests only
+export const inputSchema = new SimpleSchema({
   afterValidate: {
     type: Function,
     optional: true
@@ -238,7 +239,19 @@ export default async function createOrder(context, input) {
   const { afterValidate, createPaymentForFulfillmentGroup, order: orderInput } = cleanedInput;
   const { cartId, currencyCode, email, fulfillmentGroups, shopId } = orderInput;
   const { accountId, account, collections } = context;
-  const { Orders } = collections;
+  const { Orders, Shops } = collections;
+
+  const shop = await Shops.findOne({ _id: shopId });
+  if (!shop) throw new ReactionError("not-found", "Shop not found");
+
+  // Create anonymousAccessToken if no account ID
+  let anonymousAccessToken = null;
+  if (!accountId) {
+    if (!shop.isGuestCheckoutAllowed) {
+      throw new ReactionError("access-denied", "You must be logged in to place an order");
+    }
+    anonymousAccessToken = Random.secret();
+  }
 
   // We are mixing concerns a bit here for now. This is for backwards compatibility with current
   // discount codes feature. We are planning to revamp discounts soon, but until then, we'll look up
@@ -338,12 +351,6 @@ export default async function createOrder(context, input) {
   } catch (error) {
     Logger.error("createOrder: error creating payments", error.message);
     throw new ReactionError("payment-failed", "There was a problem authorizing this payment");
-  }
-
-  // Create anonymousAccessToken if no account ID
-  let anonymousAccessToken = null;
-  if (!accountId) {
-    anonymousAccessToken = Random.secret();
   }
 
   const now = new Date();
