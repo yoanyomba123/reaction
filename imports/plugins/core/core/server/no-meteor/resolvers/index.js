@@ -6,7 +6,6 @@ import ConnectionLimitInt from "./ConnectionLimitInt";
 import Currency from "./Currency";
 import Money from "./Money";
 import Query from "./Query";
-import Shop from "./Shop";
 import Tag from "./Tag";
 
 export default {
@@ -24,7 +23,6 @@ export default {
     ping: () => "pong",
     ...Query
   },
-  Shop,
   Tag,
   Time: GraphQLTime,
   ...getConnectionTypeResolvers("Address"),
