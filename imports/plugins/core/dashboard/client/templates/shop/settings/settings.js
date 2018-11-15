@@ -5,8 +5,8 @@ import { Reaction, i18next } from "/client/api";
 import { Packages, Shops } from "/lib/collections";
 import { Media } from "/imports/plugins/core/files/client";
 import SitemapSettingsContainer from "/imports/plugins/included/sitemap-generator/client/containers/sitemap-settings-container";
+import ShopAddressForm from "../../../containers/ShopAddressForm";
 import ShopBrandMediaManager from "./ShopBrandMediaManager";
-
 
 /**
  * shopSettings helpers
@@ -64,12 +64,6 @@ Template.shopSettings.helpers({
       shopId: Reaction.getShopId()
     });
   },
-  addressBook() {
-    const address = Shops.findOne({
-      _id: Reaction.getShopId()
-    }).addressBook;
-    return address[0];
-  },
   showAppSwitch(template) {
     if (template === "optionsShopSettings" || template === "ShopAddressValidationSettings") {
       // do not have switch for options card/panel
@@ -83,6 +77,9 @@ Template.shopSettings.helpers({
 
     // If marketplace is disabled, every shop can switch apps
     return true;
+  },
+  ShopAddressForm() {
+    return ShopAddressForm;
   }
 });
 
@@ -97,17 +94,6 @@ AutoForm.hooks({
     },
     onError(operation, error) {
       return Alerts.toast(`${i18next.t("admin.alerts.shopGeneralSettingsFailed")} ${error}`, "error");
-    }
-  }
-});
-
-AutoForm.hooks({
-  shopEditAddressForm: {
-    onSuccess() {
-      return Alerts.toast(i18next.t("admin.alerts.shopAddressSettingsSaved"), "success");
-    },
-    onError(operation, error) {
-      return Alerts.toast(`${i18next.t("admin.alerts.shopAddressSettingsFailed")} ${error}`, "error");
     }
   }
 });

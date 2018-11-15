@@ -46,21 +46,7 @@
       </div>
       <div id="address" class="panel-collapse collapse" role="tabpanel" aria-labelledby="address">
         <div class="panel-body">
-          {{#autoForm collection=Collections.Shops doc=shop id="shopEditAddressForm" type="update"}}
-            {{> afQuickField name='addressBook.0.company'}}
-            {{> afQuickField name='addressBook.0.fullName'}}
-            {{> afQuickField name='addressBook.0.address1'}}
-            {{> afQuickField name='addressBook.0.address2'}}
-            {{> afQuickField name='addressBook.0.city'}}
-            {{> afQuickField name='addressBook.0.region'}}
-            {{> afQuickField name='addressBook.0.postal'}}
-            {{> afQuickField name='addressBook.0.country' options=countryOptions}}
-            {{> afQuickField name='addressBook.0.phone'}}
-            {{> afQuickField name='addressBook.0.isCommercial'}}
-            {{> afQuickField name='addressBook.0.isShippingDefault' defaultValue=true}}
-            {{> afQuickField name='addressBook.0.isBillingDefault' defaultValue=true}}
-            {{> shopSettingsSubmitButton}}
-          {{/autoForm}}
+          {{> React component=ShopAddressForm}}
         </div>
       </div>
     </div>

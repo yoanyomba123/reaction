@@ -38,6 +38,32 @@ type Shop implements Node {
   ): TagConnection
 }
 
+"Input for the `setShopAddress` mutation"
+input SetShopAddressInput {
+  "The new or changed address"
+  address: AddressInput!
+
+  "An optional string identifying the mutation call, which will be returned in the response payload"
+  clientMutationId: String
+
+  "The ID of the shop this address is for"
+  shopId: ID!
+}
+
+"The response from the `setShopAddress` mutation"
+type SetShopAddressPayload {
+  "The same string you sent with the mutation params, for matching mutation calls with their responses"
+  clientMutationId: String
+
+  "The updated shop"
+  shop: Shop!
+}
+
+extend type Mutation {
+  "Set a new or updated address as the shop's primary address. Currently this is used as the shipping origin."
+  setShopAddress(input: SetShopAddressInput!): SetShopAddressPayload!
+}
+
 extend type Query {
   "Returns a shop by ID"
   shop(id: ID!): Shop
