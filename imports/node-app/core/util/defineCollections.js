@@ -25,7 +25,6 @@ export default function defineCollections(db, collections) {
     Packages: db.collection("Packages"),
     Products: db.collection("Products"),
     ProductSearch: db.collection("ProductSearch"),
-    RedirectRules: db.collection("RedirectRules"),
     roles: db.collection("roles"),
     SellerShops: db.collection("SellerShops"),
     Shipping: db.collection("Shipping"),

@@ -29,7 +29,6 @@ export * from "./orders";
 export * from "./payments";
 export * from "./products";
 export * from "./registry";
-export * from "./routing";
 export * from "./shipping";
 export * from "./shops";
 export * from "./groups";
