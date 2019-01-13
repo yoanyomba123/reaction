@@ -513,6 +513,10 @@ export const Shop = new SimpleSchema({
     type: Workflow,
     optional: true,
     defaultValue: {}
+  },
+  "defaultNavigationTreeId": {
+    type: String,
+    optional: true
   }
 });
 

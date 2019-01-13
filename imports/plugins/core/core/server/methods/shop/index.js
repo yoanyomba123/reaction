@@ -1,16 +1,8 @@
-import changeLayouts from "./changeLayouts";
 import createShop from "./createShop";
 import createTag from "./createTag";
-import fetchCurrencyRate from "./fetchCurrencyRate";
-import flushCurrencyRate from "./flushCurrencyRate";
-import getBaseLanguage from "./getBaseLanguage";
-import getCurrencyRates from "./getCurrencyRates";
 import getLocale from "./getLocale";
-import getWorkflow from "./getWorkflow";
-import hideHeaderTag from "./hideHeaderTag";
 import locateAddress from "./locateAddress";
 import moveTagToNewParent from "./moveTagToNewParent";
-import removeHeaderTag from "./removeHeaderTag";
 import removeTag from "./removeTag";
 import sortTags from "./sortTags";
 import togglePackage from "./togglePackage";
@@ -30,19 +22,11 @@ import updateShopExternalServices from "./updateShopExternalServices";
 */
 
 export default {
-  "shop/changeLayouts": changeLayouts,
   "shop/createShop": createShop,
   "shop/createTag": createTag,
-  "shop/fetchCurrencyRate": fetchCurrencyRate,
-  "shop/flushCurrencyRate": flushCurrencyRate,
-  "shop/getBaseLanguage": getBaseLanguage,
-  "shop/getCurrencyRates": getCurrencyRates,
   "shop/getLocale": getLocale,
-  "shop/getWorkflow": getWorkflow,
-  "shop/hideHeaderTag": hideHeaderTag,
   "shop/locateAddress": locateAddress,
   "shop/moveTagToNewParent": moveTagToNewParent,
-  "shop/removeHeaderTag": removeHeaderTag,
   "shop/removeTag": removeTag,
   "shop/sortTags": sortTags,
   "shop/togglePackage": togglePackage,

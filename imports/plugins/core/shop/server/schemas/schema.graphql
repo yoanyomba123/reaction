@@ -6,9 +6,18 @@ type Shop implements Node {
   "The shop's primary address. Currently this is used as the shipping origin."
   address: Address
 
+  "URLs for various shop assets in various sizes"
+  brandAssets: ShopBrandAssets
+
   currencies: [Currency]
 
   currency: Currency
+
+  "The ID of the shop's default navigation tree"
+  defaultNavigationTreeId: String
+
+  "The default navigation tree for this shop"
+  defaultNavigationTree(language: String!): NavigationTree
 
   "Returns shop description"
   description: String
@@ -57,6 +66,12 @@ type SetShopAddressPayload {
 
   "The updated shop"
   shop: Shop!
+}
+
+"URLs for various shop assets in various sizes"
+type ShopBrandAssets {
+  "URLs for the navigation bar brand logo image"
+  navbarBrandImage: ImageSizes
 }
 
 extend type Mutation {
