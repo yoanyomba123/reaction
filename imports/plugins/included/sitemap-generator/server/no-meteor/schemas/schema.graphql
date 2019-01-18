@@ -13,7 +13,25 @@ input GenerateSitemapsInput {
 type GenerateSitemapsPayload {
   "The same string you sent with the mutation params, for matching mutation calls with their responses"
   clientMutationId: String
-  
+
   "Whether the sitemap generation job was successfully scheduled"
   wasJobScheduled: Boolean!
+}
+
+extend type Query {
+  "Returns"
+  sitemap(handle: String!, shopAbsoluteUrl: String!): Sitemap
+}
+
+type Sitemap {
+  "The shop ID"
+  shopId: String!
+
+  "The Sitemap's handle, as set in Sitemaps collection"
+  handle: String
+
+  "The Sitemap XML content"
+  xml: String
+
+  createdAt: Date!
 }
